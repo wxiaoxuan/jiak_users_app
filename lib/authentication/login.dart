@@ -41,8 +41,8 @@ class Login extends StatelessWidget {
           await sharedPreferences!.setString('name', user['name']);
           await sharedPreferences!.setString('email', user['email']);
 
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Homepage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Homepage()));
 
           return User(
             name: user['name'],
@@ -52,6 +52,8 @@ class Login extends StatelessWidget {
             location: user['location'],
           );
         } else {}
+      } else {
+        ErrorDialog.show(context, "Invalid Credentials");
       }
     } catch (e) {
       ErrorDialog.show(context, 'Invalid credentials');

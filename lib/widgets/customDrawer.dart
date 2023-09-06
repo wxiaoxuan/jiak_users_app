@@ -24,7 +24,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         backgroundColor: Colors.white,
-        width: 200.0,
+        width: 300.0,
         child: ListView(
           children: [
             // Header
