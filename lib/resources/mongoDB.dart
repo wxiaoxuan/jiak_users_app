@@ -4,21 +4,37 @@ import '../user.dart';
 import 'constants.dart';
 
 class MongoDB {
-  static var db, userCollection;
+  static var db, userCollection, sellerCollection;
 
-  // connect to db
+  // connect to db - User Collection
   static connect() async {
     db = await Db.create(MONGO_URL);
     await db.open(secure: true);
-    userCollection = db.collection(COLLECTION_NAME);
-    print(db);
-    print(userCollection);
-    print("==============================");
+    userCollection = await db.collection(COLLECTION_NAME);
   }
 
-  static Future<List<Map<String, dynamic>>> getDocuments() async {
+  // Retrieve All User's Data - User Collection
+  static Future<List<Map<String, dynamic>>> getUsersDocument() async {
     try {
       final users = await userCollection.find().toList();
+      return users;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  // connect to db - Seller Collection
+  static connectSeller() async {
+    db = await Db.create(MONGO_URL);
+    await db.open(secure: true);
+    sellerCollection = await db.collection(SELLER_COLLECTION_NAME);
+  }
+
+  // Retrieve All Seller's Data - Seller Collection
+  static Future<List<Map<String, dynamic>>> getSellersDocument() async {
+    try {
+      final users = await sellerCollection.find().toList();
       return users;
     } catch (e) {
       print(e);
@@ -43,7 +59,7 @@ class MongoDB {
   }
 
   static delete(User user) async {
-    // await userCollection.remove(where.name(user.nameController.text));
+    // await userCollection.remove(where.id(user.id));
   }
 }
 
