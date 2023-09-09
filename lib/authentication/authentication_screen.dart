@@ -12,7 +12,8 @@ class AuthenticationScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false, // hide the 'back btn' icon
-          backgroundColor: const Color(0xfff5c43a),
+          // backgroundColor: const Color(0xfff5c43a),
+          backgroundColor: Colors.yellow[800],
           title: const Text('Jiak'),
           centerTitle: true,
           titleTextStyle: const TextStyle(

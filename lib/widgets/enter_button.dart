@@ -16,7 +16,8 @@ class EnterButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.amber,
+          // backgroundColor: Colors.amber,
+          backgroundColor: Colors.yellow[800],
           padding:
               const EdgeInsets.symmetric(horizontal: 150.0, vertical: 12.0)),
       child: Text(
