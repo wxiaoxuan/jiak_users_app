@@ -1,6 +1,8 @@
 import 'dart:io';
-
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:jiak_users_app/widgets/customDrawer.dart';
@@ -37,16 +39,11 @@ class _HomepageState extends State<Homepage> {
     try {
       MongoDB.connectSeller();
       final list = await MongoDB.getSellersDocument();
+
       setState(() {
         // update sellerList with the fetched data
         sellerList = list;
       });
-      print("======================");
-      print("seller info: ");
-      print(sellerList[1]);
-      print(sellerList[1]['name']);
-      print(sellerList[1]['imageMetaData']['path']);
-      print("======================");
     } catch (e) {
       print("Error retrieving Seller's Information.");
     }
@@ -67,43 +64,36 @@ class _HomepageState extends State<Homepage> {
       drawer: const CustomDrawer(),
       body: Column(
         children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                // take 30% of screen height, make it dynamic
-                height: MediaQuery.of(context).size.height * .3,
-                width: MediaQuery.of(context).size.width,
-                child: CarouselSlider(
-                  items: items.map((index) {
-                    return Builder(builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                        decoration: const BoxDecoration(color: Colors.black54),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Image.asset(index, fit: BoxFit.fill),
-                        ),
-                      );
-                    });
-                  }).toList(),
-                  options: CarouselOptions(
-                    height: 200,
-                    aspectRatio: 16 / 9,
-                    viewportFraction: 0.8,
-                    initialPage: 0,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 2),
-                    autoPlayAnimationDuration:
-                        const Duration(milliseconds: 500),
-                    autoPlayCurve: Curves.decelerate,
-                    enlargeCenterPage: true,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: CarouselSlider(
+              items: items.map((index) {
+                return Builder(builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 25.0),
+                    decoration: const BoxDecoration(color: Colors.black54),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.5),
+                      child: Image.asset(index, fit: BoxFit.fill),
+                    ),
+                  );
+                });
+              }).toList(),
+              options: CarouselOptions(
+// Take up 1/4 of the screen height
+                height: MediaQuery.of(context).size.height * 0.25,
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
+                initialPage: 0,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 3),
+                autoPlayAnimationDuration: const Duration(milliseconds: 500),
+                autoPlayCurve: Curves.decelerate,
+                enlargeCenterPage: true,
+                scrollDirection: Axis.horizontal,
               ),
             ),
           ),
@@ -118,54 +108,135 @@ class _HomepageState extends State<Homepage> {
           // ),
           // Display Seller Info in Containers
           Expanded(
-            child: ListView.builder(
-              itemCount: sellerList.length,
-              itemBuilder: (BuildContext context, int index) {
-                final seller = sellerList[index];
-                return Container(
-                  // color: Colors.black,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Seller Name: ${seller['name']}',
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Seller Email: ${seller['email']}',
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Seller Image: ${seller['imageMetaData']['path']}',
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                      Material(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(80.0)),
-                        elevation: 10.0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(1.0),
-                          child: Container(
-                            height: 100.0,
-                            width: 100.0,
-                            child: CircleAvatar(
-                                backgroundImage: FileImage(
-                                    File(seller['imageMetaData']['path']))),
+              child: ListView.builder(
+            itemCount: sellerList.length,
+            itemBuilder: (BuildContext context, int index) {
+              final seller = sellerList[index];
+              Uint8List? imageBytes;
+              String? filename;
+
+              // Check if 'image' field is present in the seller data
+              if (seller.containsKey('image')) {
+                final imageInfo = seller['image'] as Map<String, dynamic>;
+                final base64Image = imageInfo['imageData'] as String?;
+                filename = imageInfo['filename'] as String?;
+
+                if (base64Image != null) {
+                  // Decode the base64-encoded image data
+                  imageBytes = base64.decode(base64Image);
+                }
+              }
+
+              return Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Display a restaurant
+                    Row(
+                      children: [
+                        Material(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(80.0)),
+                          elevation: 10.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: Container(
+                              height: 80.0,
+                              width: 80.0,
+                              child: CircleAvatar(
+                                backgroundImage: null,
+                                child: ClipOval(
+                                  child: Image.memory(
+                                    imageBytes!,
+                                    fit: BoxFit.cover,
+                                    width: 80.0,
+                                    height: 80.0,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Seller Name: ${seller['name']}',
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  'Contact Us: ${seller['phone']}',
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  'Address: ${seller['location']}',
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          )),
         ],
       ),
     );
   }
 }
+
+// CarouselSlider(
+// items: items.map((index) {
+// return Builder(builder: (BuildContext context) {
+// return Container(
+// width: MediaQuery.of(context).size.width,
+// margin: const EdgeInsets.symmetric(horizontal: 25.0),
+// decoration: const BoxDecoration(color: Colors.black54),
+// child: Padding(
+// padding: const EdgeInsets.all(2.5),
+// child: Image.asset(index, fit: BoxFit.fill),
+// ),
+// );
+// });
+// }).toList(),
+// options: CarouselOptions(
+// // Take up 1/4 of the screen height
+// // height: MediaQuery.of(context).size.height * 0.15,
+// aspectRatio: 16 / 9,
+// viewportFraction: 0.8,
+// initialPage: 0,
+// enableInfiniteScroll: true,
+// reverse: false,
+// autoPlay: true,
+// autoPlayInterval: const Duration(seconds: 3),
+// autoPlayAnimationDuration:
+// const Duration(milliseconds: 500),
+// autoPlayCurve: Curves.decelerate,
+// enlargeCenterPage: true,
+// scrollDirection: Axis.horizontal,
+// ),
+// ),
