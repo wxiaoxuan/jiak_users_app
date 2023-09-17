@@ -71,7 +71,7 @@ class Login extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 30.0),
-                Image.asset('assets/images/login.png', height: 200.0),
+                Image.asset('assets/images/login_pic.png', height: 200.0),
                 // const SizedBox(height: 20.0),
                 CustomTextField(
                     controller: emailController,

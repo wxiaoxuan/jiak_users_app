@@ -1,9 +1,8 @@
-import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:jiak_users_app/pages/seller_menu.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:jiak_users_app/widgets/customDrawer.dart';
 
@@ -31,6 +30,7 @@ class _HomepageState extends State<Homepage> {
     "assets/slider/4.jpg",
   ];
 
+  // ==================== RETRIEVE SELLER'S INFORMATION =======================
   // List to store seller data
   List<Map<String, dynamic>> sellerList = [];
 
@@ -49,167 +49,199 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
+  TextEditingController deliverToAddressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.yellow[800],
-        title: const Text('Home'),
-        titleTextStyle: const TextStyle(
-          color: Color(0xff3e3e3c),
-          fontSize: 22.0,
-          fontWeight: FontWeight.w500,
+        backgroundColor: Colors.white,
+        drawer: const CustomDrawer(),
+        appBar: AppBar(
+          backgroundColor: Colors.yellow[800],
+          title: const Text('Home'),
+          titleTextStyle: const TextStyle(
+              color: Color(0xff3e3e3c),
+              fontSize: 22.0,
+              fontWeight: FontWeight.w500),
+          actions: [
+            IconButton(
+              onPressed: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (c) => const AddMenu()),
+                // );
+              },
+              icon: const Icon(
+                Icons.add_photo_alternate,
+              ),
+            ),
+          ],
         ),
-        automaticallyImplyLeading: true,
-      ),
-      drawer: const CustomDrawer(),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Column(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
                 children: [
-                  const Text(
-                    'Hello',
-                    style: TextStyle(
-                      fontSize: 20.0,
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Deliver to: ',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  CarouselSlider(
-                    items: items.map((index) {
-                      return Builder(builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 25.0),
-                          decoration:
-                              const BoxDecoration(color: Colors.black54),
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.5),
-                            child: Image.asset(index, fit: BoxFit.fill),
-                          ),
-                        );
-                      });
-                    }).toList(),
-                    options: CarouselOptions(
-                      height: MediaQuery.of(context).size.height * 0.20,
-                      aspectRatio: 16 / 9,
-                      viewportFraction: 0.8,
-                      initialPage: 0,
-                      enableInfiniteScroll: true,
-                      reverse: false,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 3),
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 500),
-                      autoPlayCurve: Curves.decelerate,
-                      enlargeCenterPage: true,
-                      scrollDirection: Axis.horizontal,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.08,
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: const TextField(
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        labelText: 'Delivery Address',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                final seller = sellerList[index];
-                Uint8List? imageBytes;
-                String? filename;
+            sellerList.isEmpty
+                ? const Center(
+                    child: Text(
+                      'There are currently no sellers in the app.',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: sellerList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final seller = sellerList[index];
+                        Uint8List? imageBytes;
+                        String? filename;
 
-                // Check if 'image' field is present in the seller data
-                if (seller.containsKey('image')) {
-                  final imageInfo = seller['image'] as Map<String, dynamic>;
-                  final base64Image = imageInfo['imageData'] as String?;
-                  filename = imageInfo['filename'] as String?;
+                        // Check if 'image' field is present in the seller data
+                        if (seller.containsKey('image')) {
+                          final imageInfo =
+                              seller['image'] as Map<String, dynamic>;
+                          final base64Image = imageInfo['imageData'] as String?;
+                          final filename = imageInfo['filename'] as String?;
 
-                  if (base64Image != null) {
-                    // Decode the base64-encoded image data
-                    imageBytes = base64.decode(base64Image);
-                  }
-                }
+                          if (base64Image != null) {
+                            // Decode the base64-encoded image data
+                            imageBytes = base64.decode(base64Image);
+                          }
+                        }
 
-                return Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Display a restaurant
-                      Row(
-                        children: [
-                          Material(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(80.0)),
-                            elevation: 10.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(1.0),
-                              child: Container(
-                                height: 80.0,
-                                width: 80.0,
-                                child: CircleAvatar(
-                                  backgroundImage: null,
-                                  child: ClipOval(
-                                    child: Image.memory(
-                                      imageBytes!,
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 20.0, top: 20.0, bottom: 0.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigate to the seller's profile page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const SellerMenu(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  width: 380.0,
+                                  height: 150.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        spreadRadius: 2,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                    image: DecorationImage(
+                                      image: MemoryImage(imageBytes!),
                                       fit: BoxFit.cover,
-                                      width: 80.0,
-                                      height: 80.0,
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Column(
+                              // Title  & Description
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Seller Name: ${seller['name']}',
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                      fontWeight: FontWeight.w600,
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Navigate to the seller's profile page
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SellerMenu(),
+                                        ),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text(
+                                        '${seller['name']}',
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.045,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    'Contact Us: ${seller['phone']}',
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                      fontWeight: FontWeight.w600,
+                                  // Location
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Navigate to the seller's profile page
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SellerMenu(),
+                                        ),
+                                      );
+                                    },
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.85,
+                                      child: Text(
+                                        '${seller['location']}',
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.030,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    'Address: ${seller['location']}',
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 3.0),
                                 ],
                               ),
-                            ),
+                              const SizedBox(height: 3.0),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        );
+                      },
+                    ),
                   ),
-                );
-              },
-              childCount: sellerList.length,
-            ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }
