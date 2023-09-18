@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import 'package:jiak_users_app/pages/seller_menu.dart';
+import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:jiak_users_app/widgets/customDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -39,6 +41,9 @@ class _HomepageState extends State<Homepage> {
     try {
       MongoDB.connectSeller();
       final list = await MongoDB.getSellersDocument();
+      print(
+          "================retrieveSellerInformation >>> list=======================");
+      print(list);
 
       setState(() {
         // update sellerList with the fetched data
@@ -149,7 +154,7 @@ class _HomepageState extends State<Homepage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const SellerMenu(),
+                                      builder: (context) => SellerMenu(),
                                     ),
                                   );
                                 },
@@ -177,14 +182,14 @@ class _HomepageState extends State<Homepage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  //  Name
                                   GestureDetector(
                                     onTap: () {
                                       // Navigate to the seller's profile page
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SellerMenu(),
+                                          builder: (context) => SellerMenu(),
                                         ),
                                       );
                                     },
@@ -210,8 +215,7 @@ class _HomepageState extends State<Homepage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SellerMenu(),
+                                          builder: (context) => SellerMenu(),
                                         ),
                                       );
                                     },

@@ -4,7 +4,7 @@ import '../user.dart';
 import 'constants.dart';
 
 class MongoDB {
-  static var db, userCollection, sellerCollection;
+  static var db, userCollection, sellerCollection, menuCollection;
 
   // connect to db - User Collection
   static connect() async {
@@ -31,6 +31,18 @@ class MongoDB {
     sellerCollection = await db.collection(SELLER_COLLECTION_NAME);
   }
 
+  // connect to db - Menu Collection
+  static connectCollectionMenu() async {
+    try {
+      db = await Db.create(MONGO_URL);
+      await db.open(secure: true);
+      menuCollection = db.collection(COLLECTION_NAME_MENUS);
+    } catch (e) {
+      print('Error connecting to the menu collection. $e');
+      rethrow;
+    }
+  }
+
   // Retrieve All Seller's Data - Seller Collection
   static Future<List<Map<String, dynamic>>> getSellersDocument() async {
     try {
@@ -38,6 +50,23 @@ class MongoDB {
       return users;
     } catch (e) {
       print(e);
+      rethrow;
+    }
+  }
+
+  // Retrieve All Menu's Data - Menu Collection
+  static Future<List<Map<String, dynamic>>> getMenuDocuments() async {
+    try {
+      if (menuCollection == null) {
+        // If menuCollection is null, connect to it first
+        await connectCollectionMenu();
+      }
+
+      final menu = await menuCollection.find().toList();
+      print(menu);
+      return menu;
+    } catch (e) {
+      print('Unable to retrieve list of menu. $e');
       rethrow;
     }
   }
