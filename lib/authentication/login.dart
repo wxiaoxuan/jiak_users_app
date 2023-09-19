@@ -8,7 +8,7 @@ import '../widgets/enter_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/homepage.dart';
-import '../user.dart';
+import '../models/user.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});

@@ -1,6 +1,6 @@
 import 'package:mongo_dart/mongo_dart.dart';
 
-import '../user.dart';
+import '../models/user.dart';
 import 'constants.dart';
 
 class MongoDB {
@@ -37,6 +37,8 @@ class MongoDB {
       db = await Db.create(MONGO_URL);
       await db.open(secure: true);
       menuCollection = db.collection(COLLECTION_NAME_MENUS);
+      // print("im in connectCollectionMenu function.");
+      // print(menuCollection);
     } catch (e) {
       print('Error connecting to the menu collection. $e');
       rethrow;
@@ -63,7 +65,7 @@ class MongoDB {
       }
 
       final menu = await menuCollection.find().toList();
-      print(menu);
+      // print(menu);
       return menu;
     } catch (e) {
       print('Unable to retrieve list of menu. $e');

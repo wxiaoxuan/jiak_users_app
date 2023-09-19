@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
-import 'package:jiak_users_app/pages/seller_menu.dart';
-import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:jiak_users_app/widgets/customDrawer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'menu.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -17,12 +15,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  @override
-  void initState() {
-    super.initState();
-    retrieveSellerInformation(); // Fetch seller information when the widget is created
-  }
-
   // Implement Carousel Slider
   final items = [
     "assets/slider/0.jpg",
@@ -31,6 +23,14 @@ class _HomepageState extends State<Homepage> {
     "assets/slider/3.jpg",
     "assets/slider/4.jpg",
   ];
+
+  TextEditingController deliverToAddressController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveSellerInformation(); // Fetch seller information when the widget is created
+  }
 
   // ==================== RETRIEVE SELLER'S INFORMATION =======================
   // List to store seller data
@@ -41,9 +41,6 @@ class _HomepageState extends State<Homepage> {
     try {
       MongoDB.connectSeller();
       final list = await MongoDB.getSellersDocument();
-      print(
-          "================retrieveSellerInformation >>> list=======================");
-      print(list);
 
       setState(() {
         // update sellerList with the fetched data
@@ -53,8 +50,6 @@ class _HomepageState extends State<Homepage> {
       print("Error retrieving Seller's Information.");
     }
   }
-
-  TextEditingController deliverToAddressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +149,8 @@ class _HomepageState extends State<Homepage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SellerMenu(),
+                                      builder: (context) =>
+                                          Menu(seller: seller),
                                     ),
                                   );
                                 },
@@ -189,7 +185,8 @@ class _HomepageState extends State<Homepage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => SellerMenu(),
+                                          builder: (context) =>
+                                              Menu(seller: seller),
                                         ),
                                       );
                                     },
@@ -215,7 +212,8 @@ class _HomepageState extends State<Homepage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => SellerMenu(),
+                                          builder: (context) =>
+                                              Menu(seller: seller),
                                         ),
                                       );
                                     },

@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../resources/global.dart';
 import '../resources/mongoDB.dart';
-import '../user.dart';
+import '../models/user.dart';
 import '../widgets/dialogs/error_dialog.dart';
 
 class Register extends StatelessWidget {
