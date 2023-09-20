@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/pages/shopping_cart.dart';
+import 'package:jiak_users_app/widgets/enter_button.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 
 class MenuItemDetails extends StatefulWidget {
   final Map<String, dynamic> menuItem;
@@ -14,6 +16,8 @@ class MenuItemDetails extends StatefulWidget {
 }
 
 class _MenuItemDetailsState extends State<MenuItemDetails> {
+  TextEditingController quantityController = TextEditingController();
+
   final List<Map<String, dynamic>> selectedMenu = [];
 
   void retrieveSelectedMenuItem() async {
@@ -87,6 +91,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20.0),
           // Image
           Center(
             child: Container(
@@ -108,14 +113,15 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
               ),
             ),
           ),
-          SizedBox(height: 50.0),
+          const SizedBox(height: 50.0),
           // Title  & Description
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Title & Price
                     Text(
@@ -126,7 +132,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                         color: Colors.black87,
                       ),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.15),
+                    // SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                     Text(
                       '\$${(widget.menuItem['menuPrice'] is double) ? widget.menuItem['menuPrice'].toStringAsFixed(2) : widget.menuItem['menuPrice']}',
                       style: TextStyle(
@@ -151,28 +157,42 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 3.0),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '\$${(widget.menuItem['menuPrice'] is double) ? widget.menuItem['menuPrice'].toStringAsFixed(2) : widget.menuItem['menuPrice']}',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.045,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.black54,
-                            // size: 24.0,
-                          )),
-                    ],
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 100, right: 100.0),
+                  child: NumberInputPrefabbed.roundedButtons(
+                    controller: quantityController,
+                    incDecBgColor: Colors.amber,
+                    min: 1,
+                    max: 20,
+                    initialValue: 1,
+                    buttonArrangement: ButtonArrangement.incRightDecLeft,
+                    incIcon: Icons.add,
+                    decIcon: Icons.remove,
+                    // incIconSize: 24.0,
+                    incIconColor: Colors.white,
+                    decIconColor: Colors.white,
+                  ),
+                ),
+
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                // Add to cart Button
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.yellow[800],
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 100.0, vertical: 12.0)),
+                  child: const Text(
+                    'Add to Cart',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0),
                   ),
                 ),
               ],
