@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:jiak_users_app/widgets/customDrawer.dart';
-import 'menu.dart';
+import 'menuList.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -63,25 +63,13 @@ class _HomepageState extends State<Homepage> {
               color: Color(0xff3e3e3c),
               fontSize: 22.0,
               fontWeight: FontWeight.w500),
-          actions: [
-            IconButton(
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (c) => const AddMenu()),
-                // );
-              },
-              icon: const Icon(
-                Icons.add_photo_alternate,
-              ),
-            ),
-          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.all(15.0),
+              // Delivery TextField
               child: Row(
                 children: [
                   const Padding(
@@ -150,10 +138,11 @@ class _HomepageState extends State<Homepage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          Menu(seller: seller),
+                                          MenuList(seller: seller),
                                     ),
                                   );
                                 },
+                                // Image
                                 child: Container(
                                   width: 380.0,
                                   height: 150.0,
@@ -186,7 +175,7 @@ class _HomepageState extends State<Homepage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              Menu(seller: seller),
+                                              MenuList(seller: seller),
                                         ),
                                       );
                                     },
@@ -213,7 +202,7 @@ class _HomepageState extends State<Homepage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              Menu(seller: seller),
+                                              MenuList(seller: seller),
                                         ),
                                       );
                                     },

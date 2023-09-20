@@ -1,5 +1,4 @@
 // Information to retrieve from the Sellers
-
 class Sellers {
   String? uid;
   String? name;
