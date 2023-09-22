@@ -1,3 +1,4 @@
+// 2. Selected Seller's Menu List Page
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -22,8 +23,8 @@ class _MenuListState extends State<MenuList> {
     retrieveCurrentSellerMenu();
   }
 
-  final List<Map<String, dynamic>> currentUserMenuList =
-      []; // Get Current seller's Menu
+  // Get Current seller's Menu
+  final List<Map<String, dynamic>> currentUserMenuList = [];
 
   Future<void> retrieveCurrentSellerMenu() async {
     try {
@@ -72,12 +73,7 @@ class _MenuListState extends State<MenuList> {
           Stack(
             children: [
               IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (c) => const ShoppingCart()),
-                  );
-                },
+                onPressed: () {},
                 icon: const Icon(
                   Icons.shopping_bag_outlined,
                 ),

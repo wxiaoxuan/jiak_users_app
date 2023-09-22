@@ -1,9 +1,9 @@
+// 3. Selected Menu Item's page
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/pages/shopping_cart.dart';
-import 'package:jiak_users_app/widgets/enter_button.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 class MenuItemDetails extends StatefulWidget {
@@ -16,19 +16,43 @@ class MenuItemDetails extends StatefulWidget {
 }
 
 class _MenuItemDetailsState extends State<MenuItemDetails> {
-  TextEditingController quantityController = TextEditingController();
+  TextEditingController itemQuantityController = TextEditingController();
 
-  final List<Map<String, dynamic>> selectedMenu = [];
+  final List<Map<String, dynamic>> shoppingCartItems = [];
 
-  void retrieveSelectedMenuItem() async {
-    try {} catch (e) {
-      print('Error retrieving current menu item.');
+  void addItemToCart(String? foodItemID, int itemCounter) {
+    // Check if item is alr in the cart by ID
+    bool itemExistsInCart = false;
+
+    // print(shoppingCartItems);
+
+    for (final shoppingCartItem in shoppingCartItems) {
+      if (shoppingCartItem['_id'] == foodItemID) {
+        shoppingCartItem['quantity'] += itemCounter;
+        itemExistsInCart = true;
+        break;
+      }
     }
+
+    // If Item is not in the cart, Add it
+    if (!itemExistsInCart) {
+      shoppingCartItems.add({
+        '_id': foodItemID,
+        'menuItem': widget.menuItem['menuTitle'],
+        'menuPrice': widget.menuItem['menuPrice'],
+        'quantity': itemCounter,
+        // Add other item details here if needed
+      });
+    }
+
+    // Clear itemQuantityController text field
+    itemQuantityController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     Uint8List? imageBytes;
+    final menuItemID = widget.menuItem['_id']?.toString() ?? "";
 
     if (widget.menuItem.containsKey('image')) {
       final imageInfo = widget.menuItem['image'] as Map<String, dynamic>;
@@ -58,7 +82,10 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (c) => const ShoppingCart()),
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ShoppingCart(shoppingCartItems: shoppingCartItems),
+                    ),
                   );
                 },
                 icon: const Icon(
@@ -88,117 +115,132 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 20.0),
-          // Image
-          Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.3,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20.0),
+            // Image
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.3,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                  image: DecorationImage(
+                    image: MemoryImage(imageBytes!),
+                    fit: BoxFit.cover,
                   ),
-                ],
-                image: DecorationImage(
-                  image: MemoryImage(imageBytes!),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 50.0),
-          // Title  & Description
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Title & Price
-                    Text(
-                      '${widget.menuItem['menuTitle']}',
+            const SizedBox(height: 50.0),
+            // Title  & Description
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Title & Price
+                      Text(
+                        '${widget.menuItem['menuTitle']}',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.045,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      // SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+                      Text(
+                        '\$${(widget.menuItem['menuPrice'] is double) ? widget.menuItem['menuPrice'].toStringAsFixed(2) : widget.menuItem['menuPrice']}',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.045,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text(
+                      '${widget.menuItem['menuInformation']}',
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.045,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: Colors.black54,
                       ),
                     ),
-                    // SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                    Text(
-                      '\$${(widget.menuItem['menuPrice'] is double) ? widget.menuItem['menuPrice'].toStringAsFixed(2) : widget.menuItem['menuPrice']}',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.045,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Text(
-                    '${widget.menuItem['menuInformation']}',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.035,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black54,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 100, right: 100.0),
+                    child: NumberInputPrefabbed.roundedButtons(
+                      controller: itemQuantityController,
+                      incDecBgColor: Colors.amber,
+                      min: 1,
+                      max: 20,
+                      initialValue: 1,
+                      buttonArrangement: ButtonArrangement.incRightDecLeft,
+                      incIcon: Icons.add,
+                      decIcon: Icons.remove,
+                      incIconColor: Colors.white,
+                      decIconColor: Colors.white,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 100, right: 100.0),
-                  child: NumberInputPrefabbed.roundedButtons(
-                    controller: quantityController,
-                    incDecBgColor: Colors.amber,
-                    min: 1,
-                    max: 20,
-                    initialValue: 1,
-                    buttonArrangement: ButtonArrangement.incRightDecLeft,
-                    incIcon: Icons.add,
-                    decIcon: Icons.remove,
-                    // incIconSize: 24.0,
-                    incIconColor: Colors.white,
-                    decIconColor: Colors.white,
-                  ),
-                ),
 
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                // Add to cart Button
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow[800],
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 100.0, vertical: 12.0)),
-                  child: const Text(
-                    'Add to Cart',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
                   ),
-                ),
-              ],
+                  // Add to cart Button
+                  ElevatedButton(
+                    onPressed: () {
+                      int itemCounter = int.parse(itemQuantityController.text);
+
+                      // Add to cart
+                      addItemToCart(menuItemID, itemCounter);
+                      // Navigator.pop(context); // back to prev page
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShoppingCart(
+                              shoppingCartItems: shoppingCartItems),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.yellow[800],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 100.0, vertical: 12.0)),
+                    child: const Text(
+                      'Add to Cart',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

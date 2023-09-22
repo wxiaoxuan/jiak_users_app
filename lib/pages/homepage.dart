@@ -1,3 +1,4 @@
+// 1. List of Seller's Page
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -125,25 +126,26 @@ class _HomepageState extends State<Homepage> {
                           }
                         }
 
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0, top: 20.0, bottom: 0.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  // Navigate to the seller's profile page
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          MenuList(seller: seller),
-                                    ),
-                                  );
-                                },
-                                // Image
-                                child: Container(
+                        return GestureDetector(
+                          onTap: () {
+                            // Navigate to the seller's profile page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MenuList(seller: seller),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 20.0,
+                                top: 20.0,
+                                bottom: 0.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
                                   width: 380.0,
                                   height: 150.0,
                                   decoration: BoxDecoration(
@@ -162,24 +164,12 @@ class _HomepageState extends State<Homepage> {
                                     ),
                                   ),
                                 ),
-                              ),
-                              // Title  & Description
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //  Name
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Navigate to the seller's profile page
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              MenuList(seller: seller),
-                                        ),
-                                      );
-                                    },
-                                    child: Padding(
+                                // Title  & Description
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //  Name
+                                    Padding(
                                       padding: const EdgeInsets.only(top: 5.0),
                                       child: Text(
                                         '${seller['name']}',
@@ -193,20 +183,8 @@ class _HomepageState extends State<Homepage> {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  // Location
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Navigate to the seller's profile page
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              MenuList(seller: seller),
-                                        ),
-                                      );
-                                    },
-                                    child: SizedBox(
+                                    // Location
+                                    SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.85,
                                       child: Text(
@@ -221,12 +199,12 @@ class _HomepageState extends State<Homepage> {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 3.0),
-                                ],
-                              ),
-                              const SizedBox(height: 3.0),
-                            ],
+                                    const SizedBox(height: 3.0),
+                                  ],
+                                ),
+                                const SizedBox(height: 3.0),
+                              ],
+                            ),
                           ),
                         );
                       },
