@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/pages/homepage.dart';
 import 'package:jiak_users_app/pages/menu_items_details.dart';
 import 'package:jiak_users_app/pages/shopping_cart.dart';
 
@@ -10,7 +11,11 @@ import '../resources/mongoDB.dart';
 
 class MenuList extends StatefulWidget {
   final Map<String, dynamic> seller;
-  const MenuList({Key? key, required this.seller}) : super(key: key);
+  final List<Map<String, dynamic>> shoppingCartItems;
+
+  const MenuList(
+      {Key? key, required this.seller, required this.shoppingCartItems})
+      : super(key: key);
 
   @override
   State<MenuList> createState() => _MenuListState();
@@ -60,12 +65,21 @@ class _MenuListState extends State<MenuList> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading:
+            // Back Button
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Homepage()));
+                },
+                icon: Icon(Icons.arrow_back)),
         backgroundColor: Colors.yellow[800],
         title: Text('${widget.seller['name']}\'s Menu'),
-        // title: Text('Menu Page for ${widget.seller['name']}'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
-            fontSize: 22.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.w500),
         centerTitle: true,
         actions: [
@@ -73,7 +87,15 @@ class _MenuListState extends State<MenuList> {
           Stack(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingCart(
+                          shoppingCartItems: widget.shoppingCartItems),
+                    ),
+                  );
+                },
                 icon: const Icon(
                   Icons.shopping_bag_outlined,
                 ),
@@ -101,6 +123,8 @@ class _MenuListState extends State<MenuList> {
           ),
         ],
       ),
+      //
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -142,8 +166,12 @@ class _MenuListState extends State<MenuList> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      MenuItemDetails(menuItem: menu)));
+                                  builder: (context) => MenuItemDetails(
+                                        menuItem: menu,
+                                        shoppingCartItems:
+                                            widget.shoppingCartItems,
+                                        seller: widget.seller,
+                                      )));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(

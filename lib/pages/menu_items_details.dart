@@ -1,21 +1,30 @@
 // 3. Selected Menu Item's page
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:jiak_users_app/pages/shopping_cart.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
+
+import '../resources/global.dart';
+import 'menuList.dart';
 
 class MenuItemDetails extends StatefulWidget {
   final Map<String, dynamic> menuItem;
+  final List<Map<String, dynamic>> shoppingCartItems;
+  final Map<String, dynamic> seller;
 
-  const MenuItemDetails({Key? key, required this.menuItem}) : super(key: key);
+  const MenuItemDetails(
+      {Key? key,
+      required this.menuItem,
+      required this.shoppingCartItems,
+      required this.seller})
+      : super(key: key);
 
   @override
   State<MenuItemDetails> createState() => _MenuItemDetailsState();
 }
 
 class _MenuItemDetailsState extends State<MenuItemDetails> {
+  String currentUser = sharedPreferences!.getString('email') ?? 'No email';
   TextEditingController itemQuantityController = TextEditingController();
 
   final List<Map<String, dynamic>> shoppingCartItems = [];
@@ -24,9 +33,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
     // Check if item is alr in the cart by ID
     bool itemExistsInCart = false;
 
-    // print(shoppingCartItems);
-
-    for (final shoppingCartItem in shoppingCartItems) {
+    for (final shoppingCartItem in widget.shoppingCartItems) {
       if (shoppingCartItem['_id'] == foodItemID) {
         shoppingCartItem['quantity'] += itemCounter;
         itemExistsInCart = true;
@@ -36,7 +43,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
 
     // If Item is not in the cart, Add it
     if (!itemExistsInCart) {
-      shoppingCartItems.add({
+      widget.shoppingCartItems.add({
         '_id': foodItemID,
         'menuItem': widget.menuItem['menuTitle'],
         'menuPrice': widget.menuItem['menuPrice'],
@@ -64,6 +71,8 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
       }
     }
 
+    print(widget.shoppingCartItems);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -74,46 +83,6 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
             fontSize: 18.0,
             fontWeight: FontWeight.w500),
         centerTitle: true,
-        // Add to Cart Icon
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ShoppingCart(shoppingCartItems: shoppingCartItems),
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.shopping_bag_outlined,
-                ),
-              ),
-              const Positioned(
-                  child: Stack(
-                children: [
-                  Icon(
-                    Icons.brightness_1,
-                    size: 20.0,
-                    color: Colors.green,
-                  ),
-                  Positioned(
-                      top: 1,
-                      right: 6,
-                      child: Center(
-                        child: Text(
-                          '0',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ))
-                ],
-              ))
-            ],
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -171,9 +140,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: Text(
@@ -185,9 +152,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   Padding(
                     padding: const EdgeInsets.only(left: 100, right: 100.0),
                     child: NumberInputPrefabbed.roundedButtons(
@@ -204,9 +169,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     ),
                   ),
 
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   // Add to cart Button
                   ElevatedButton(
                     onPressed: () {
@@ -214,13 +177,15 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
 
                       // Add to cart
                       addItemToCart(menuItemID, itemCounter);
-                      // Navigator.pop(context); // back to prev page
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ShoppingCart(
-                              shoppingCartItems: shoppingCartItems),
+                          builder: (context) => MenuList(
+                            seller: widget.seller, // Seller data goes here
+                            shoppingCartItems: widget
+                                .shoppingCartItems, // Pass shoppingCartItems
+                          ),
                         ),
                       );
                     },

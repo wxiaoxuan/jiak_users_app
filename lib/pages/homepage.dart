@@ -132,7 +132,10 @@ class _HomepageState extends State<Homepage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MenuList(seller: seller),
+                                builder: (context) => MenuList(
+                                  seller: seller,
+                                  shoppingCartItems: [],
+                                ),
                               ),
                             );
                           },
