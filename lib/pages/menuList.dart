@@ -12,9 +12,13 @@ import '../resources/mongoDB.dart';
 class MenuList extends StatefulWidget {
   final Map<String, dynamic> seller;
   final List<Map<String, dynamic>> shoppingCartItems;
+  int shoppingCartItemsCounter;
 
-  const MenuList(
-      {Key? key, required this.seller, required this.shoppingCartItems})
+  MenuList(
+      {Key? key,
+      required this.seller,
+      required this.shoppingCartItems,
+      required this.shoppingCartItemsCounter})
       : super(key: key);
 
   @override
@@ -26,6 +30,12 @@ class _MenuListState extends State<MenuList> {
   void initState() {
     super.initState();
     retrieveCurrentSellerMenu();
+  }
+
+  void updateCartItemCount(int count) {
+    setState(() {
+      widget.shoppingCartItemsCounter = count;
+    });
   }
 
   // Get Current seller's Menu
@@ -62,6 +72,16 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
+    // print("============================");
+    // print("=============IN MENU LIST PAGE ===============");
+    // print(widget.shoppingCartItems);
+    // print("============================");
+    //
+    // print(widget.seller);
+    // print("============================");
+    // print(widget.shoppingCartItemsCounter);
+    // print("=============END===============");
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -74,7 +94,7 @@ class _MenuListState extends State<MenuList> {
                       MaterialPageRoute(
                           builder: (context) => const Homepage()));
                 },
-                icon: Icon(Icons.arrow_back)),
+                icon: const Icon(Icons.arrow_back)),
         backgroundColor: Colors.yellow[800],
         title: Text('${widget.seller['name']}\'s Menu'),
         titleTextStyle: const TextStyle(
@@ -100,10 +120,10 @@ class _MenuListState extends State<MenuList> {
                   Icons.shopping_bag_outlined,
                 ),
               ),
-              const Positioned(
+              Positioned(
                   child: Stack(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.brightness_1,
                     size: 20.0,
                     color: Colors.green,
@@ -113,8 +133,9 @@ class _MenuListState extends State<MenuList> {
                       right: 6,
                       child: Center(
                         child: Text(
-                          '0',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          widget.shoppingCartItemsCounter.toString(),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
                         ),
                       ))
                 ],

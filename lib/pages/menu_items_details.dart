@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/pages/shopping_cart.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 import '../resources/global.dart';
@@ -25,9 +26,12 @@ class MenuItemDetails extends StatefulWidget {
 
 class _MenuItemDetailsState extends State<MenuItemDetails> {
   String currentUser = sharedPreferences!.getString('email') ?? 'No email';
-  TextEditingController itemQuantityController = TextEditingController();
 
   final List<Map<String, dynamic>> shoppingCartItems = [];
+
+  // ========================= ADD TO CART  =================================
+  TextEditingController itemQuantityController = TextEditingController();
+  late int shoppingCartItemsCounter = 0;
 
   void addItemToCart(String? foodItemID, int itemCounter) {
     // Check if item is alr in the cart by ID
@@ -52,15 +56,28 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
       });
     }
 
+    setState(() {
+      shoppingCartItemsCounter += itemCounter;
+      print(shoppingCartItemsCounter);
+    });
+
     // Clear itemQuantityController text field
     itemQuantityController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    // print("=============IN MENU ITEMS DETAILS PAGE ===============");
+    // print(widget.menuItem);
+    // print("============================");
+    // print(widget.shoppingCartItems);
+    // print("============================");
+    // print(widget.seller);
+    // print("=============END===============");
+
+    // =============================== IMAGE ==================================
     Uint8List? imageBytes;
     final menuItemID = widget.menuItem['_id']?.toString() ?? "";
-
     if (widget.menuItem.containsKey('image')) {
       final imageInfo = widget.menuItem['image'] as Map<String, dynamic>;
       final base64Image = imageInfo['imageData'] as String?;
@@ -70,8 +87,6 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
         imageBytes = base64.decode(base64Image);
       }
     }
-
-    print(widget.shoppingCartItems);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -83,6 +98,45 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
             fontSize: 18.0,
             fontWeight: FontWeight.w500),
         centerTitle: true,
+        actions: [
+          // Add to Shopping Cart Icon
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingCart(
+                          shoppingCartItems: widget.shoppingCartItems),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.shopping_bag_outlined),
+              ),
+              Positioned(
+                  child: Stack(
+                children: [
+                  const Icon(
+                    Icons.brightness_1,
+                    size: 20.0,
+                    color: Colors.green,
+                  ),
+                  Positioned(
+                      top: 1,
+                      right: 6,
+                      child: Center(
+                        child: Text(
+                          shoppingCartItemsCounter.toString(),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ))
+                ],
+              ))
+            ],
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -120,7 +174,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Title & Price
+                      // Title
                       Text(
                         '${widget.menuItem['menuTitle']}',
                         style: TextStyle(
@@ -129,7 +183,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                           color: Colors.black87,
                         ),
                       ),
-                      // SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+                      // Price
                       Text(
                         '\$${(widget.menuItem['menuPrice'] is double) ? widget.menuItem['menuPrice'].toStringAsFixed(2) : widget.menuItem['menuPrice']}',
                         style: TextStyle(
@@ -141,6 +195,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  // Menu Item's Information
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: Text(
@@ -153,6 +208,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                  // Item Quantities
                   Padding(
                     padding: const EdgeInsets.only(left: 100, right: 100.0),
                     child: NumberInputPrefabbed.roundedButtons(
@@ -182,10 +238,10 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => MenuList(
-                            seller: widget.seller, // Seller data goes here
-                            shoppingCartItems: widget
-                                .shoppingCartItems, // Pass shoppingCartItems
-                          ),
+                              seller: widget.seller, // Seller data goes here
+                              shoppingCartItems: widget.shoppingCartItems,
+                              shoppingCartItemsCounter:
+                                  shoppingCartItemsCounter),
                         ),
                       );
                     },

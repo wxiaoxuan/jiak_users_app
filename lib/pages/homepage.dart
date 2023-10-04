@@ -130,14 +130,14 @@ class _HomepageState extends State<Homepage> {
                           onTap: () {
                             // Navigate to the seller's profile page
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MenuList(
-                                  seller: seller,
-                                  shoppingCartItems: [],
-                                ),
-                              ),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MenuList(
+                                    seller: seller,
+                                    shoppingCartItems: [],
+                                    shoppingCartItemsCounter: 0,
+                                  ),
+                                ));
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(
