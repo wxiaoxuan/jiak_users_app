@@ -4,24 +4,18 @@ import '../models/user.dart';
 import 'constants.dart';
 
 class MongoDB {
-  static var db, userCollection, sellerCollection, menuCollection;
+  static var db,
+      userCollection,
+      sellerCollection,
+      menuCollection,
+      cartCollection;
 
+  // ======================= CONNECT TO DB COLLECTION ========================
   // connect to db - User Collection
   static connect() async {
     db = await Db.create(MONGO_URL);
     await db.open(secure: true);
-    userCollection = await db.collection(COLLECTION_NAME);
-  }
-
-  // Retrieve All User's Data - User Collection
-  static Future<List<Map<String, dynamic>>> getUsersDocument() async {
-    try {
-      final users = await userCollection.find().toList();
-      return users;
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+    userCollection = await db.collection(COLLECTION_NAME_USERS);
   }
 
   // connect to db - Seller Collection
@@ -41,6 +35,32 @@ class MongoDB {
       // print(menuCollection);
     } catch (e) {
       print('Error connecting to the menu collection. $e');
+      rethrow;
+    }
+  }
+
+  // connect to db - Cart Collection
+  static connectCollectionCart() async {
+    try {
+      db = await Db.create(MONGO_URL);
+      await db.open(secure: true);
+      cartCollection = db.collection(COLLECTION_NAME_CART);
+      print("im in connectCollectionCart function.");
+      print(cartCollection);
+    } catch (e) {
+      print('Error connecting to the menu collection. $e');
+      rethrow;
+    }
+  }
+
+  // ================= RETRIEVE ALL DATA IN A COLLECTION ======================
+  // Retrieve All User's Data - User Collection
+  static Future<List<Map<String, dynamic>>> getUsersDocument() async {
+    try {
+      final users = await userCollection.find().toList();
+      return users;
+    } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -73,12 +93,38 @@ class MongoDB {
     }
   }
 
-  static insert(User user) async {
-    print(user.toMap());
-    userCollection = db.collection(COLLECTION_NAME);
-    await userCollection.insert(user.toMap());
+  // Retrieve All Cart's Data - Cart Collection
+  static Future<List<Map<String, dynamic>>> getCartDocuments() async {
+    try {
+      if (cartCollection == null) {
+        // If menuCollection is null, connect to it first
+        await connectCollectionCart();
+      }
+
+      final cart = await cartCollection.find().toList();
+      // print(menu);
+      return cart;
+    } catch (e) {
+      print('Unable to retrieve list of carts. $e');
+      rethrow;
+    }
   }
 
+  // ========================= INSERT FUNCTION ================================
+  // Insert User into DB
+  static insertUser(User user) async {
+    print(user.toMap());
+    userCollection = db.collection(COLLECTION_NAME_USERS);
+    await userCollection.insertUser(user.toMap());
+  }
+
+  // Insert User's Cart into DB
+  static insertCart() async {
+    cartCollection = db.collection(COLLECTION_NAME_CART);
+    await cartCollection.insertCart();
+  }
+
+  // ========================= UPDATE FUNCTION ================================
   static update(User user) async {
     var user1 = await userCollection.findOne({"id": user.id});
     user1['name'] = user.name;
@@ -89,6 +135,7 @@ class MongoDB {
     await userCollection.save(user1);
   }
 
+  // ========================= DELETE FUNCTION ================================
   static delete(User user) async {
     // await userCollection.remove(where.id(user.id));
   }

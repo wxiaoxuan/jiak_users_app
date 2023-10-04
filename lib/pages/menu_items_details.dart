@@ -108,7 +108,8 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ShoppingCart(
-                          shoppingCartItems: widget.shoppingCartItems),
+                          shoppingCartItems: widget.shoppingCartItems,
+                          seller: widget.seller),
                     ),
                   );
                 },

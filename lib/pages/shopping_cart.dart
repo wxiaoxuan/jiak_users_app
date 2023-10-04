@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
+import 'package:jiak_users_app/widgets/dialogs/loading_dialog.dart';
+import 'package:jiak_users_app/widgets/dialogs/successful_dialog.dart';
 
 class ShoppingCart extends StatefulWidget {
   final List<Map<String, dynamic>> shoppingCartItems;
+  final Map<String, dynamic> seller;
 
-  const ShoppingCart({Key? key, required this.shoppingCartItems})
+  ShoppingCart(
+      {Key? key, required this.shoppingCartItems, required this.seller})
       : super(key: key);
 
   @override
@@ -11,10 +16,35 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
+  insertCartIntoDB(BuildContext context) {
+    try {
+      // Cart
+
+      // Display Loading Dialog
+      LoadingDialog.show(context, "Checking out...please hold.");
+
+      // Insert Cart Items into DB - CartItem Collection
+
+      // Insert Cart into DB - Cart Collection
+
+      // If Checkout is Successful,
+      Navigator.pop(context);
+      SuccessfulDialog.show(context, "Checkout Complete.");
+
+      // Clear All Data in Shopping Cart
+
+      // Navigate to Waiting Food Area Page
+    } catch (e) {
+      ErrorDialog.show(context, "Unable to add into db.");
+      return Future.error('Unable to add into db: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print('=========widget.shoppingCartItems==============');
     print(widget.shoppingCartItems);
+    print(widget.seller);
 
     // Calculate the total sum
     double totalSum = 0.0;

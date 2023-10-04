@@ -117,7 +117,7 @@ class Register extends StatelessWidget {
       LoadingDialog.show(context, "Registering account..");
 
       // Insert user's details into db
-      await MongoDB.insert(userDetails);
+      await MongoDB.insertUser(userDetails);
 
       // Save Data in Local Storage (Token)
       sharedPreferences = await SharedPreferences.getInstance();
