@@ -67,14 +67,6 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
 
   @override
   Widget build(BuildContext context) {
-    // print("=============IN MENU ITEMS DETAILS PAGE ===============");
-    // print(widget.menuItem);
-    // print("============================");
-    // print(widget.shoppingCartItems);
-    // print("============================");
-    // print(widget.seller);
-    // print("=============END===============");
-
     // =============================== IMAGE ==================================
     Uint8List? imageBytes;
     final menuItemID = widget.menuItem['_id']?.toString() ?? "";

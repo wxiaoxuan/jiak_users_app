@@ -1,5 +1,6 @@
 import 'package:mongo_dart/mongo_dart.dart';
 
+import '../models/carts.dart';
 import '../models/user.dart';
 import 'constants.dart';
 
@@ -45,8 +46,6 @@ class MongoDB {
       db = await Db.create(MONGO_URL);
       await db.open(secure: true);
       cartCollection = db.collection(COLLECTION_NAME_CART);
-      print("im in connectCollectionCart function.");
-      print(cartCollection);
     } catch (e) {
       print('Error connecting to the menu collection. $e');
       rethrow;
@@ -115,13 +114,18 @@ class MongoDB {
   static insertUser(User user) async {
     print(user.toMap());
     userCollection = db.collection(COLLECTION_NAME_USERS);
-    await userCollection.insertUser(user.toMap());
+    await userCollection.insert(user.toMap());
   }
 
   // Insert User's Cart into DB
-  static insertCart() async {
-    cartCollection = db.collection(COLLECTION_NAME_CART);
-    await cartCollection.insertCart();
+  static insertCart(Carts cart) async {
+    try {
+      cartCollection = db.collection(COLLECTION_NAME_CART);
+      await cartCollection.insert(cart.toMap());
+    } catch (e) {
+      print("Error inserting cart into db: $e");
+      throw e;
+    }
   }
 
   // ========================= UPDATE FUNCTION ================================

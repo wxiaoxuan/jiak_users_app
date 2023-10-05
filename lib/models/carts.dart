@@ -22,7 +22,3 @@ class Carts {
         cartItems = List<CartItem>.from(
             (map['cartItems'] as List).map((item) => CartItem.fromMap(item)));
 }
-
-// -- Cart Details --
-// Seller Name, Seller ID, Seller Email, Seller Location, Seller Image
-// Menu ID, Menu Item, Menu Price, Quantity

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/models/cartItem.dart';
+import 'package:jiak_users_app/models/carts.dart';
+import 'package:jiak_users_app/pages/my_order.dart';
+import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
 import 'package:jiak_users_app/widgets/dialogs/loading_dialog.dart';
 import 'package:jiak_users_app/widgets/dialogs/successful_dialog.dart';
@@ -16,24 +20,40 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  insertCartIntoDB(BuildContext context) {
+  insertCartIntoDB(BuildContext context) async {
     try {
-      // Cart
-
       // Display Loading Dialog
-      LoadingDialog.show(context, "Checking out...please hold.");
+      LoadingDialog.show(context, "Checking out...");
 
       // Insert Cart Items into DB - CartItem Collection
+      List<CartItem> cartItems = widget.shoppingCartItems.map((cartItem) {
+        final menuItemID = cartItem['_id'].toString();
+
+        return CartItem(
+          menuItemID: menuItemID,
+          menuItemName: cartItem['menuItem'],
+          menuItemPrice: cartItem['menuPrice'],
+          menuItemQuantity: cartItem['quantity'],
+        );
+      }).toList();
 
       // Insert Cart into DB - Cart Collection
+      Carts cart = Carts(
+        sellerID: widget.seller['_id'].toString(),
+        cartItems: cartItems,
+      );
+
+      // Connect to DB Cart Collection & Insert the cart inside
+      await MongoDB.connectCollectionCart();
+      await MongoDB.insertCart(cart);
 
       // If Checkout is Successful,
-      Navigator.pop(context);
-      SuccessfulDialog.show(context, "Checkout Complete.");
+      Navigator.pop(context); // Clear Loading Dialog
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MyOrder()));
 
       // Clear All Data in Shopping Cart
-
-      // Navigate to Waiting Food Area Page
+      widget.shoppingCartItems.clear();
     } catch (e) {
       ErrorDialog.show(context, "Unable to add into db.");
       return Future.error('Unable to add into db: $e');
@@ -42,9 +62,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   @override
   Widget build(BuildContext context) {
-    print('=========widget.shoppingCartItems==============');
-    print(widget.shoppingCartItems);
-    print(widget.seller);
+    // print('=========widget.shoppingCartItems==============');
+    // print(widget.shoppingCartItems);
+    // print(widget.seller);
 
     // Calculate the total sum
     double totalSum = 0.0;
@@ -113,8 +133,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             itemCount: widget.shoppingCartItems.length,
                             itemBuilder: (BuildContext context, int index) {
                               final cartItem = widget.shoppingCartItems[index];
-                              print('==============');
-                              print(cartItem);
 
                               final cartItemTotalPrice =
                                   cartItem['menuPrice'] * cartItem['quantity'];
@@ -150,7 +168,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                           ),
                                           // Menu Item Price
                                           Text(
-                                            // '\$${(cartItem['menuPrice'] is double) ? cartItem['menuPrice'].toStringAsFixed(2) : cartItem['menuPrice']}',
                                             '\$${(cartItemTotalPrice is double) ? cartItemTotalPrice.toStringAsFixed(2) : cartItemTotalPrice}',
                                             style: TextStyle(
                                               fontSize: MediaQuery.of(context)
@@ -231,7 +248,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    // Menu Item Name
+                                    // Total Wording
                                     Text(
                                       'Total: ',
                                       style: TextStyle(
@@ -242,7 +259,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                         color: Colors.black87,
                                       ),
                                     ),
-                                    // Menu Item Price
+                                    // Total Price
                                     Text(
                                       '\$${(totalSum is double) ? totalSum.toStringAsFixed(2) : totalSum}',
                                       style: TextStyle(
@@ -255,11 +272,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                     ),
                                   ],
                                 ),
+                                // Place Order Button
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Center(
                                     child: ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        insertCartIntoDB(context);
+                                        SuccessfulDialog.show(
+                                            context, "Checkout Complete.");
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.yellow[800],
                                         padding: const EdgeInsets.symmetric(

@@ -32,6 +32,7 @@ class _MenuListState extends State<MenuList> {
     retrieveCurrentSellerMenu();
   }
 
+  // Update App bar's Shopping Cart Icon Counter when item is added in
   void updateCartItemCount(int count) {
     setState(() {
       widget.shoppingCartItemsCounter = count;
@@ -72,16 +73,6 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    // print("============================");
-    // print("=============IN MENU LIST PAGE ===============");
-    // print(widget.shoppingCartItems);
-    // print("============================");
-    //
-    // print(widget.seller);
-    // print("============================");
-    // print(widget.shoppingCartItemsCounter);
-    // print("=============END===============");
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
