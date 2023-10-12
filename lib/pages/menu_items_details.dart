@@ -9,9 +9,10 @@ import '../resources/global.dart';
 import 'menuList.dart';
 
 class MenuItemDetails extends StatefulWidget {
-  final Map<String, dynamic> menuItem;
+  final Map<String, dynamic> menuItem; // Selected Menu Item From MenuList
   final List<Map<String, dynamic>> shoppingCartItems;
-  final Map<String, dynamic> seller;
+  final Map<String, dynamic>
+      seller; // Seller Information from Current USer (Login)
 
   const MenuItemDetails(
       {Key? key,

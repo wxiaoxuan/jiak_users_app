@@ -21,9 +21,14 @@ class MongoDB {
 
   // connect to db - Seller Collection
   static connectSeller() async {
-    db = await Db.create(MONGO_URL);
-    await db.open(secure: true);
-    sellerCollection = await db.collection(SELLER_COLLECTION_NAME);
+    try {
+      db = await Db.create(MONGO_URL);
+      await db.open(secure: true);
+      sellerCollection = await db.collection(SELLER_COLLECTION_NAME);
+    } catch (e) {
+      print('Error connecting to the Seller collection. $e');
+      rethrow;
+    }
   }
 
   // connect to db - Menu Collection

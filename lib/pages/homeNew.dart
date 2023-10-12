@@ -1,0 +1,339 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
+import 'package:jiak_users_app/widgets/homeWidgets/iconTextItem.dart';
+
+import '../widgets/homeWidgets/headers.dart';
+import 'menuList.dart';
+import '../resources/mongoDB.dart';
+import '../widgets/customDrawer.dart';
+import '../widgets/homeWidgets/sellerListHorizontal.dart';
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    retrieveAllSellerInformation(); // Fetch seller information when the widget is created
+  }
+
+  List<Map<String, dynamic>> listOfSellers = []; // Initialize
+
+  // Retrieve All Seller's Information
+  Future<void> retrieveAllSellerInformation() async {
+    try {
+      // Connect to DB & Get Seller's Information
+      MongoDB.connectSeller();
+      final dbSellers = await MongoDB.getSellersDocument();
+
+      // Load Immediately
+      setState(() {
+        listOfSellers = dbSellers;
+      });
+    } catch (e) {
+      ErrorDialog.show(context, "Error retrieving All Seller\'s Information.");
+      print("Error retrieving All Seller\'s Information.");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('=================');
+    print(listOfSellers);
+    print('=================');
+
+    return Scaffold(
+      drawer: const CustomDrawer(),
+      appBar: AppBar(
+        // backgroundColor: Colors.yellow[800],
+        title: const Text('Home'),
+        titleTextStyle: const TextStyle(
+            color: Color(0xff3e3e3c),
+            fontSize: 22.0,
+            fontWeight: FontWeight.w500),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Heading
+            const Headers(headerName: 'Food Delivery'),
+
+            // Display Icons in a Row
+            const Column(
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: 10.0, right: 10.0, bottom: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconTextItem(icon: Icons.adb, text: 'Alien'),
+                      IconTextItem(icon: Icons.adb, text: 'Alien'),
+                      IconTextItem(icon: Icons.adb, text: 'Alien'),
+                      IconTextItem(icon: Icons.adb, text: 'Alien'),
+                      IconTextItem(icon: Icons.adb, text: 'Alien'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            // Food Delivery Tab
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.15,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.pink,
+                  boxShadow: [BoxShadow(color: Colors.red, blurRadius: 2)],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Heading
+                    const Padding(
+                      padding: EdgeInsets.only(top: 20.0, left: 20.0),
+                      child: Text(
+                        "Food Delivery",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    // Subheading
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        "Explore more now!",
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    // Button
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, top: 5.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Order Now!',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              size: 18.0,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+
+            // Tabs
+            Row(
+              children: [
+                // Shops Tab
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10.0, right: 10.0, bottom: 10.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    // color: Colors.lightBlueAccent,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.pink,
+                      boxShadow: [BoxShadow(color: Colors.pink, blurRadius: 2)],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Heading
+                        const Padding(
+                          padding: EdgeInsets.only(top: 30.0, left: 20.0),
+                          child: Text(
+                            "Shops",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        // Subheading
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20.0),
+                          child: Text(
+                            "Explore more now!",
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        // Button
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 55.0, top: 110.0),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Shop here',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  size: 18.0,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    // Pick Up Tab
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10.0, bottom: 10.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.17,
+                        // color: Colors.lightBlueAccent,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.pink,
+                          boxShadow: [
+                            BoxShadow(color: Colors.pink, blurRadius: 2)
+                          ],
+                        ),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Heading
+                            Padding(
+                              padding: EdgeInsets.only(top: 30.0, left: 20.0),
+                              child: Text(
+                                "Pickup",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            // Subheading
+                            Padding(
+                              padding: EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                "Explore more now!",
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // JiakMart Tab
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10.0, bottom: 10.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        // color: Colors.lightBlueAccent,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.pink,
+                          boxShadow: [
+                            BoxShadow(color: Colors.pink, blurRadius: 2)
+                          ],
+                        ),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Heading
+                            Padding(
+                              padding: EdgeInsets.only(top: 20.0, left: 20.0),
+                              child: Text(
+                                "JiakMart",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            // Subheading
+                            Padding(
+                              padding: EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                "Explore more now!",
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 10.0),
+
+            // Heading - Top Picks
+            const Headers(headerName: 'Top Picks'),
+
+            // List of Sellers - Top Picks Category
+            SellerListHorizontal(listOfSellers: listOfSellers),
+
+            // Heading - Support Your Locals
+            const Headers(headerName: 'Support Your Local!'),
+
+            // List of Sellers - Support Your Locals Category
+            SellerListHorizontal(listOfSellers: listOfSellers),
+
+            const SizedBox(height: 20.0)
+          ],
+        ),
+      ),
+    );
+  }
+}

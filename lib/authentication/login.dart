@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/homepage.dart';
 import '../models/user.dart';
+import '../pages/homeNew.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -29,7 +30,7 @@ class Login extends StatelessWidget {
 
       final user =
           await MongoDB.userCollection.findOne({'email': emailController.text});
-      print(user);
+      // print(user);
 
       if (user != null) {
         final isPasswordCorrect =
@@ -42,7 +43,7 @@ class Login extends StatelessWidget {
           await sharedPreferences!.setString('email', user['email']);
 
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Homepage()));
+              context, MaterialPageRoute(builder: (context) => Home()));
 
           return User(
             name: user['name'],
@@ -51,7 +52,7 @@ class Login extends StatelessWidget {
             phone: user['phone'],
             location: user['location'],
           );
-        } else {}
+        }
       } else {
         ErrorDialog.show(context, "Invalid Credentials");
       }
@@ -70,9 +71,9 @@ class Login extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
-                const SizedBox(height: 30.0),
+                const SizedBox(height: 50.0),
                 Image.asset('assets/images/login_pic.png', height: 200.0),
-                // const SizedBox(height: 20.0),
+                const SizedBox(height: 50.0),
                 CustomTextField(
                     controller: emailController,
                     icon: Icons.email,

@@ -16,15 +16,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  // Implement Carousel Slider
-  final items = [
-    "assets/slider/0.jpg",
-    "assets/slider/1.jpg",
-    "assets/slider/2.jpg",
-    "assets/slider/3.jpg",
-    "assets/slider/4.jpg",
-  ];
-
   TextEditingController deliverToAddressController = TextEditingController();
 
   @override
@@ -68,9 +59,9 @@ class _HomepageState extends State<Homepage> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Delivery TextField
             Padding(
               padding: const EdgeInsets.all(15.0),
-              // Delivery TextField
               child: Row(
                 children: [
                   const Padding(
@@ -123,6 +114,7 @@ class _HomepageState extends State<Homepage> {
                           if (base64Image != null) {
                             // Decode the base64-encoded image data
                             imageBytes = base64.decode(base64Image);
+                            print(imageBytes);
                           }
                         }
 
@@ -148,6 +140,7 @@ class _HomepageState extends State<Homepage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                // Image
                                 Container(
                                   width: 380.0,
                                   height: 150.0,
