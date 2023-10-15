@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/pages/menu_list_new.dart';
 
 class SellerListHorizontal extends StatelessWidget {
   const SellerListHorizontal({super.key, required this.listOfSellers});
@@ -14,7 +15,7 @@ class SellerListHorizontal extends StatelessWidget {
     return
         // List of Sellers
         Container(
-      height: MediaQuery.of(context).size.height * 0.29,
+      height: MediaQuery.of(context).size.height * 0.3,
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       // color: Colors.black54,
       child: ListView.builder(
@@ -39,13 +40,14 @@ class SellerListHorizontal extends StatelessWidget {
 
             return GestureDetector(
               onTap: () {
+                print("seller");
                 print(seller);
                 // Navigate to Selected Seller's Menu Page
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => MenuList(
-                //                                     seller: seller,
-                //                                     shoppingCartItems: [],
-                //                                     shoppingCartItemsCounter: 0,
-                //                                   ),);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SellerMenuList(sellerInformation: seller)));
               },
               child: Column(
                 children: [

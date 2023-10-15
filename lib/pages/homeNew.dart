@@ -97,7 +97,7 @@ class _HomeState extends State<Home> {
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.pink,
-                  boxShadow: [BoxShadow(color: Colors.red, blurRadius: 2)],
+                  boxShadow: [BoxShadow(color: Colors.pink, blurRadius: 2)],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
