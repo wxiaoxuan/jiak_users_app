@@ -3,13 +3,16 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/pages/homeNew.dart';
+import 'package:jiak_users_app/pages/menu_item_details_new.dart';
+import 'package:jiak_users_app/provider/cart_provider.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
+import 'package:provider/provider.dart';
 
 import '../resources/mongoDB.dart';
 
 class SellerMenuList extends StatefulWidget {
-  final Map<String, dynamic> sellerInformation;
-  const SellerMenuList({super.key, required this.sellerInformation});
+  final Map<String, dynamic> selectedSellerInformation;
+  const SellerMenuList({super.key, required this.selectedSellerInformation});
 
   @override
   State<SellerMenuList> createState() => _SellerMenuListState();
@@ -36,7 +39,8 @@ class _SellerMenuListState extends State<SellerMenuList> {
       // Retrieve selected seller menu list
       for (final selectedSellerMenu in allSellersMenu) {
         final dbMenuOwnerID = selectedSellerMenu['sellerID'];
-        final selectedSellerID = widget.sellerInformation['_id'].toString();
+        final selectedSellerID =
+            widget.selectedSellerInformation['_id'].toString();
 
         if (selectedSellerID == dbMenuOwnerID) {
           selectedSellerMenuList.add(selectedSellerMenu);
@@ -57,9 +61,10 @@ class _SellerMenuListState extends State<SellerMenuList> {
   @override
   Widget build(BuildContext context) {
     // Access the seller information from the widget
-    Map<String, dynamic> sellerInformation = widget.sellerInformation;
-    print("sellerInformation");
-    print(sellerInformation);
+    Map<String, dynamic> selectedSellerInformation =
+        widget.selectedSellerInformation;
+    // print("=================sellerInformation=============================");
+    // print(selectedSellerInformation);
 
     return Scaffold(
       appBar: AppBar(
@@ -70,54 +75,58 @@ class _SellerMenuListState extends State<SellerMenuList> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const Home()));
                 },
-                icon: const Icon(Icons.arrow_back)),
+                icon: const Icon(Icons.arrow_back_ios)),
         backgroundColor: Colors.yellow[800],
-        title: Text('${widget.sellerInformation['name']}\'s Menu'),
+        title: Text('${widget.selectedSellerInformation['name']}\'s Menu'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
-            fontSize: 20.0,
+            fontSize: 18.0,
             fontWeight: FontWeight.w500),
         centerTitle: true,
         actions: [
           // Add to Shopping Cart Icon
-          Stack(
-            children: [
-              IconButton(
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => ShoppingCart(
-                  //         shoppingCartItems: widget.shoppingCartItems,
-                  //         seller: widget.seller),
-                  //   ),
-                  // );
-                },
-                icon: const Icon(
-                  Icons.shopping_bag_outlined,
-                ),
-              ),
-              const Positioned(
-                  child: Stack(
-                children: [
-                  Icon(
-                    Icons.brightness_1,
-                    size: 20.0,
-                    color: Colors.green,
+          Consumer<CartProvider>(builder: (context, cartProvider, child) {
+            int itemCount = cartProvider.getTotalItemCount();
+            return Stack(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ShoppingCart(
+                    //         shoppingCartItems: widget.shoppingCartItems,
+                    //         seller: widget.seller),
+                    //   ),
+                    // );
+                  },
+                  icon: const Icon(
+                    Icons.shopping_bag_outlined,
                   ),
-                  Positioned(
-                      top: 1,
-                      right: 6,
-                      child: Center(
-                        child: Text(
-                          "1",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ))
-                ],
-              ))
-            ],
-          ),
+                ),
+                // if (itemCount > 0)
+                Positioned(
+                    child: Stack(
+                  children: [
+                    const Icon(
+                      Icons.brightness_1,
+                      size: 20.0,
+                      color: Colors.green,
+                    ),
+                    Positioned(
+                        top: 1,
+                        right: 6,
+                        child: Center(
+                          child: Text(
+                            itemCount.toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                        ))
+                  ],
+                ))
+              ],
+            );
+          }),
         ],
       ),
       body: Column(
@@ -129,15 +138,11 @@ class _SellerMenuListState extends State<SellerMenuList> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // While loading, show a centered loading indicator
                 return const Center(
-                  heightFactor: 20,
-                  child: CircularProgressIndicator(),
-                );
+                    heightFactor: 20, child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 // If there's an error, display an error message
                 return Center(
-                  heightFactor: 20,
-                  child: Text('Error: ${snapshot.error}'),
-                );
+                    heightFactor: 20, child: Text('Error: ${snapshot.error}'));
               } else {
                 // Once the loading is complete, display the content
                 return selectedSellerMenuList.isEmpty
@@ -154,22 +159,12 @@ class _SellerMenuListState extends State<SellerMenuList> {
                       )
                     :
                     // Menu List Not Empty
-                    // Text(
-                    //     'Hello ${sellerInformation['name']}',
-                    //     style: TextStyle(
-                    //       fontSize: MediaQuery.of(context).size.width * 0.040,
-                    //       // fontWeight: FontWeight.w600,
-                    //       color: Colors.black87,
-                    //     ),
-                    //   );
                     Expanded(
                         child: ListView.builder(
                           itemCount: selectedSellerMenuList.length,
                           itemBuilder: (BuildContext context, int index) {
                             final menu = selectedSellerMenuList[index];
-
                             Uint8List? imageBytes;
-                            String? filename;
 
                             // Check if 'image' field is present in the seller data
                             if (menu.containsKey('image')) {
@@ -177,10 +172,9 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                   menu['image'] as Map<String, dynamic>;
                               final base64Image =
                                   imageInfo['imageData'] as String?;
-                              final filename = imageInfo['filename'] as String?;
 
+                              // Decode the base64-encoded image data
                               if (base64Image != null) {
-                                // Decode the base64-encoded image data
                                 imageBytes = base64.decode(base64Image);
                               }
                             }
@@ -188,6 +182,15 @@ class _SellerMenuListState extends State<SellerMenuList> {
                             return GestureDetector(
                               onTap: () {
                                 // Navigate to Selected Menu Item's Info Page
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SelectedMenuItemDetails(
+                                              selectedSellerInformation:
+                                                  selectedSellerInformation,
+                                              selectedMenuItem: menu,
+                                            )));
                                 // Navigator.push(
                                 //     context,
                                 //     MaterialPageRoute(
@@ -230,7 +233,7 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                           ),
                                         ),
 
-                                        // Title  & Description
+                                        // Menu Item
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 20.0),
@@ -238,6 +241,7 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              // Menu Item Name
                                               Text(
                                                 '${menu['menuTitle']}',
                                                 style: TextStyle(
@@ -250,6 +254,8 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                                   color: Colors.black87,
                                                 ),
                                               ),
+
+                                              // Menu Item Description
                                               SizedBox(
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -269,17 +275,19 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                                 ),
                                               ),
                                               const SizedBox(height: 3.0),
+
+                                              // Menu Item Price and Add To Cart Button
                                               Container(
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     0.65,
-                                                // color: Colors.blue,
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
+                                                    // Menu Item Price
                                                     Text(
                                                       '\$${(menu['menuPrice'] is double) ? menu['menuPrice'].toStringAsFixed(2) : menu['menuPrice']}',
                                                       style: TextStyle(
@@ -293,6 +301,8 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                                         color: Colors.black87,
                                                       ),
                                                     ),
+
+                                                    // Add to Cart Button
                                                     IconButton(
                                                         onPressed: () {},
                                                         icon: const Icon(

@@ -47,7 +47,7 @@ class SellerListHorizontal extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            SellerMenuList(sellerInformation: seller)));
+                            SellerMenuList(selectedSellerInformation: seller)));
               },
               child: Column(
                 children: [

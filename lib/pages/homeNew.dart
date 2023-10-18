@@ -46,9 +46,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    print('=================');
-    print(listOfSellers);
-    print('=================');
+    // print('========listOfSellers=========');
+    // print(listOfSellers);
+    // print('=================');
 
     return Scaffold(
       drawer: const CustomDrawer(),
