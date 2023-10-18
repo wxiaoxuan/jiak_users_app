@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/pages/cart_checkout.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
 import 'package:jiak_users_app/widgets/homeWidgets/iconTextItem.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/cart_provider.dart';
 import '../widgets/homeWidgets/headers.dart';
 import 'menuList.dart';
 import '../resources/mongoDB.dart';
@@ -57,8 +60,52 @@ class _HomeState extends State<Home> {
         title: const Text('Home'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
-            fontSize: 22.0,
+            fontSize: 18.0,
             fontWeight: FontWeight.w500),
+        centerTitle: true,
+        actions: [
+          // Add to Shopping Cart Icon
+          Consumer<CartProvider>(builder: (context, cartProvider, child) {
+            int itemCount = cartProvider.getTotalItemCount();
+            return Stack(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CartCheckout()),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.shopping_bag_outlined,
+                  ),
+                ),
+                // if (itemCount > 0)
+                Positioned(
+                    child: Stack(
+                  children: [
+                    const Icon(
+                      Icons.brightness_1,
+                      size: 20.0,
+                      color: Colors.deepOrangeAccent,
+                    ),
+                    Positioned(
+                        top: 1,
+                        right: 6,
+                        child: Center(
+                          child: Text(
+                            itemCount.toString(),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
+                          ),
+                        ))
+                  ],
+                ))
+              ],
+            );
+          }),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -72,15 +119,16 @@ class _HomeState extends State<Home> {
               children: [
                 Padding(
                   padding:
-                      EdgeInsets.only(left: 10.0, right: 10.0, bottom: 20.0),
+                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconTextItem(icon: Icons.adb, text: 'Alien'),
-                      IconTextItem(icon: Icons.adb, text: 'Alien'),
-                      IconTextItem(icon: Icons.adb, text: 'Alien'),
-                      IconTextItem(icon: Icons.adb, text: 'Alien'),
-                      IconTextItem(icon: Icons.adb, text: 'Alien'),
+                      IconTextItem(icon: Icons.local_drink, text: 'Beverages'),
+                      IconTextItem(icon: Icons.wine_bar, text: 'Alcohol'),
+                      IconTextItem(icon: Icons.fastfood, text: 'Fast Food'),
+                      IconTextItem(
+                          icon: Icons.restaurant_menu, text: 'Restaurants'),
+                      // IconTextItem(icon: Icons.adb, text: 'Korean'),
                     ],
                   ),
                 ),
@@ -90,14 +138,14 @@ class _HomeState extends State<Home> {
             // Food Delivery Tab
             Padding(
               padding:
-                  const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+                  const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.15,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.pink,
-                  boxShadow: [BoxShadow(color: Colors.pink, blurRadius: 2)],
+                  color: Colors.black54,
+                  boxShadow: [BoxShadow(color: Colors.black54, blurRadius: 2)],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +175,7 @@ class _HomeState extends State<Home> {
                     ),
                     // Button
                     Padding(
-                      padding: const EdgeInsets.only(left: 15.0, top: 5.0),
+                      padding: const EdgeInsets.only(left: 240.0, top: 5.0),
                       child: ElevatedButton(
                         onPressed: () {},
                         child: const Row(
@@ -157,15 +205,17 @@ class _HomeState extends State<Home> {
                 // Shops Tab
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 10.0, right: 10.0, bottom: 10.0),
+                      left: 15.0, right: 10.0, bottom: 10.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.45,
                     height: MediaQuery.of(context).size.height * 0.28,
                     // color: Colors.lightBlueAccent,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.pink,
-                      boxShadow: [BoxShadow(color: Colors.pink, blurRadius: 2)],
+                      color: Colors.black54,
+                      boxShadow: [
+                        BoxShadow(color: Colors.black54, blurRadius: 2)
+                      ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,7 +246,7 @@ class _HomeState extends State<Home> {
                         // Button
                         Padding(
                           padding:
-                              const EdgeInsets.only(left: 55.0, top: 110.0),
+                              const EdgeInsets.only(left: 45.0, top: 110.0),
                           child: ElevatedButton(
                             onPressed: () {},
                             child: const Row(
@@ -224,16 +274,16 @@ class _HomeState extends State<Home> {
                     // Pick Up Tab
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, bottom: 10.0),
+                          left: 0.0, right: 0.0, bottom: 10.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.45,
                         height: MediaQuery.of(context).size.height * 0.17,
                         // color: Colors.lightBlueAccent,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.pink,
+                          color: Colors.black54,
                           boxShadow: [
-                            BoxShadow(color: Colors.pink, blurRadius: 2)
+                            BoxShadow(color: Colors.black54, blurRadius: 2)
                           ],
                         ),
                         child: const Column(
@@ -269,16 +319,16 @@ class _HomeState extends State<Home> {
                     // JiakMart Tab
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, bottom: 10.0),
+                          left: 0.0, right: 0.0, bottom: 10.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.45,
                         height: MediaQuery.of(context).size.height * 0.1,
                         // color: Colors.lightBlueAccent,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.pink,
+                          color: Colors.black54,
                           boxShadow: [
-                            BoxShadow(color: Colors.pink, blurRadius: 2)
+                            BoxShadow(color: Colors.black54, blurRadius: 2)
                           ],
                         ),
                         child: const Column(

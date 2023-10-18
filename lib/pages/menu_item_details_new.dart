@@ -165,15 +165,13 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
                     onPressed: () {
                       int itemCounter =
                           int.parse(itemQuantityToCartController.text);
-                      print("itemCounter");
-                      print(itemCounter);
 
                       // Access the CartProvider
                       final cartProvider =
                           Provider.of<CartProvider>(context, listen: false);
 
                       // Add menu item and quantity to the cart
-                      cartProvider.addToCart(menuItemID, itemCounter);
+                      cartProvider.addToCartQuantity(menuItemID, itemCounter);
 
                       // Clear the quantity input field
                       itemQuantityToCartController.clear();

@@ -9,6 +9,7 @@ import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/mongoDB.dart';
+import 'cart_checkout.dart';
 
 class SellerMenuList extends StatefulWidget {
   final Map<String, dynamic> selectedSellerInformation;
@@ -76,7 +77,7 @@ class _SellerMenuListState extends State<SellerMenuList> {
                       MaterialPageRoute(builder: (context) => const Home()));
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
-        backgroundColor: Colors.yellow[800],
+        // backgroundColor: Colors.yellow[800],
         title: Text('${widget.selectedSellerInformation['name']}\'s Menu'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
@@ -91,14 +92,11 @@ class _SellerMenuListState extends State<SellerMenuList> {
               children: [
                 IconButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ShoppingCart(
-                    //         shoppingCartItems: widget.shoppingCartItems,
-                    //         seller: widget.seller),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CartCheckout()),
+                    );
                   },
                   icon: const Icon(
                     Icons.shopping_bag_outlined,
@@ -111,7 +109,7 @@ class _SellerMenuListState extends State<SellerMenuList> {
                     const Icon(
                       Icons.brightness_1,
                       size: 20.0,
-                      color: Colors.green,
+                      color: Colors.deepOrangeAccent,
                     ),
                     Positioned(
                         top: 1,
@@ -119,7 +117,8 @@ class _SellerMenuListState extends State<SellerMenuList> {
                         child: Center(
                           child: Text(
                             itemCount.toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
                           ),
                         ))
                   ],
@@ -191,15 +190,6 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                                   selectedSellerInformation,
                                               selectedMenuItem: menu,
                                             )));
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => MenuItemDetails(
-                                //           menuItem: menu,
-                                //           shoppingCartItems:
-                                //           widget.shoppingCartItems,
-                                //           seller: widget.seller,
-                                //         )));
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(

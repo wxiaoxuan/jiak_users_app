@@ -1,0 +1,141 @@
+THURSDAY
+- update CartProvider to add Menu Item Details + Menu ID, Quantity inside.
+- Display Cart Items in Cart_Checkout Page
+
+FRIDAY
+- For Sellers Model => breakdown seller's location, add ratings (opt)
+- Gather Sellers + Users Resources/Images, Clean DB & Re-insert All Users Data
+
+SUNDAY / MON / TUES
+- In Users App,
+  => Update Cart Items
+  => Delete Cart Items
+
+TUES - THURS / FRI
+- In Seller App
+  => Update Menu Items,
+  => Delete Menu Items
+  => Read / Update Own Profile
+  => Retrieve the User's Order  [ MON ]
+
+- Seller to retrieve & accept the User's Order [Pickup]
+    => Allow user to know its ready to pickup [Page / Push Notification]
+       ==> Press 'Ready for collection' once ready.
+
+- In User App
+  => Receive the REady for Collection Notif
+  => 'I have received the order' ack / button ==> once clicked, leads to rating page
+  => Rating page: Rate Food (Stars, Comments, Tips)
+
+- In Seller App
+  => Past Orders
+  => Own Outlet's Ratings Page
+
+FUTURE PLAN
+- Seller to retrieve & accept the User's Order [Delivery]
+  => Send Order to Delivery Rider's App
+  => Rider Accept Order
+  => [Rider makes its trip there] GPS Map to Seller's Destination + Est Time Order Done
+  => [Rider reach outlet] Pickup Order + GPS OTW To User's Destination
+
+
+
+// ======================================= GPT REF ==============================================
+To add the menu item's name, information, and price from the menu_item_details page into the cart page, you need to make a few changes to your existing code. You should update your CartProvider to store more information about the items in the cart and then modify your CartCheckout widget to display this information. Here's how you can do it:
+
+Update the CartProvider to store more information about menu items:
+
+Modify the CartProvider class to store a list of menu items instead of just their IDs. Each item in the cart should contain information like the name, information, price, and quantity. Here's an example of how you can do it:
+
+dart
+Copy code
+class CartProvider extends ChangeNotifier {
+  List<Map<String, dynamic>> cartItems = [];
+
+  // Add Menu Item to Cart
+  void addToCart(Map<String, dynamic> menuItem, int quantity) {
+    cartItems.add({
+      'menuTitle': menuItem['menuTitle'],
+      'menuInformation': menuItem['menuInformation'],
+      'menuPrice': menuItem['menuPrice'],
+      'quantity': quantity,
+    });
+    notifyListeners();
+  }
+
+  // Remove Menu Item from Cart
+  void removeFromCart(int index) {
+    cartItems.removeAt(index);
+    notifyListeners();
+  }
+
+  // Get Total No. of Menu Items
+  int getTotalItemCount() {
+    int totalCount = 0;
+    cartItems.forEach((item) {
+      totalCount += item['quantity'];
+    });
+    return totalCount;
+  }
+}
+Modify the menuItemDetails.dart to add items to the cart with more information:
+
+Update the 'Add to cart' button in the menuItemDetails.dart file to pass the selected menu item's information to the addToCart method:
+
+dart
+Copy code
+ElevatedButton(
+  onPressed: () {
+    int itemCounter = int.parse(itemQuantityToCartController.text);
+
+    // Access the CartProvider
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    // Add menu item and quantity to the cart
+    cartProvider.addToCart(widget.selectedMenuItem, itemCounter);
+
+    // Clear the quantity input field
+    itemQuantityToCartController.clear();
+
+    // Navigate back to Seller Menu List
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SellerMenuList(
+          selectedSellerInformation: widget.selectedSellerInformation,
+        ),
+      ),
+    );
+  },
+  // ...
+)
+Update the CartCheckout widget to display the cart items:
+
+In your CartCheckout widget, you can now display the cart items, including their names, information, prices, and quantities. Here's a simplified example of how to do it:
+
+dart
+Copy code
+class CartCheckout extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Cart"),
+      ),
+      body: ListView.builder(
+        itemCount: cartProvider.cartItems.length,
+        itemBuilder: (context, index) {
+          final item = cartProvider.cartItems[index];
+          return ListTile(
+            title: Text(item['menuTitle']),
+            subtitle: Text(item['menuInformation']),
+            trailing: Text('\$${item['menuPrice']} x ${item['quantity']}'),
+          );
+        },
+      ),
+    );
+  }
+}
+This code will display a list of items in the cart on the CartCheckout page, including their names, information, prices, and quantities. Make sure to update the styling and layout to match your app's design.
