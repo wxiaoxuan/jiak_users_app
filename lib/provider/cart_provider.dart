@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 
 class CartProvider extends ChangeNotifier {
+  // =================List of Menu Items in Cart=========================
+  List<Map<String, dynamic>> cartItems = [];
+  void addToCart(
+      String menuItemID, Map<String, dynamic> menuItem, int quantity) {
+    cartItems.add({
+      'menuID': menuItem['_id']?.toString() ?? "",
+      'menuTitle': menuItem['menuTitle'],
+      'menuInformation': menuItem['menuInformation'],
+      'menuPrice': menuItem['menuPrice'],
+      'quantity': quantity,
+    });
+
+    print("cartItems");
+    print(cartItems);
+  }
+
+  // =================Count Menu Item Quantity in Cart=========================
   Map<String, int> cartItemsQuantity = {};
 
   // Count Menu Item Quantity in Cart

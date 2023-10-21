@@ -129,7 +129,7 @@ class MongoDB {
       await cartCollection.insert(cart.toMap());
     } catch (e) {
       print("Error inserting cart into db: $e");
-      throw e;
+      rethrow;
     }
   }
 

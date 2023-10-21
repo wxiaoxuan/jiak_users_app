@@ -32,9 +32,9 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
     //     "=================selectedSellerInformation in Menu Item Details Page=============================");
     // print(widget.selectedSellerInformation);
     //
-    print(
-        "=================selectedMenuItem Details in Menu Item Details Page=============================");
-    print(widget.selectedMenuItem);
+    // print(
+    //     "=================selectedMenuItem Details in Menu Item Details Page=============================");
+    // print(widget.selectedMenuItem);
 
     // =============================== IMAGE ==================================
     Uint8List? imageBytes;
@@ -170,8 +170,12 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
                       final cartProvider =
                           Provider.of<CartProvider>(context, listen: false);
 
-                      // Add menu item and quantity to the cart
+                      // Add All menu item ID and quantity to the cart icon
                       cartProvider.addToCartQuantity(menuItemID, itemCounter);
+
+                      // Add All Menu Item Details to Cart Page
+                      cartProvider.addToCart(
+                          menuItemID, widget.selectedMenuItem, itemCounter);
 
                       // Clear the quantity input field
                       itemQuantityToCartController.clear();

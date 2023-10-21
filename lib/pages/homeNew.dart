@@ -118,8 +118,8 @@ class _HomeState extends State<Home> {
             const Column(
               children: [
                 Padding(
-                  padding:
-                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+                  padding: EdgeInsets.only(
+                      top: 10.0, left: 20.0, right: 20.0, bottom: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -135,69 +135,69 @@ class _HomeState extends State<Home> {
               ],
             ),
 
-            // Food Delivery Tab
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.15,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.black54,
-                  boxShadow: [BoxShadow(color: Colors.black54, blurRadius: 2)],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Heading
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 20.0),
-                      child: Text(
-                        "Food Delivery",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    // Subheading
-                    const Padding(
-                      padding: EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        "Explore more now!",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    // Button
-                    Padding(
-                      padding: const EdgeInsets.only(left: 240.0, top: 5.0),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Order Now!',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            Icon(
-                              Icons.arrow_forward,
-                              size: 18.0,
-                              color: Colors.black,
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            // // Food Delivery Tab
+            // Padding(
+            //   padding:
+            //       const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
+            //   child: Container(
+            //     width: MediaQuery.of(context).size.width,
+            //     height: MediaQuery.of(context).size.height * 0.15,
+            //     decoration: const BoxDecoration(
+            //       borderRadius: BorderRadius.all(Radius.circular(10)),
+            //       color: Colors.pink,
+            //       boxShadow: [BoxShadow(color: Colors.black54, blurRadius: 1)],
+            //     ),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         // Heading
+            //         const Padding(
+            //           padding: EdgeInsets.only(top: 20.0, left: 20.0),
+            //           child: Text(
+            //             "Food Delivery",
+            //             style: TextStyle(
+            //               fontWeight: FontWeight.bold,
+            //               fontSize: 20.0,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //         ),
+            //         // Subheading
+            //         const Padding(
+            //           padding: EdgeInsets.only(left: 20.0),
+            //           child: Text(
+            //             "Explore more now!",
+            //             style: TextStyle(
+            //               fontSize: 12.0,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //         ),
+            //         // Button
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 240.0, top: 5.0),
+            //           child: ElevatedButton(
+            //             onPressed: () {},
+            //             child: const Row(
+            //               mainAxisSize: MainAxisSize.min,
+            //               children: [
+            //                 Text(
+            //                   'Order Now!',
+            //                   style: TextStyle(color: Colors.black),
+            //                 ),
+            //                 Icon(
+            //                   Icons.arrow_forward,
+            //                   size: 18.0,
+            //                   color: Colors.black,
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
             // Tabs
             Row(
@@ -212,10 +212,8 @@ class _HomeState extends State<Home> {
                     // color: Colors.lightBlueAccent,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.black54,
-                      boxShadow: [
-                        BoxShadow(color: Colors.black54, blurRadius: 2)
-                      ],
+                      color: Colors.grey,
+                      boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 1)],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,9 +279,9 @@ class _HomeState extends State<Home> {
                         // color: Colors.lightBlueAccent,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.black54,
+                          color: Colors.black26,
                           boxShadow: [
-                            BoxShadow(color: Colors.black54, blurRadius: 2)
+                            BoxShadow(color: Colors.black26, blurRadius: 1)
                           ],
                         ),
                         child: const Column(
@@ -326,9 +324,9 @@ class _HomeState extends State<Home> {
                         // color: Colors.lightBlueAccent,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.black54,
+                          color: Colors.grey,
                           boxShadow: [
-                            BoxShadow(color: Colors.black54, blurRadius: 2)
+                            BoxShadow(color: Colors.grey, blurRadius: 1)
                           ],
                         ),
                         child: const Column(
