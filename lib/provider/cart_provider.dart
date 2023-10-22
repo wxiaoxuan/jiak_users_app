@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class CartProvider extends ChangeNotifier {
   // =================List of Menu Items in Cart=========================
   List<Map<String, dynamic>> cartItems = [];
-  void addToCart(
-      String menuItemID, Map<String, dynamic> menuItem, int quantity) {
+  void addToCart(Map<String, dynamic> seller, String menuItemID,
+      Map<String, dynamic> menuItem, int quantity) {
     cartItems.add({
+      'sellerID': seller['_id']?.toString() ?? "",
+      'sellerName': seller['name'],
       'menuID': menuItem['_id']?.toString() ?? "",
       'menuTitle': menuItem['menuTitle'],
       'menuInformation': menuItem['menuInformation'],

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:jiak_users_app/pages/menu_list_new.dart';
+import 'package:jiak_users_app/pages/menu_list.dart';
 
 class SellerListHorizontal extends StatelessWidget {
   const SellerListHorizontal({super.key, required this.listOfSellers});

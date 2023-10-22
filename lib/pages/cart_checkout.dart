@@ -1,24 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/provider/cart_provider.dart';
+import 'package:jiak_users_app/resources/global.dart';
 import 'package:provider/provider.dart';
 
 import '../models/cartItem.dart';
+import '../models/carts.dart';
 import '../widgets/dialogs/successful_dialog.dart';
+import '../resources/mongoDB.dart';
 
 class CartCheckout extends StatefulWidget {
-  final Map<String, dynamic> selectedSellerInformation;
-  const CartCheckout({Key? key, required this.selectedSellerInformation});
+  // final Map<String, dynamic> selectedSellerInformation;
+  const CartCheckout({Key? key});
 
   @override
   State<CartCheckout> createState() => _CartCheckoutState();
 }
 
 class _CartCheckoutState extends State<CartCheckout> {
+  // Insert User's Current Cart into DB
+  Future<void> insertCartIntoDB(BuildContext context) async {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    // Prepare a list of CartItems objects based on the Items in the Cart
+    final List<CartItem> cartItems = cartProvider.cartItems.map((menuItem) {
+      return CartItem(
+        menuItemID: menuItem['menuID'].toString(),
+        menuItemName: menuItem['menuTitle'],
+        menuItemPrice: menuItem['menuPrice'],
+        menuItemQuantity: menuItem['quantity'],
+      );
+    }).toList();
+
+    final Iterable<Carts> cart = cartProvider.cartItems.map((seller) {
+      return Carts(
+        sellerID: seller['sellerID'].toString(),
+        sellerName: seller['sellerName'],
+        cartItems: cartItems,
+      );
+    });
+
+    try {
+      // Connect to DB
+      await MongoDB.connectCollectionCart();
+
+      // Insert each cart object separately
+      for (final cart in cart) {
+        await MongoDB.insertCart(cart);
+      }
+
+      SuccessfulDialog.show(context, "Checkout Complete.");
+
+      // Clear cart after successful checkout
+      // cartProvider.removeFromCart(menuItemID);
+    } catch (e) {
+      print("Error inserting cart into DB: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(widget.selectedSellerInformation);
-    final cartProvider = Provider.of<CartProvider>(context);
-    print(cartProvider.cartItems);
+    print("User name:");
+    print(sharedPreferences?.get('name'));
+    print(sharedPreferences?.get('email'));
+    // print(widget.selectedSellerInformation);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    // print(cartProvider.cartItems);
 
     // Calculate Total Price of Menu Items in the Cart
     double totalCartPrice = 0.0;
@@ -105,6 +151,7 @@ class _CartCheckoutState extends State<CartCheckout> {
                   )),
               ElevatedButton(
                 onPressed: () {
+                  insertCartIntoDB(context);
                   SuccessfulDialog.show(context, "Checkout Complete.");
                 },
                 child: const Text(

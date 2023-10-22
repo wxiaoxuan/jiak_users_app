@@ -1,10 +1,13 @@
 THURSDAY
 - update CartProvider to add Menu Item Details + Menu ID, Quantity inside. [D]
 - Display Cart Items in Cart_Checkout Page [D]
+- Checkout cart n add into db [D]
 
 [NEW]
-- If user add another item that is alr exists in the cart, upate the quanity insyeadn of displaying as a new itwem
-- Checkout cart n add into db
+- If user add another item that is alr exists in the cart, update the quantity
+  instead of displaying as a new item
+- Add Total Price & Current User[customer]'s Name & Email in Cart Object (carts.dart) too.
+- Remove Cart Items after checking out.
 
 FRIDAY
 - For Sellers Model => breakdown seller's location, add ratings (opt)
@@ -45,23 +48,6 @@ FUTURE PLAN
 
 
 // ==============================================================================================
-  // Insert User's Current Cart into DB
-  Future<void> insertCartIntoDB(BuildContext context) async {
-    final cartProvider = Provider.of<CartProvider>(context);
-
-    // Prepare a list of CartItems objects based on the Items in the Cart
-    final Iterable<CartItem> cartItems = cartProvider.cartItems.map((menuItem) {
-      return CartItem(
-        menuItemID: menuItem['menuID'].toString(),
-        menuItemName: menuItem['menuTitle'],
-        menuItemPrice: menuItem['menuPrice'],
-        menuItemQuantity: menuItem['quantity'],
-      );
-    }).toList();
-
-    // Create a Carts object representing the cart
-    // final cart = Carts(sellerID: "", cartItems: cartItems);
-  }
 
 
 

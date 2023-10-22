@@ -27,7 +27,3 @@ class CartItem {
         menuItemPrice = map['menuItemPrice'],
         menuItemQuantity = map['menuItemQuantity'];
 }
-
-// -- Cart Details --
-// Seller Name, Seller ID, Seller Email, Seller Location, Seller Image
-// Menu ID, Menu Item, Menu Price, Quantity

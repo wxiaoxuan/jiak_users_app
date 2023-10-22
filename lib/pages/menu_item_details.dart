@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:flutter/material.dart';
-import 'package:jiak_users_app/pages/menu_list_new.dart';
-import 'package:jiak_users_app/provider/cart_provider.dart';
-import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 
-import 'homeNew.dart';
+import 'package:jiak_users_app/pages/menu_list.dart';
+import 'package:jiak_users_app/provider/cart_provider.dart';
 
 class SelectedMenuItemDetails extends StatefulWidget {
   final Map<String, dynamic> selectedSellerInformation;
@@ -28,14 +26,6 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
 
   @override
   Widget build(BuildContext context) {
-    // print(
-    //     "=================selectedSellerInformation in Menu Item Details Page=============================");
-    // print(widget.selectedSellerInformation);
-    //
-    // print(
-    //     "=================selectedMenuItem Details in Menu Item Details Page=============================");
-    // print(widget.selectedMenuItem);
-
     // =============================== IMAGE ==================================
     Uint8List? imageBytes;
     final menuItemID = widget.selectedMenuItem['_id']?.toString() ?? "";
@@ -99,12 +89,13 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
               ),
             ),
             const SizedBox(height: 50.0),
-            // Title  & Description
+
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // Title  & Description
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -174,7 +165,7 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
                       cartProvider.addToCartQuantity(menuItemID, itemCounter);
 
                       // Add All Menu Item Details to Cart Page
-                      cartProvider.addToCart(
+                      cartProvider.addToCart(widget.selectedSellerInformation,
                           menuItemID, widget.selectedMenuItem, itemCounter);
 
                       // Clear the quantity input field

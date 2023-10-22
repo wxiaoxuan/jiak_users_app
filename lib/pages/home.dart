@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 
 import '../provider/cart_provider.dart';
 import '../widgets/homeWidgets/headers.dart';
-import 'menuList.dart';
 import '../resources/mongoDB.dart';
 import '../widgets/customDrawer.dart';
 import '../widgets/homeWidgets/sellerListHorizontal.dart';
@@ -49,10 +48,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // print('========listOfSellers=========');
-    // print(listOfSellers);
-    // print('=================');
-
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(

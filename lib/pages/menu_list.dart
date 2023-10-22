@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:jiak_users_app/pages/homeNew.dart';
-import 'package:jiak_users_app/pages/menu_item_details_new.dart';
+import 'package:jiak_users_app/pages/home.dart';
+import 'package:jiak_users_app/pages/menu_item_details.dart';
 import 'package:jiak_users_app/provider/cart_provider.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
 import 'package:provider/provider.dart';
@@ -64,8 +64,6 @@ class _SellerMenuListState extends State<SellerMenuList> {
     // Access the seller information from the widget
     Map<String, dynamic> selectedSellerInformation =
         widget.selectedSellerInformation;
-    // print("=================sellerInformation=============================");
-    // print(selectedSellerInformation);
 
     return Scaffold(
       appBar: AppBar(
