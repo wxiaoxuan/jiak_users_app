@@ -20,7 +20,7 @@ class _CartCheckoutState extends State<CartCheckout> {
   final customerName = sharedPreferences?.get('name');
   final customerEmail = sharedPreferences?.get('email');
 
-  // Insert User's Current Cart into DB
+  // =============== Insert User's Current Cart into DB ======================
   Future<void> insertCartIntoDB(
       BuildContext context, double totalCartPrice) async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
@@ -59,12 +59,11 @@ class _CartCheckoutState extends State<CartCheckout> {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     // print(cartProvider.cartItems);
 
+    // to calculate the initial total price
+    cartProvider.calculateInitialTotalPrice();
+
     // Calculate Total Price of Menu Items in the Cart
-    double totalCartPrice = 0.0;
-    for (final menuItem in cartProvider.cartItems) {
-      final cartItemsTotalPrice = menuItem['menuPrice'] * menuItem['quantity'];
-      totalCartPrice += cartItemsTotalPrice;
-    }
+    double totalCartPrice = cartProvider.calculateTotalPrice();
 
     return Scaffold(
       appBar: AppBar(
@@ -103,8 +102,6 @@ class _CartCheckoutState extends State<CartCheckout> {
                   itemCount: cartProvider.cartItems.length,
                   itemBuilder: (context, index) {
                     final menuItem = cartProvider.cartItems[index];
-                    final menuItemTotalQuantityPrice =
-                        menuItem['menuPrice'] * menuItem['quantity'];
 
                     return GestureDetector(
                       onTap: () {},
@@ -119,12 +116,57 @@ class _CartCheckoutState extends State<CartCheckout> {
                               style:
                                   const TextStyle(fontWeight: FontWeight.w500),
                             ),
-                            subtitle: Text(
-                                'Quantity: ${menuItem['quantity'].toString()}'),
+                            subtitle: Row(
+                              children: [
+                                const Text('Quantity: '),
+                                IconButton(
+                                  icon: const Icon(Icons.remove),
+                                  iconSize: 16.0,
+                                  onPressed: () {
+                                    if (menuItem['quantity'] > 1) {
+                                      cartProvider.updateCartItemQuantity(
+                                        menuItem['menuID'],
+                                        menuItem['quantity'] - 1,
+                                      );
+                                      // Recalculate the total price
+                                      totalCartPrice =
+                                          cartProvider.calculateTotalPrice();
+                                      setState(() {});
+                                    }
+                                  },
+                                ),
+                                // Update the displayed quantity based on the updated value in the cart
+                                Container(
+                                  width: 30.0,
+                                  alignment: Alignment.center,
+                                  color: Colors.white,
+                                  child: Text(
+                                    menuItem['quantity'].toString(),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.add),
+                                  iconSize: 16.0,
+                                  onPressed: () {
+                                    cartProvider.updateCartItemQuantity(
+                                      menuItem['menuID'],
+                                      menuItem['quantity'] + 1,
+                                    );
+                                    // Recalculate the total price
+                                    totalCartPrice =
+                                        cartProvider.calculateTotalPrice();
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
+                            ),
+                            // Update the displayed total price based on the updated quantity
                             trailing: Text(
-                              '\$${menuItemTotalQuantityPrice.toStringAsFixed(2)}',
+                              '\$${cartProvider.calculateTotalItemPrice(menuItem).toStringAsFixed(2)}',
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 14.0),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                              ),
                             ),
                           ),
                         ),
@@ -150,6 +192,8 @@ class _CartCheckoutState extends State<CartCheckout> {
                 onPressed: () {
                   insertCartIntoDB(context, totalCartPrice);
                   cartProvider.clearCart();
+                  totalCartPrice = 0.0;
+                  setState(() {});
                 },
                 child: const Text(
                   'Check Out',

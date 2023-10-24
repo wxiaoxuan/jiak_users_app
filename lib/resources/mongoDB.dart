@@ -115,7 +115,7 @@ class MongoDB {
   // ========================= INSERT FUNCTION ================================
   // Insert User into DB
   static insertUser(User user) async {
-    print(user.toMap());
+    // print(user.toMap());
     userCollection = db.collection(COLLECTION_NAME_USERS);
     await userCollection.insert(user.toMap());
   }

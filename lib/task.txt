@@ -11,7 +11,7 @@ THURSDAY
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item
 
-- Edit Cart Items in Cart Page (before checking out)
+- Edit Cart Items in Cart Page (before checking out) [D]
 - Delete Cart Items in Cart Page (before checking out)
 
 - Customer can only checkout items from 1 seller at once. [Optional]

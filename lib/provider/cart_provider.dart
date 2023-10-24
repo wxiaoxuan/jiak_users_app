@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class CartProvider extends ChangeNotifier {
   // =================List of Menu Items in Cart=========================
   List<Map<String, dynamic>> cartItems = [];
+  Map<String, int> cartItemsQuantity = {};
+  double totalCartPrice = 0.0;
+
   void addToCart(Map<String, dynamic> seller, String menuItemID,
       Map<String, dynamic> menuItem, int quantity) {
     cartItems.add({
@@ -17,8 +20,6 @@ class CartProvider extends ChangeNotifier {
   }
 
   // =================Count Menu Item Quantity in Cart=========================
-  Map<String, int> cartItemsQuantity = {};
-
   // Count Menu Item Quantity in Cart
   void addToCartQuantity(String menuItemID, int quantity) {
     if (cartItemsQuantity.containsKey(menuItemID)) {
@@ -35,6 +36,7 @@ class CartProvider extends ChangeNotifier {
   void clearCart() {
     cartItems.clear();
     cartItemsQuantity.clear();
+    totalCartPrice = 0.0;
     notifyListeners();
   }
 
@@ -46,5 +48,38 @@ class CartProvider extends ChangeNotifier {
     });
 
     return totalCount;
+  }
+
+  // Calculate the initial total price
+  void calculateInitialTotalPrice() {
+    totalCartPrice = cartItems.fold(
+      0.0,
+      (total, item) => total + item['menuPrice'] * item['quantity'],
+    );
+  }
+
+  void updateCartItemQuantity(String menuItemID, int quantity) {
+    // Find the index of the item in cartItems
+    final int index =
+        cartItems.indexWhere((item) => item['menuID'] == menuItemID);
+
+    if (index != -1) {
+      // Update the quantity
+      cartItems[index]['quantity'] = quantity;
+
+      calculateTotalPrice();
+      notifyListeners();
+    }
+  }
+
+  double calculateTotalPrice() {
+    return cartItems.fold(
+      0.0,
+      (total, item) => total + item['menuPrice'] * item['quantity'],
+    );
+  }
+
+  double calculateTotalItemPrice(Map<String, dynamic> menuItem) {
+    return menuItem['menuPrice'] * menuItem['quantity'];
   }
 }
