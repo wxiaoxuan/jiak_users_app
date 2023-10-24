@@ -82,4 +82,13 @@ class CartProvider extends ChangeNotifier {
   double calculateTotalItemPrice(Map<String, dynamic> menuItem) {
     return menuItem['menuPrice'] * menuItem['quantity'];
   }
+
+  // Delete Menu Item in Cart Check Out Page
+  void removeCartItem(String menuItemID) {
+    cartItems.removeWhere((item) => item['menuID'] == menuItemID);
+    // Remove the item from cartItemsQuantity if it exists
+    cartItemsQuantity.remove(menuItemID);
+    calculateTotalPrice();
+    notifyListeners();
+  }
 }

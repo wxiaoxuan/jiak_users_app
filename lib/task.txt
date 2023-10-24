@@ -12,7 +12,7 @@ THURSDAY
   instead of displaying as a new item
 
 - Edit Cart Items in Cart Page (before checking out) [D]
-- Delete Cart Items in Cart Page (before checking out)
+- Delete Cart Items in Cart Page (before checking out) [D]
 
 - Customer can only checkout items from 1 seller at once. [Optional]
 

@@ -160,12 +160,26 @@ class _CartCheckoutState extends State<CartCheckout> {
                                 ),
                               ],
                             ),
-                            // Update the displayed total price based on the updated quantity
-                            trailing: Text(
-                              '\$${cartProvider.calculateTotalItemPrice(menuItem).toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
+                            trailing: SizedBox(
+                              width: 120.0, // Adjust the width as needed
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '\$${cartProvider.calculateTotalItemPrice(menuItem).toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      cartProvider
+                                          .removeCartItem(menuItem['menuID']);
+                                      setState(() {});
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                           ),
