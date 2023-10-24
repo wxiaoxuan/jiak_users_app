@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-// import 'package:jiak_seller_app/authentication/authentication_screen.dart';
 
 class MySplashScreen extends StatefulWidget {
   const MySplashScreen({super.key});
@@ -41,7 +40,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
               const Padding(
                 padding: EdgeInsets.all(18.0),
                 child: Text(
-                  "Riders App",
+                  "User App",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black87,

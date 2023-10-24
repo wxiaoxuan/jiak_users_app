@@ -31,19 +31,14 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Remove Menu Item from Cart
-  // void clearCartQuantity() {
-  //   cartItemsQuantity.clear();
-  //   notifyListeners();
-  // }
-
+  // ==================== Remove Menu Item from Cart ==========================
   void clearCart() {
     cartItems.clear();
     cartItemsQuantity.clear();
     notifyListeners();
   }
 
-  // Get Total No. of Menu Items
+  // ================= Get Total No. of Menu Items ============================
   int getTotalItemCount() {
     int totalCount = 0;
     cartItemsQuantity.forEach((_, quantity) {

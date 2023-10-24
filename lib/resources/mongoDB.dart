@@ -37,8 +37,6 @@ class MongoDB {
       db = await Db.create(MONGO_URL);
       await db.open(secure: true);
       menuCollection = db.collection(COLLECTION_NAME_MENUS);
-      // print("im in connectCollectionMenu function.");
-      // print(menuCollection);
     } catch (e) {
       print('Error connecting to the menu collection. $e');
       rethrow;

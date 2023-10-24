@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/provider/cart_provider.dart';
 import 'package:jiak_users_app/resources/global.dart';
+import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../models/cartItem.dart';
@@ -9,8 +10,7 @@ import '../widgets/dialogs/successful_dialog.dart';
 import '../resources/mongoDB.dart';
 
 class CartCheckout extends StatefulWidget {
-  // final Map<String, dynamic> selectedSellerInformation;
-  const CartCheckout({Key? key});
+  const CartCheckout({super.key});
 
   @override
   State<CartCheckout> createState() => _CartCheckoutState();
@@ -19,8 +19,6 @@ class CartCheckout extends StatefulWidget {
 class _CartCheckoutState extends State<CartCheckout> {
   final customerName = sharedPreferences?.get('name');
   final customerEmail = sharedPreferences?.get('email');
-  // print(customerName);
-  // print(customerEmail);
 
   // Insert User's Current Cart into DB
   Future<void> insertCartIntoDB(
@@ -38,10 +36,8 @@ class _CartCheckoutState extends State<CartCheckout> {
     }).toList();
 
     final cart = Carts(
-      sellerID: cartProvider.cartItems[0]['sellerID']
-          .toString(), // Use the seller from the first item
-      sellerName: cartProvider.cartItems[0]
-          ['sellerName'], // Use the seller name from the first item
+      sellerID: cartProvider.cartItems[0]['sellerID'].toString(),
+      sellerName: cartProvider.cartItems[0]['sellerName'],
       customerName: customerName.toString(),
       customerEmail: customerEmail.toString(),
       cartTotalPrice: totalCartPrice,
@@ -49,18 +45,12 @@ class _CartCheckoutState extends State<CartCheckout> {
     );
 
     try {
-      // Connect to DB
+      // Connect to DB & Insert Cart
       await MongoDB.connectCollectionCart();
-
-      // Insert each cart object separately
       await MongoDB.insertCart(cart);
-
       SuccessfulDialog.show(context, "Checkout Complete.");
-
-      // Clear cart after successful checkout
-      // cartProvider.removeFromCart(menuItemID);
     } catch (e) {
-      print("Error inserting cart into DB: $e");
+      ErrorDialog.show(context, "Error inserting cart into DB: $e");
     }
   }
 
@@ -160,7 +150,6 @@ class _CartCheckoutState extends State<CartCheckout> {
                 onPressed: () {
                   insertCartIntoDB(context, totalCartPrice);
                   cartProvider.clearCart();
-                  // cartProvider.clearCartQuantity();
                 },
                 child: const Text(
                   'Check Out',

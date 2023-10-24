@@ -54,7 +54,6 @@ class _SellerMenuListState extends State<SellerMenuList> {
       });
     } catch (e) {
       ErrorDialog.show(context, 'Error retrieving selected seller\'s menu');
-      print('Error retrieving selected seller\'s menu.');
     }
   }
 
@@ -265,7 +264,7 @@ class _SellerMenuListState extends State<SellerMenuList> {
                                               const SizedBox(height: 3.0),
 
                                               // Menu Item Price and Add To Cart Button
-                                              Container(
+                                              SizedBox(
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *

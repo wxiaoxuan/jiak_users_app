@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/pages/cart_checkout.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
@@ -41,8 +38,7 @@ class _HomeState extends State<Home> {
         listOfSellers = dbSellers;
       });
     } catch (e) {
-      ErrorDialog.show(context, "Error retrieving All Seller\'s Information.");
-      print("Error retrieving All Seller\'s Information.");
+      ErrorDialog.show(context, "Error retrieving All Seller's Information.");
     }
   }
 
