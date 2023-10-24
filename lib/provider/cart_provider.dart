@@ -14,9 +14,6 @@ class CartProvider extends ChangeNotifier {
       'menuPrice': menuItem['menuPrice'],
       'quantity': quantity,
     });
-
-    print("cartItems");
-    print(cartItems);
   }
 
   // =================Count Menu Item Quantity in Cart=========================
@@ -35,8 +32,14 @@ class CartProvider extends ChangeNotifier {
   }
 
   // Remove Menu Item from Cart
-  void removeFromCart(String menuItemID) {
-    cartItemsQuantity.remove(menuItemID);
+  // void clearCartQuantity() {
+  //   cartItemsQuantity.clear();
+  //   notifyListeners();
+  // }
+
+  void clearCart() {
+    cartItems.clear();
+    cartItemsQuantity.clear();
     notifyListeners();
   }
 

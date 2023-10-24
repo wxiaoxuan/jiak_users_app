@@ -3,20 +3,22 @@ THURSDAY
 - Display Cart Items in Cart_Checkout Page [D]
 - Checkout cart n add into db [D]
 
+- Add Total Price & Current User[customer]'s Name & Email in Cart Object (carts.dart) [D]
+- Remove Cart Items & Quantities after checking out. [D]
+
 [NEW]
+- Display Checkout Order in 'My Orders' Page
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item
-- Add Total Price & Current User[customer]'s Name & Email in Cart Object (carts.dart) too.
-- Remove Cart Items after checking out.
+
+- Edit Cart Items in Cart Page (before checking out)
+- Delete Cart Items in Cart Page (before checking out)
+
+- Customer can only checkout items from 1 seller at once. [Optional]
 
 FRIDAY
-- For Sellers Model => breakdown seller's location, add ratings (opt)
+- For Sellers Model => breakdown seller's location, add ratings [Optional]
 - Gather Sellers + Users Resources/Images, Clean DB & Re-insert All Users Data
-
-SUNDAY / MON / TUES
-- In Users App,
-  => EDIT Cart Items
-  => Delete Cart Items
 
 TUES - THURS / FRI
 - In Seller App

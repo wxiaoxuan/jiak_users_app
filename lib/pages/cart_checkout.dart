@@ -17,8 +17,14 @@ class CartCheckout extends StatefulWidget {
 }
 
 class _CartCheckoutState extends State<CartCheckout> {
+  final customerName = sharedPreferences?.get('name');
+  final customerEmail = sharedPreferences?.get('email');
+  // print(customerName);
+  // print(customerEmail);
+
   // Insert User's Current Cart into DB
-  Future<void> insertCartIntoDB(BuildContext context) async {
+  Future<void> insertCartIntoDB(
+      BuildContext context, double totalCartPrice) async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     // Prepare a list of CartItems objects based on the Items in the Cart
@@ -31,22 +37,23 @@ class _CartCheckoutState extends State<CartCheckout> {
       );
     }).toList();
 
-    final Iterable<Carts> cart = cartProvider.cartItems.map((seller) {
-      return Carts(
-        sellerID: seller['sellerID'].toString(),
-        sellerName: seller['sellerName'],
-        cartItems: cartItems,
-      );
-    });
+    final cart = Carts(
+      sellerID: cartProvider.cartItems[0]['sellerID']
+          .toString(), // Use the seller from the first item
+      sellerName: cartProvider.cartItems[0]
+          ['sellerName'], // Use the seller name from the first item
+      customerName: customerName.toString(),
+      customerEmail: customerEmail.toString(),
+      cartTotalPrice: totalCartPrice,
+      cartItems: cartItems,
+    );
 
     try {
       // Connect to DB
       await MongoDB.connectCollectionCart();
 
       // Insert each cart object separately
-      for (final cart in cart) {
-        await MongoDB.insertCart(cart);
-      }
+      await MongoDB.insertCart(cart);
 
       SuccessfulDialog.show(context, "Checkout Complete.");
 
@@ -59,10 +66,6 @@ class _CartCheckoutState extends State<CartCheckout> {
 
   @override
   Widget build(BuildContext context) {
-    print("User name:");
-    print(sharedPreferences?.get('name'));
-    print(sharedPreferences?.get('email'));
-    // print(widget.selectedSellerInformation);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     // print(cartProvider.cartItems);
 
@@ -76,7 +79,7 @@ class _CartCheckoutState extends State<CartCheckout> {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.yellow[800],
-        title: Text("Cart"),
+        title: const Text("Cart"),
         titleTextStyle: const TextStyle(
           color: Color(0xff3e3e3c),
           fontSize: 18.0,
@@ -104,37 +107,41 @@ class _CartCheckoutState extends State<CartCheckout> {
           // Display Menu Items In Cart
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.67,
-            child: ListView.builder(
-                itemCount: cartProvider.cartItems.length,
-                itemBuilder: (context, index) {
-                  final menuItem = cartProvider.cartItems[index];
-                  final menuItemTotalQuantityPrice =
-                      menuItem['menuPrice'] * menuItem['quantity'];
+            child:
+                Consumer<CartProvider>(builder: (context, cartProvider, child) {
+              return ListView.builder(
+                  itemCount: cartProvider.cartItems.length,
+                  itemBuilder: (context, index) {
+                    final menuItem = cartProvider.cartItems[index];
+                    final menuItemTotalQuantityPrice =
+                        menuItem['menuPrice'] * menuItem['quantity'];
 
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Card(
-                        elevation: 1,
-                        color: Colors.white,
-                        child: ListTile(
-                          title: Text(
-                            menuItem['menuTitle'],
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: Text(
-                              'Quantity: ${menuItem['quantity'].toString()}'),
-                          trailing: Text(
-                            '\$${menuItemTotalQuantityPrice.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 14.0),
+                    return GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Card(
+                          elevation: 1,
+                          color: Colors.white,
+                          child: ListTile(
+                            title: Text(
+                              menuItem['menuTitle'],
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            subtitle: Text(
+                                'Quantity: ${menuItem['quantity'].toString()}'),
+                            trailing: Text(
+                              '\$${menuItemTotalQuantityPrice.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 14.0),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  });
+            }),
           ),
           // Check Out Button
           Container(
@@ -151,8 +158,9 @@ class _CartCheckoutState extends State<CartCheckout> {
                   )),
               ElevatedButton(
                 onPressed: () {
-                  insertCartIntoDB(context);
-                  SuccessfulDialog.show(context, "Checkout Complete.");
+                  insertCartIntoDB(context, totalCartPrice);
+                  cartProvider.clearCart();
+                  // cartProvider.clearCartQuantity();
                 },
                 child: const Text(
                   'Check Out',
