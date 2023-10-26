@@ -87,7 +87,6 @@ class MongoDB {
       }
 
       final menu = await menuCollection.find().toList();
-      // print(menu);
       return menu;
     } catch (e) {
       print('Unable to retrieve list of menu. $e');
@@ -104,7 +103,6 @@ class MongoDB {
       }
 
       final cart = await cartCollection.find().toList();
-      // print(menu);
       return cart;
     } catch (e) {
       print('Unable to retrieve list of carts. $e');

@@ -1,4 +1,4 @@
-// Display List of Seller in Horizontal View
+// Display List of Sellers in Horizontal View
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -40,8 +40,8 @@ class SellerListHorizontal extends StatelessWidget {
 
             return GestureDetector(
               onTap: () {
-                print("seller");
-                print(seller);
+                // print("seller");
+                // print(seller);
                 // Navigate to Selected Seller's Menu Page
                 Navigator.push(
                     context,

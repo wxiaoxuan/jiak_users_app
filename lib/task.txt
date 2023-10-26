@@ -6,18 +6,20 @@ THURSDAY
 - Add Total Price & Current User[customer]'s Name & Email in Cart Object (carts.dart) [D]
 - Remove Cart Items & Quantities after checking out. [D]
 
-[NEW]
-- Display Checkout Order in 'My Orders' Page
-- If user add another item that is alr exists in the cart, update the quantity
-  instead of displaying as a new item
-
 - Edit Cart Items in Cart Page (before checking out) [D]
 - Delete Cart Items in Cart Page (before checking out) [D]
 
+[NEW]
+- Display Checkout Order in 'My Orders' Page [D]
+- Design UI for My Order Page
+
+- If user add another item that is alr exists in the cart, update the quantity
+  instead of displaying as a new item
+
 - Customer can only checkout items from 1 seller at once. [Optional]
 
-FRIDAY
-- For Sellers Model => breakdown seller's location, add ratings [Optional]
+FRIDAYs
+- For Sellers Model => breakdown seller's location, add ratings, add category [Delivery / Pickup] [Western / Asian / Beverage] [Optional]
 - Gather Sellers + Users Resources/Images, Clean DB & Re-insert All Users Data
 
 TUES - THURS / FRI
