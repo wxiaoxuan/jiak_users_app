@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/pages/my_order.dart';
+import 'package:jiak_users_app/pages/order_history.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -96,7 +97,12 @@ class CustomDrawer extends StatelessWidget {
                     leading: const Icon(Icons.access_time, color: Colors.black),
                     title: const Text('History',
                         style: TextStyle(color: Colors.black)),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OrderHistory()));
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.search, color: Colors.black),

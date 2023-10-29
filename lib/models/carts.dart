@@ -8,6 +8,7 @@ class Carts {
   final String customerEmail;
   final double cartTotalPrice;
   final List<CartItem> cartItems;
+  final DateTime timestamp;
 
   Carts({
     required this.sellerID,
@@ -16,6 +17,7 @@ class Carts {
     required this.customerEmail,
     required this.cartTotalPrice,
     required this.cartItems,
+    required this.timestamp,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +28,7 @@ class Carts {
       'customerEmail': customerEmail,
       'cartTotalPrice': cartTotalPrice,
       'cartItems': cartItems.map((item) => item.toMap()).toList(),
+      'timestamp': timestamp,
     };
   }
 
@@ -36,5 +39,6 @@ class Carts {
         customerEmail = map['customerEmail'],
         cartTotalPrice = map['cartTotalPrice'],
         cartItems = List<CartItem>.from(
-            (map['cartItems'] as List).map((item) => CartItem.fromMap(item)));
+            (map['cartItems'] as List).map((item) => CartItem.fromMap(item))),
+        timestamp = map['timestamp'];
 }

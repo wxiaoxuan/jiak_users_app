@@ -42,6 +42,7 @@ class _CartCheckoutState extends State<CartCheckout> {
       customerEmail: customerEmail.toString(),
       cartTotalPrice: totalCartPrice,
       cartItems: cartItems,
+      timestamp: DateTime.now(),
     );
 
     try {
