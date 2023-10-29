@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
-import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
+import 'package:intl/intl.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key}) : super(key: key);
@@ -50,13 +50,13 @@ class _OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
-    print("currentOrder");
-    print(currentOrder);
+    // print("currentOrder");
+    // print(currentOrder);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.yellow[800],
-        title: const Text('Order Delivery Page'),
+        title: const Text('Orders - History'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
             fontSize: 18.0,
@@ -65,255 +65,189 @@ class _OrderHistoryState extends State<OrderHistory> {
       ),
       body: Column(
         children: [
-          if (currentOrder.isNotEmpty) const SizedBox(height: 20.0),
+          if (currentOrder.isNotEmpty)
+            // const Divider(),
+            SizedBox(height: 10.0),
           Expanded(
               child: ListView.builder(
                   itemCount: currentOrder.length,
                   itemBuilder: (BuildContext context, int index) {
                     final order = currentOrder[index];
-                    print("order");
-                    print(order);
+                    // print("order");
+                    // print(order);
+
+                    // Format the timestamp to your desired format
+                    DateTime timestamp = order['timestamp'];
+                    final date = DateFormat('dd-MM-yyyy').format(timestamp);
+
+                    final hour = DateFormat('HH').format(timestamp);
+                    final minute = DateFormat('mm').format(timestamp);
 
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // for (var cartItem in order['cartItems'])
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Seller Name
-                              Text(
-                                '${order['sellerName']}',
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.04,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                              ),
-
-                              // Cart Total Price
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Total: ',
+                                    '${order['sellerName']}',
                                     style: TextStyle(
                                       fontSize:
                                           MediaQuery.of(context).size.width *
-                                              0.040,
+                                              0.04,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black87,
                                     ),
                                   ),
-                                  // Menu Item Price
+                                  // Total Cart Price
                                   Text(
-                                    '\$${(order['cartTotalPrice'] is double) ? order['cartTotalPrice'].toStringAsFixed(2) : order['cartTotalPrice']}',
+                                    'Total: \$${(order['cartTotalPrice'] is double) ? order['cartTotalPrice'].toStringAsFixed(2) : order['cartTotalPrice']}',
                                     style: TextStyle(
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.038,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 10.0),
+
+                              const SizedBox(height: 20.0),
 
                               ListView.builder(
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: order['cartItems'].length,
                                   itemBuilder:
                                       (BuildContext context, int menuIndex) {
                                     final cartItem =
                                         order['cartItems'][menuIndex];
 
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        // Menu Item Name
+                                        // Menu Item Quantity
                                         Text(
-                                          '${cartItem['menuItemName']}',
+                                          '${(cartItem['menuItemQuantity'] is double) ? cartItem['menuItemQuantity'].toStringAsFixed(2) : cartItem['menuItemQuantity']}X',
                                           style: TextStyle(
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.04,
+                                                0.035,
                                             fontWeight: FontWeight.w600,
-                                            color: Colors.black87,
                                           ),
                                         ),
-
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Price: ',
-                                              style: TextStyle(
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.040,
-                                                // fontWeight: FontWeight.w600,
-                                                color: Colors.black87,
-                                              ),
+                                        const SizedBox(width: 50.0),
+                                        // Menu Item Name
+                                        Expanded(
+                                          child: Text(
+                                            '${cartItem['menuItemName']}',
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.035,
                                             ),
-                                            // Menu Item Price
-                                            Text(
-                                              '\$${(cartItem['menuItemPrice'] is double) ? cartItem['menuItemPrice'].toStringAsFixed(2) : cartItem['menuItemPrice']}',
-                                              style: TextStyle(
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.038,
-                                                // fontWeight: FontWeight.w600,
-                                                color: Colors.black87,
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
-
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Quantity: ',
-                                              style: TextStyle(
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.040,
-                                                // fontWeight: FontWeight.w600,
-                                                color: Colors.black87,
-                                              ),
-                                            ),
-                                            // Menu Item Price
-                                            Text(
-                                              '${(cartItem['menuItemQuantity'] is double) ? cartItem['menuItemQuantity'].toStringAsFixed(2) : cartItem['menuItemQuantity']}',
-                                              style: TextStyle(
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.038,
-                                                // fontWeight: FontWeight.w600,
-                                                color: Colors.black87,
-                                              ),
-                                            ),
-                                          ],
+                                        // Menu Item Price
+                                        Text(
+                                          '\$${(cartItem['menuItemPrice'] is double) ? cartItem['menuItemPrice'].toStringAsFixed(2) : cartItem['menuItemPrice']}',
+                                          style: TextStyle(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.035,
+                                          ),
                                         ),
-                                        const SizedBox(height: 10.0),
                                       ],
                                     );
                                   }),
-                              Divider(),
-                              const SizedBox(height: 30.0),
+                              const SizedBox(height: 20.0),
+                              // Timestamp
+                              Row(
+                                children: [
+                                  Text(
+                                    'Date: ',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black54),
+                                  ),
+                                  const SizedBox(width: 5.0),
+                                  Text(
+                                    date,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                        color: Colors.black54),
+                                  ),
+                                  const SizedBox(width: 30.0),
+                                  Text(
+                                    'Time:',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black54),
+                                  ),
+                                  const SizedBox(width: 5.0),
+                                  Text(
+                                    '${hour}:${minute}',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                        color: Colors.black54),
+                                  ),
+                                ],
+                              ),
+
+                              // Booking ID Reference
+                              Row(
+                                children: [
+                                  Text(
+                                    'Booking ID: ',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black54),
+                                  ),
+                                  const SizedBox(width: 5.0),
+                                  Text(
+                                    currentOrder[0]['_id'].toString(),
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                        color: Colors.black54),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: 5.0),
+                              const Divider(),
+                              const SizedBox(height: 5.0),
                             ],
                           ),
                         ),
                       ],
                     );
                   })),
-          Container(
-            color: Colors.grey,
-            height: 150.0,
-            child: // Cart Total Price
-                Row(
-              children: [
-                Text(
-                  'Total: ',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.040,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-                // Menu Item Price
-                // Text(
-                //   '\$${(order['cartTotalPrice'] is double) ? order['cartTotalPrice'].toStringAsFixed(2) : order['cartTotalPrice']}',
-                //   style: TextStyle(
-                //     fontSize: MediaQuery.of(context).size.width * 0.038,
-                //     fontWeight: FontWeight.w600,
-                //     color: Colors.black87,
-                //   ),
-                // ),
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
 }
-
-// Text(
-// 'Booking ID: ',
-// style: TextStyle(
-// fontSize: MediaQuery.of(context).size.width * 0.04,
-// fontWeight: FontWeight.w600,
-// color: Colors.black87,
-// ),
-// ),
-// Text(
-// 'Delivery Guy Name: ',
-// style: TextStyle(
-// fontSize: MediaQuery.of(context).size.width * 0.04,
-// fontWeight: FontWeight.w600,
-// color: Colors.black87,
-// ),
-// ),
-// Text(
-// 'Restaurant to Customer Address ',
-// style: TextStyle(
-// fontSize: MediaQuery.of(context).size.width * 0.04,
-// fontWeight: FontWeight.w600,
-// color: Colors.black87,
-// ),
-// ),
-// Text(
-// 'Order Summary ',
-// style: TextStyle(
-// fontSize: MediaQuery.of(context).size.width * 0.04,
-// fontWeight: FontWeight.w600,
-// color: Colors.black87,
-// ),
-// ),
-
-// Column(
-//   crossAxisAlignment: CrossAxisAlignment.start,
-//   children: [
-//     // Seller Name
-//     Text(
-//       '${currentOrder[0]['sellerName']}',
-//       style: TextStyle(
-//         fontSize: MediaQuery.of(context).size.width * 0.04,
-//         fontWeight: FontWeight.w600,
-//         color: Colors.black87,
-//       ),
-//     ),
-//
-//     // Cart Total Price
-//     Row(
-//       children: [
-//         Text(
-//           'Cart Total Price: ',
-//           style: TextStyle(
-//             fontSize: MediaQuery.of(context).size.width * 0.040,
-//             fontWeight: FontWeight.w600,
-//             color: Colors.black87,
-//           ),
-//         ),
-//         // Menu Item Price
-//         Text(
-//           '\$${(currentOrder[0]['cartTotalPrice'] is double) ? currentOrder[0]['cartTotalPrice'].toStringAsFixed(2) : currentOrder[0]['cartTotalPrice']}',
-//           style: TextStyle(
-//             fontSize: MediaQuery.of(context).size.width * 0.038,
-//             fontWeight: FontWeight.w600,
-//             color: Colors.black87,
-//           ),
-//         ),
-//       ],
-//     ),
-//   ],
-// ),

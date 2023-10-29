@@ -11,7 +11,14 @@ THURSDAY
 
 [NEW]
 - Display Checkout Order in 'My Orders' Page [D]
-- Design UI for My Order Page
+- Design UI for My Order Page [D]
+
+- Display Data in History Page [D]
+- Design UI for History Page [D]
+- Add Timestamp to History Page [D]
+
+- Add Timestamp to My Order Page
+- Upon order being delivered, clear / empty the Order Delivery Page.
 
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item
