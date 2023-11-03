@@ -1,6 +1,10 @@
 # jiak_users_app
 
-A Food Delivery App which focuses on the Users side.
+A Food Delivery App which focuses on the Users/Customers.
+
+## To Login
+Email: xx@gmail.com
+Password: qweasd
 
 ## Getting Started
 

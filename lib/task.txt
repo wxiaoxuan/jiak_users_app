@@ -17,8 +17,8 @@ THURSDAY
 - Design UI for History Page [D]
 - Add Timestamp to History Page [D]
 
-- Add Timestamp to My Order Page
-- Upon order being delivered, clear / empty the Order Delivery Page.
+- Add Timestamp to My Order Page [D]
+- Upon order being delivered, clear / empty the Order Delivery Page. 
 
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item
@@ -59,6 +59,3 @@ FUTURE PLAN
 
 
 // ==============================================================================================
-
-
-

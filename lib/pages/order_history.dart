@@ -3,6 +3,8 @@ import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/customDrawer.dart';
+
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key}) : super(key: key);
 
@@ -54,6 +56,7 @@ class _OrderHistoryState extends State<OrderHistory> {
     // print(currentOrder);
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.yellow[800],
         title: const Text('Orders - History'),
@@ -67,7 +70,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         children: [
           if (currentOrder.isNotEmpty)
             // const Divider(),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
           Expanded(
               child: ListView.builder(
                   itemCount: currentOrder.length,
@@ -89,6 +92,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Column(
                             children: [
+
                               // Seller Name
                               Row(
                                 mainAxisAlignment:

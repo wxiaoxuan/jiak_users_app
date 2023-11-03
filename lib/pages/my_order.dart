@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
-import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
+
+import '../widgets/customDrawer.dart';
 
 class MyOrder extends StatefulWidget {
   const MyOrder({Key? key}) : super(key: key);
@@ -26,8 +28,8 @@ class _MyOrderState extends State<MyOrder> {
       // Connect & Retrieve All User's Order
       MongoDB.connectCollectionCart();
       final allOrders = await MongoDB.getCartDocuments();
-      print("===allOrders===");
-      print(allOrders);
+      // print("===allOrders===");
+      // print(allOrders);
 
       // Retrieve Current User's Order
       for (final currentUserOrder in allOrders) {
@@ -53,14 +55,27 @@ class _MyOrderState extends State<MyOrder> {
     // Sort currentOrders by timestamp in descending order
     currentOrder.sort((a, b) => b['timestamp'].compareTo(a['timestamp']));
 
-    print("currentOrder");
-    print(currentOrder);
+    // print("currentOrder");
+    // print(currentOrder);
     // print(currentOrder[0]['_id'].toString());
 
     if (currentOrder.isNotEmpty) {
       final latestOrder = currentOrder.first;
+      print(latestOrder);
+
+      DateTime timestamp = latestOrder['timestamp'];
+      final date = DateFormat('dd-MM-yyyy').format(timestamp);
+      print(date);
+
+      final hour = DateFormat('HH').format(timestamp);
+      final minute = DateFormat('mm').format(timestamp);
+      print(hour);
+      print(minute);
+      print("minute");
+
       return Scaffold(
         backgroundColor: Colors.white,
+        drawer: const CustomDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.yellow[800],
           title: const Text('Order Delivery Page'),
@@ -78,40 +93,71 @@ class _MyOrderState extends State<MyOrder> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
               child: Column(
+                // Booking ID Section
                 children: [
-                  const Divider(),
+                  // const Divider(),
                   const SizedBox(height: 10.0),
-                  // Order Summary Header
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: // Cart Total Price
-                        Text(
-                      'Booking ID: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
-                        fontWeight: FontWeight.w600,
+                  // Booking ID
+                  Row(
+                    children: [
+                      Text(
+                        'Booking ID: ',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.032,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54),
                       ),
-                    ),
+                      Text(
+                        currentOrder[0]['_id'].toString(),
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: MediaQuery.of(context).size.width * 0.032,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 5.0),
 
-                  Container(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Text(
-                      currentOrder[0]['_id'].toString(),
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                  // Timestamp
+                  Row(
+                    children: [
+                      Text(
+                        'Date: ',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.032,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54),
                       ),
-                    ),
+                      const SizedBox(width: 5.0),
+                      Text(
+                        date,
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.032,
+                            color: Colors.black54),
+                      ),
+                      const SizedBox(width: 30.0),
+                      Text(
+                        'Time:',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.032,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54),
+                      ),
+                      const SizedBox(width: 5.0),
+                      Text(
+                        '$hour:$minute',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.032,
+                            color: Colors.black54),
+                      ),
+                    ],
                   ),
-                  // Divider(),
                 ],
               ),
             ),
+
             // Delivery Rider Header
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 children: [
                   const Divider(),
@@ -132,19 +178,37 @@ class _MyOrderState extends State<MyOrder> {
                   Row(
                     children: [
                       Text(
-                        'Name',
+                        'Teddy Wong Bao Bao',
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.035,
                         ),
                       ),
-                      const SizedBox(width: 10.0),
-                      Text(
-                        'Rating',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.035,
+                      const SizedBox(width: 20.0),
+                      // Text(
+                      //   'Rating: ',
+                      //   style: TextStyle(
+                      //     fontSize: MediaQuery
+                      //         .of(context)
+                      //         .size
+                      //         .width * 0.035,
+                      //   ),
+                      // ),
+
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              '4.5',
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.035,
+                              ),
+                            ),
+                            const Icon(Icons.star),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 180.0),
+
                       IconButton(
                           onPressed: () {},
                           icon: const Icon(Icons.message_outlined)),
@@ -178,25 +242,47 @@ class _MyOrderState extends State<MyOrder> {
                   ),
                   const SizedBox(height: 5.0),
 
+                  // From
                   Container(
                     alignment: AlignmentDirectional.centerStart,
-                    child: Text(
-                      'From: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                      ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'From: ',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.035,
+                          ),
+                        ),
+                        Text(
+                          '[Name of Restaurant]',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.035,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+
+                  // To
                   Container(
                     alignment: AlignmentDirectional.centerStart,
-                    child: Text(
-                      'To: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                      ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'To: ',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.035,
+                          ),
+                        ),
+                        Text(
+                          '[Customer\'s Address]',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.035,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  // Divider(),
                 ],
               ),
             ),
@@ -219,7 +305,6 @@ class _MyOrderState extends State<MyOrder> {
                       ),
                     ),
                   ),
-                  // Divider(),
                 ],
               ),
             ),
@@ -235,12 +320,12 @@ class _MyOrderState extends State<MyOrder> {
                     Text(
                       '${latestOrder['sellerName']}',
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
-                        fontWeight: FontWeight.w600,
+                        fontSize: MediaQuery.of(context).size.width * 0.038,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
 
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 5.0),
 
                     ListView.builder(
                         shrinkWrap: true,
@@ -266,12 +351,15 @@ class _MyOrderState extends State<MyOrder> {
                                       color: Colors.black87,
                                     ),
                                   ),
-                                  Text(
-                                    '${cartItem['menuItemName']}',
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
+                                  const SizedBox(width: 30.0),
+                                  Expanded(
+                                    child: Text(
+                                      '${cartItem['menuItemName']}',
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.035,
+                                      ),
                                     ),
                                   ),
                                   // Menu Item Price
@@ -285,7 +373,7 @@ class _MyOrderState extends State<MyOrder> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10.0),
+                              const SizedBox(height: 5.0),
                             ],
                           );
                         }),
