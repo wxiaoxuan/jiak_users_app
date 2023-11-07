@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
-import 'package:intl/intl.dart';
 
 import '../widgets/customDrawer.dart';
 
@@ -58,7 +58,7 @@ class _OrderHistoryState extends State<OrderHistory> {
       backgroundColor: Colors.white,
       drawer: const CustomDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.yellow[800],
+        // backgroundColor: Colors.yellow[800],
         title: const Text('Orders - History'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
@@ -92,7 +92,6 @@ class _OrderHistoryState extends State<OrderHistory> {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Column(
                             children: [
-
                               // Seller Name
                               Row(
                                 mainAxisAlignment:
@@ -182,7 +181,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
-                                                0.032,
+                                                0.028,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54),
                                   ),
@@ -192,7 +191,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
-                                                0.032,
+                                                0.028,
                                         color: Colors.black54),
                                   ),
                                   const SizedBox(width: 30.0),
@@ -201,7 +200,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
-                                                0.032,
+                                                0.028,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54),
                                   ),
@@ -211,7 +210,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
-                                                0.032,
+                                                0.028,
                                         color: Colors.black54),
                                   ),
                                 ],
@@ -225,7 +224,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
-                                                0.032,
+                                                0.028,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54),
                                   ),
@@ -235,7 +234,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
-                                                0.032,
+                                                0.028,
                                         color: Colors.black54),
                                   ),
                                 ],

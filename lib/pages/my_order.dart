@@ -4,6 +4,7 @@ import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
 
 import '../widgets/customDrawer.dart';
+import 'order_confirmation_screen.dart';
 
 class MyOrder extends StatefulWidget {
   const MyOrder({Key? key}) : super(key: key);
@@ -15,11 +16,19 @@ class MyOrder extends StatefulWidget {
 class _MyOrderState extends State<MyOrder> {
   final currentLoginUser = sharedPreferences?.get("name");
   final List<Map<String, dynamic>> currentOrder = [];
+  bool isPageCleared = false;
+
+  void checkAndClearData() {
+    if (isPageCleared) {
+      currentOrder.clear();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     retrieveCurrentOrder();
+    // checkAndClearData();
   }
 
   // Retrieve My Order
@@ -28,8 +37,6 @@ class _MyOrderState extends State<MyOrder> {
       // Connect & Retrieve All User's Order
       MongoDB.connectCollectionCart();
       final allOrders = await MongoDB.getCartDocuments();
-      // print("===allOrders===");
-      // print(allOrders);
 
       // Retrieve Current User's Order
       for (final currentUserOrder in allOrders) {
@@ -52,389 +59,15 @@ class _MyOrderState extends State<MyOrder> {
 
   @override
   Widget build(BuildContext context) {
-    // Sort currentOrders by timestamp in descending order
-    currentOrder.sort((a, b) => b['timestamp'].compareTo(a['timestamp']));
+    print(currentOrder);
 
-    // print("currentOrder");
-    // print(currentOrder);
-    // print(currentOrder[0]['_id'].toString());
-
-    if (currentOrder.isNotEmpty) {
-      final latestOrder = currentOrder.first;
-      print(latestOrder);
-
-      DateTime timestamp = latestOrder['timestamp'];
-      final date = DateFormat('dd-MM-yyyy').format(timestamp);
-      print(date);
-
-      final hour = DateFormat('HH').format(timestamp);
-      final minute = DateFormat('mm').format(timestamp);
-      print(hour);
-      print(minute);
-      print("minute");
-
-      return Scaffold(
-        backgroundColor: Colors.white,
-        drawer: const CustomDrawer(),
-        appBar: AppBar(
-          backgroundColor: Colors.yellow[800],
-          title: const Text('Order Delivery Page'),
-          titleTextStyle: const TextStyle(
-              color: Color(0xff3e3e3c),
-              fontSize: 18.0,
-              fontWeight: FontWeight.w500),
-          centerTitle: true,
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Booking ID Header
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
-              child: Column(
-                // Booking ID Section
-                children: [
-                  // const Divider(),
-                  const SizedBox(height: 10.0),
-                  // Booking ID
-                  Row(
-                    children: [
-                      Text(
-                        'Booking ID: ',
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.032,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black54),
-                      ),
-                      Text(
-                        currentOrder[0]['_id'].toString(),
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: MediaQuery.of(context).size.width * 0.032,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  // Timestamp
-                  Row(
-                    children: [
-                      Text(
-                        'Date: ',
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.032,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black54),
-                      ),
-                      const SizedBox(width: 5.0),
-                      Text(
-                        date,
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.032,
-                            color: Colors.black54),
-                      ),
-                      const SizedBox(width: 30.0),
-                      Text(
-                        'Time:',
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.032,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black54),
-                      ),
-                      const SizedBox(width: 5.0),
-                      Text(
-                        '$hour:$minute',
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.032,
-                            color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            // Delivery Rider Header
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                children: [
-                  const Divider(),
-                  const SizedBox(height: 10.0),
-                  // Delivery Rider Name
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Text(
-                      'Delivery Rider: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  // const SizedBox(height: 5.0),
-                  // Delivery Rider Layout
-                  Row(
-                    children: [
-                      Text(
-                        'Teddy Wong Bao Bao',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.035,
-                        ),
-                      ),
-                      const SizedBox(width: 20.0),
-                      // Text(
-                      //   'Rating: ',
-                      //   style: TextStyle(
-                      //     fontSize: MediaQuery
-                      //         .of(context)
-                      //         .size
-                      //         .width * 0.035,
-                      //   ),
-                      // ),
-
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Text(
-                              '4.5',
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.035,
-                              ),
-                            ),
-                            const Icon(Icons.star),
-                          ],
-                        ),
-                      ),
-
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.message_outlined)),
-                      const SizedBox(width: 10.0),
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.phone)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            // Address
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Column(
-                children: [
-                  const Divider(),
-                  const SizedBox(height: 10.0),
-                  // Order Summary Header
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: // Cart Total Price
-                        Text(
-                      'Address: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5.0),
-
-                  // From
-                  Container(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Row(
-                      children: [
-                        Text(
-                          'From: ',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.035,
-                          ),
-                        ),
-                        Text(
-                          '[Name of Restaurant]',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.035,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // To
-                  Container(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Row(
-                      children: [
-                        Text(
-                          'To: ',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.035,
-                          ),
-                        ),
-                        Text(
-                          '[Customer\'s Address]',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.035,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Order Summary Header
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                children: [
-                  const Divider(),
-                  const SizedBox(height: 10.0),
-                  // Order Summary Header
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: // Cart Total Price
-                        Text(
-                      'Order Summary: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.040,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Cart Item Information
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Seller Name
-                    Text(
-                      '${latestOrder['sellerName']}',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.038,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-
-                    const SizedBox(height: 5.0),
-
-                    ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: latestOrder['cartItems'].length,
-                        itemBuilder: (BuildContext context, int menuIndex) {
-                          final cartItem = latestOrder['cartItems'][menuIndex];
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${(cartItem['menuItemQuantity'] is double) ? cartItem['menuItemQuantity'].toStringAsFixed(2) : cartItem['menuItemQuantity']}X',
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 30.0),
-                                  Expanded(
-                                    child: Text(
-                                      '${cartItem['menuItemName']}',
-                                      style: TextStyle(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.035,
-                                      ),
-                                    ),
-                                  ),
-                                  // Menu Item Price
-                                  Text(
-                                    '\$${(cartItem['menuItemPrice'] is double) ? cartItem['menuItemPrice'].toStringAsFixed(2) : cartItem['menuItemPrice']}',
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5.0),
-                            ],
-                          );
-                        }),
-                    const Divider(),
-                    // const SizedBox(height: 30.0),
-                  ],
-                ),
-              ),
-            ),
-            const Divider(),
-            // Total Price
-            SizedBox(
-              height: 50.0,
-              child: // Cart Total Price
-                  Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Total: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    // Menu Item Price
-                    Text(
-                      '\$${(latestOrder['cartTotalPrice'] is double) ? latestOrder['cartTotalPrice'].toStringAsFixed(2) : latestOrder['cartTotalPrice']}',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.038,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  print("You pressed Icon Elevated Button");
-                },
-                icon: const Icon(
-                    Icons.check_circle_outline), //icon data for elevated button
-                label: const Text("Order Complete"), //label text
-              ),
-            ),
-            const SizedBox(height: 40),
-          ],
-        ),
-      );
-    } else {
+    // ====================== UI - If there's no order ========================
+    if (currentOrder.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.yellow[800],
-          title: const Text('Order Delivery Page'),
+          // backgroundColor: Colors.yellow[800],
+          title: const Text('My Orders'),
           titleTextStyle: const TextStyle(
               color: Color(0xff3e3e3c),
               fontSize: 18.0,
@@ -446,5 +79,304 @@ class _MyOrderState extends State<MyOrder> {
         ),
       );
     }
+
+    // ====== Sort currentOrders by timestamp in descending order =============
+    currentOrder.sort((a, b) {
+      // Handle null timestamps by using the current date and time as the default
+      final aTimestamp = a['timestamp'] ?? DateTime.now();
+      final bTimestamp = b['timestamp'] ?? DateTime.now();
+
+      return bTimestamp.compareTo(aTimestamp);
+    });
+
+    //================== To get the Customer's Latest Order ===================
+    final latestOrder = currentOrder.first;
+    print(latestOrder);
+
+    //  =============== Format Timestamp to be displayed  =====================
+    DateTime? timestamp = latestOrder['timestamp'];
+    String date = "";
+    String time = "";
+
+    if (timestamp != null) {
+      date = DateFormat('dd-MM-yyyy').format(timestamp);
+      time = DateFormat('HH:mm').format(timestamp);
+    }
+    //  =======================================================================
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      drawer: const CustomDrawer(),
+      appBar: AppBar(
+        // backgroundColor: Colors.yellow[800],
+        title: const Text('My Orders'),
+        titleTextStyle: const TextStyle(
+            color: Color(0xff3e3e3c),
+            fontSize: 18.0,
+            fontWeight: FontWeight.w500),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Booking ID Header
+            const SizedBox(height: 10.0),
+            // Booking ID
+            Row(
+              children: [
+                Text(
+                  'Booking ID: ',
+                  style: TextStyle(
+                      fontSize: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.032,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black54),
+                ),
+                Text(
+                  currentOrder[0]['_id'].toString(),
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.032,
+                  ),
+                ),
+              ],
+            ),
+
+            // Timestamp
+            Row(
+              children: [
+                Text(
+                  'Date: ',
+                  style: TextStyle(
+                      fontSize: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.032,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black54),
+                ),
+                const SizedBox(width: 5.0),
+                Text(
+                  date.isNotEmpty ? date : 'N/A',
+                  style: TextStyle(
+                      fontSize: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.032,
+                      color: Colors.black54),
+                ),
+                const SizedBox(width: 30.0),
+                Text(
+                  'Time:',
+                  style: TextStyle(
+                      fontSize: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.032,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black54),
+                ),
+                const SizedBox(width: 5.0),
+                // if (displayDateTime)
+                Text(
+                  time.isNotEmpty ? time : 'N/A',
+                  style: TextStyle(
+                      fontSize: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.032,
+                      color: Colors.black54),
+                ),
+              ],
+            ),
+
+            // Order Summary Header
+            const Divider(),
+
+            const SizedBox(height: 10.0),
+
+            // Order Summary Header
+            SizedBox(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              child: // Cart Total Price
+              Text(
+                'Order Summary: ',
+                style: TextStyle(
+                  fontSize: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.040,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            // Cart Item Information
+            Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Seller Name
+                    Text(
+                      '${latestOrder['sellerName']}',
+                      style: TextStyle(
+                        fontSize: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.038,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    const SizedBox(height: 5.0),
+
+                    if (latestOrder != null)
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: (latestOrder['cartItems'] != null)
+                              ? latestOrder['cartItems'].length
+                              : 0,
+                          itemBuilder: (BuildContext context, int menuIndex) {
+                            final cartItem =
+                            latestOrder['cartItems'][menuIndex];
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${(cartItem['menuItemQuantity'] is double)
+                                          ? cartItem['menuItemQuantity']
+                                          .toStringAsFixed(2)
+                                          : cartItem['menuItemQuantity']}X',
+                                      style: TextStyle(
+                                        fontSize:
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.035,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 30.0),
+                                    Expanded(
+                                      child: Text(
+                                        '${cartItem['menuItemName']}',
+                                        style: TextStyle(
+                                          fontSize: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width *
+                                              0.035,
+                                        ),
+                                      ),
+                                    ),
+                                    // Menu Item Price
+                                    Text(
+                                      '\$${(cartItem['menuItemPrice'] is double)
+                                          ? cartItem['menuItemPrice']
+                                          .toStringAsFixed(2)
+                                          : cartItem['menuItemPrice']}',
+                                      style: TextStyle(
+                                        fontSize:
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.035,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5.0),
+                              ],
+                            );
+                          }),
+
+                    const Divider(),
+                  ]),
+            ),
+
+            const Divider(),
+
+            // Total Price
+            SizedBox(
+              height: 50.0,
+              child: // Cart Total Price
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total: ',
+                      style: TextStyle(
+                        fontSize: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.04,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    // Menu Item Price
+                    Text(
+                      '\$${(latestOrder['cartTotalPrice'] is double)
+                          ? latestOrder['cartTotalPrice'].toStringAsFixed(2)
+                          : latestOrder['cartTotalPrice']}',
+                      style: TextStyle(
+                        fontSize: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.038,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Order Complete Button
+            Container(
+              alignment: Alignment.center,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    isPageCleared = true;
+                  });
+                  currentOrder.clear();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const OrderConfirmationScreen()));
+                },
+                icon: const Icon(Icons.check_circle_outline),
+                label: const Text("Order Complete"), //label text
+              ),
+            ),
+            const SizedBox(height: 40),
+          ],
+        ),
+      ),
+    );
   }
 }

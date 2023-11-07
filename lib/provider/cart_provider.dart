@@ -19,8 +19,7 @@ class CartProvider extends ChangeNotifier {
     });
   }
 
-  // =================Count Menu Item Quantity in Cart=========================
-  // Count Menu Item Quantity in Cart
+  // ================ Count Menu Item Quantity in Cart=========================
   void addToCartQuantity(String menuItemID, int quantity) {
     if (cartItemsQuantity.containsKey(menuItemID)) {
       // return 0 if cartItems[menuItemID] is empty
@@ -46,22 +45,14 @@ class CartProvider extends ChangeNotifier {
     cartItemsQuantity.forEach((_, quantity) {
       totalCount += quantity;
     });
-
     return totalCount;
   }
 
-  // Calculate the initial total price
-  void calculateInitialTotalPrice() {
-    totalCartPrice = cartItems.fold(
-      0.0,
-      (total, item) => total + item['menuPrice'] * item['quantity'],
-    );
-  }
-
+  // ================= Update Cart Item's Quantity ============================
   void updateCartItemQuantity(String menuItemID, int quantity) {
     // Find the index of the item in cartItems
     final int index =
-        cartItems.indexWhere((item) => item['menuID'] == menuItemID);
+    cartItems.indexWhere((item) => item['menuID'] == menuItemID);
 
     if (index != -1) {
       // Update the quantity
@@ -72,18 +63,20 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
+  // ================= Calculate the Total Price of the Cart ==================
   double calculateTotalPrice() {
     return cartItems.fold(
       0.0,
-      (total, item) => total + item['menuPrice'] * item['quantity'],
+          (total, item) => total + item['menuPrice'] * item['quantity'],
     );
   }
 
+  // ======= Calculate the Menu Item's Total Price [Quantity * Price] =========
   double calculateTotalItemPrice(Map<String, dynamic> menuItem) {
     return menuItem['menuPrice'] * menuItem['quantity'];
   }
 
-  // Delete Menu Item in Cart Check Out Page
+  // ================ Delete Menu Item in Cart Check Out Page =================
   void removeCartItem(String menuItemID) {
     cartItems.removeWhere((item) => item['menuID'] == menuItemID);
     // Remove the item from cartItemsQuantity if it exists

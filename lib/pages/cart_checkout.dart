@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../models/cartItem.dart';
 import '../models/carts.dart';
-import '../widgets/dialogs/successful_dialog.dart';
 import '../resources/mongoDB.dart';
+import '../widgets/dialogs/successful_dialog.dart';
 
 class CartCheckout extends StatefulWidget {
   const CartCheckout({super.key});
@@ -21,8 +21,8 @@ class _CartCheckoutState extends State<CartCheckout> {
   final customerEmail = sharedPreferences?.get('email');
 
   // =============== Insert User's Current Cart into DB ======================
-  Future<void> insertCartIntoDB(
-      BuildContext context, double totalCartPrice) async {
+  Future<void> insertCartIntoDB(BuildContext context,
+      double totalCartPrice) async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     // Prepare a list of CartItems objects based on the Items in the Cart
@@ -61,7 +61,7 @@ class _CartCheckoutState extends State<CartCheckout> {
     // print(cartProvider.cartItems);
 
     // to calculate the initial total price
-    cartProvider.calculateInitialTotalPrice();
+    cartProvider.calculateTotalPrice();
 
     // Calculate Total Price of Menu Items in the Cart
     double totalCartPrice = cartProvider.calculateTotalPrice();
@@ -81,14 +81,23 @@ class _CartCheckoutState extends State<CartCheckout> {
         children: [
           // Header - Order Summary
           Container(
-            width: MediaQuery.of(context).size.width * 0.92,
-            height: MediaQuery.of(context).size.height * 0.05,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.92,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.05,
             // color: Colors.black12,
             alignment: Alignment.centerLeft,
             child: Text(
               'Order Summary:',
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.040,
+                fontSize: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.040,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),
@@ -96,9 +105,12 @@ class _CartCheckoutState extends State<CartCheckout> {
           ),
           // Display Menu Items In Cart
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.67,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.67,
             child:
-                Consumer<CartProvider>(builder: (context, cartProvider, child) {
+            Consumer<CartProvider>(builder: (context, cartProvider, child) {
               return ListView.builder(
                   itemCount: cartProvider.cartItems.length,
                   itemBuilder: (context, index) {
@@ -115,7 +127,7 @@ class _CartCheckoutState extends State<CartCheckout> {
                             title: Text(
                               menuItem['menuTitle'],
                               style:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                              const TextStyle(fontWeight: FontWeight.w500),
                             ),
                             subtitle: Row(
                               children: [
@@ -166,7 +178,8 @@ class _CartCheckoutState extends State<CartCheckout> {
                               child: Row(
                                 children: [
                                   Text(
-                                    '\$${cartProvider.calculateTotalItemPrice(menuItem).toStringAsFixed(2)}',
+                                    '\$${cartProvider.calculateTotalItemPrice(
+                                        menuItem).toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16.0,
@@ -193,8 +206,14 @@ class _CartCheckoutState extends State<CartCheckout> {
           // Check Out Button
           Container(
             color: Colors.black12,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.155,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.155,
             child: Column(children: [
               Padding(
                   padding: const EdgeInsets.only(top: 25.0, bottom: 5.0),

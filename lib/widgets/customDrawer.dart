@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jiak_users_app/pages/my_order.dart';
 import 'package:jiak_users_app/pages/order_history.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../authentication/authentication_screen.dart';
 import '../pages/home.dart';
+import '../pages/my_order.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -16,11 +16,10 @@ class CustomDrawer extends StatelessWidget {
     sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences?.remove("name");
     sharedPreferences?.remove("email");
-    // sharedPreferences?.remove("id");
 
     // Navigate to Login Screen
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => AuthenticationScreen()));
+        MaterialPageRoute(builder: (context) => const AuthenticationScreen()));
   }
 
   @override
@@ -90,7 +89,8 @@ class CustomDrawer extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyOrder()));
+                            builder: (context) => const MyOrder(),
+                          ));
                     },
                   ),
                   ListTile(
