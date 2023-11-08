@@ -18,14 +18,17 @@ THURSDAY
 - Add Timestamp to History Page [D]
 
 - Add Timestamp to My Order Page [D]
-- Upon order being delivered, clear / empty the Order Delivery Page.
+- Upon order being delivered, clear / empty the Order Delivery Page. [D]
 - Clear Order Delivery Page after customer received the order in 20mins [Set Timer] [Optional]
+
+- Cart Checkout Page (checkout btn) - separate it into a new function
 
 - [cart page] If cart is empty, user cannot check out [error handling]
 - [cart page] Display screen when there are no items in the cart
 
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item
+- Can add Bottom Navbar to All Screens
 
 - Customer can only checkout items from 1 seller at once. [Optional]
 

@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 
+import '../models/carts.dart';
+
 class CartProvider extends ChangeNotifier {
   // =================List of Menu Items in Cart=========================
   List<Map<String, dynamic>> cartItems = [];
   Map<String, int> cartItemsQuantity = {};
   double totalCartPrice = 0.0;
 
-  List<Map<String, dynamic>> latestOrders = [];
+  // List<Map<String, dynamic>> latestOrders = [];
+  List<Carts> latestOrders = [];
 
   // Set the latest order
-  void setLatestOrder(List<Map<String, dynamic>> order) {
+  void setLatestOrder(List<Carts> order) {
     print("Order data in provider: $order");
     latestOrders = order;
     notifyListeners();
 
+    print(cartItems);
+    print("===========================");
     print(latestOrders);
   }
 
-  // void clearLatestOrder() {
-  //   latestOrders = null;
-  //   notifyListeners();
-  // }
+  void clearLatestOrder() {
+    latestOrders = [];
+    notifyListeners();
+  }
 
   void addToCart(Map<String, dynamic> seller, String menuItemID,
       Map<String, dynamic> menuItem, int quantity) {

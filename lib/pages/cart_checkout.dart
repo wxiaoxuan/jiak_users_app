@@ -206,22 +206,56 @@ class _CartCheckoutState extends State<CartCheckout> {
               ElevatedButton(
                 onPressed: () async {
                   await insertCartIntoDB(context, totalCartPrice);
+
                   // Store the Cart Data in Provider's LatestOrder to display in My Order Page
                   final cartProvider =
                       Provider.of<CartProvider>(context, listen: false);
 
-                  // store cartProvider.cartItems's data in a variable
-                  List<Map<String, dynamic>> newOrder = cartProvider.cartItems;
-                  // can insert one menu item.
-                  // how bout multiple menu items?
+                  List<Carts> newOrders = [];
 
-                  print("newOrder");
-                  print(newOrder);
+                  // Group cart items by seller ID
+                  Map<String, List<Map<String, dynamic>>> sellerGroupedItems =
+                      {};
 
-                  // print(cartProvider.cartItems);
-                  cartProvider.setLatestOrder(newOrder);
+                  for (var cartItem in cartProvider.cartItems) {
+                    final sellerID = cartItem['sellerID'];
 
-                  // // Clear Cart
+                    if (!sellerGroupedItems.containsKey(sellerID)) {
+                      sellerGroupedItems[sellerID] = [];
+                    }
+                    sellerGroupedItems[sellerID]?.add(cartItem);
+                  }
+
+                  // Create a Carts object for each seller group
+                  sellerGroupedItems.forEach((sellerID, items) {
+                    final seller = items[
+                        0]; // Assuming seller information is the same for all items in a group
+
+                    final List<CartItem> cartItems = items.map((item) {
+                      return CartItem(
+                        menuItemID: item['menuID'].toString(),
+                        menuItemName: item['menuTitle'],
+                        menuItemPrice: item['menuPrice'],
+                        menuItemQuantity: item['quantity'],
+                      );
+                    }).toList();
+
+                    final cart = Carts(
+                      sellerID: seller['sellerID'].toString(),
+                      sellerName: seller['sellerName'],
+                      customerName: customerName.toString(),
+                      customerEmail: customerEmail.toString(),
+                      cartTotalPrice: totalCartPrice,
+                      cartItems: cartItems,
+                      timestamp: DateTime.now(),
+                    );
+
+                    newOrders.add(cart);
+                  });
+
+                  // Store the Cart Data in Provider's LatestOrder to display in My Order Page
+                  cartProvider.setLatestOrder(newOrders);
+                  // Clear Cart
                   cartProvider.clearCart();
                   totalCartPrice = 0.0;
                   setState(() {});
@@ -238,20 +272,3 @@ class _CartCheckoutState extends State<CartCheckout> {
     );
   }
 }
-// 'cartTotalPrice': totalCartPrice,
-// 'menuID': cartProvider.cartItems[0]['menuID'],
-// 'menuTitle': cartProvider.cartItems[0]['menuTitle'],
-// 'menuInformation': cartProvider.cartItems[0]
-//     ['menuInformation'],
-// 'menuPrice': cartProvider.cartItems[0]['menuPrice'],
-
-// //
-// final orderData = {
-//   'sellerID':
-//       cartProvider.cartItems[0]['sellerID'].toString(),
-//   'sellerName': cartProvider.cartItems[0]['sellerName'],
-//   'customerName': customerName.toString(),
-//   'customerEmail': customerEmail.toString(),
-//   'cartItems': cartProvider.cartItems[0],
-//   'timestamp': DateTime.now(),
-// };

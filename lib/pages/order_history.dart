@@ -69,7 +69,7 @@ class _OrderHistoryState extends State<OrderHistory> {
       body: Column(
         children: [
           if (currentOrder.isNotEmpty)
-            // const Divider(),
+          // const Divider(),
             const SizedBox(height: 10.0),
           Expanded(
               child: ListView.builder(
@@ -95,25 +95,34 @@ class _OrderHistoryState extends State<OrderHistory> {
                               // Seller Name
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     '${order['sellerName']}',
                                     style: TextStyle(
                                       fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.04,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.04,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black87,
                                     ),
                                   ),
                                   // Total Cart Price
                                   Text(
-                                    'Total: \$${(order['cartTotalPrice'] is double) ? order['cartTotalPrice'].toStringAsFixed(2) : order['cartTotalPrice']}',
+                                    'Total: \$${(order['cartTotalPrice'] is double)
+                                        ? order['cartTotalPrice']
+                                        .toStringAsFixed(2)
+                                        : order['cartTotalPrice']}',
                                     style: TextStyle(
                                       fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.038,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.038,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -129,19 +138,23 @@ class _OrderHistoryState extends State<OrderHistory> {
                                   itemBuilder:
                                       (BuildContext context, int menuIndex) {
                                     final cartItem =
-                                        order['cartItems'][menuIndex];
+                                    order['cartItems'][menuIndex];
 
                                     return Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         // Menu Item Quantity
                                         Text(
-                                          '${(cartItem['menuItemQuantity'] is double) ? cartItem['menuItemQuantity'].toStringAsFixed(2) : cartItem['menuItemQuantity']}X',
+                                          '${(cartItem['menuItemQuantity'] is double)
+                                              ? cartItem['menuItemQuantity']
+                                              .toStringAsFixed(2)
+                                              : cartItem['menuItemQuantity']}X',
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                            fontSize: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width *
                                                 0.035,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -152,20 +165,25 @@ class _OrderHistoryState extends State<OrderHistory> {
                                           child: Text(
                                             '${cartItem['menuItemName']}',
                                             style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
+                                              fontSize: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width *
                                                   0.035,
                                             ),
                                           ),
                                         ),
                                         // Menu Item Price
                                         Text(
-                                          '\$${(cartItem['menuItemPrice'] is double) ? cartItem['menuItemPrice'].toStringAsFixed(2) : cartItem['menuItemPrice']}',
+                                          '\$${(cartItem['menuItemPrice'] is double)
+                                              ? cartItem['menuItemPrice']
+                                              .toStringAsFixed(2)
+                                              : cartItem['menuItemPrice']}',
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                            fontSize: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width *
                                                 0.035,
                                           ),
                                         ),
@@ -173,6 +191,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     );
                                   }),
                               const SizedBox(height: 20.0),
+
                               // Timestamp
                               Row(
                                 children: [
@@ -180,8 +199,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     'Date: ',
                                     style: TextStyle(
                                         fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.028,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.028,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54),
                                   ),
@@ -190,8 +212,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     date,
                                     style: TextStyle(
                                         fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.028,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.028,
                                         color: Colors.black54),
                                   ),
                                   const SizedBox(width: 30.0),
@@ -199,8 +224,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     'Time:',
                                     style: TextStyle(
                                         fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.028,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.028,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54),
                                   ),
@@ -209,8 +237,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     '${hour}:${minute}',
                                     style: TextStyle(
                                         fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.028,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.028,
                                         color: Colors.black54),
                                   ),
                                 ],
@@ -223,8 +254,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     'Booking ID: ',
                                     style: TextStyle(
                                         fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.028,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.028,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black54),
                                   ),
@@ -233,8 +267,11 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     currentOrder[0]['_id'].toString(),
                                     style: TextStyle(
                                         fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.028,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.028,
                                         color: Colors.black54),
                                   ),
                                 ],
