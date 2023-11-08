@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../authentication/authentication_screen.dart';
 import '../pages/home.dart';
-import '../pages/my_order.dart';
+import '../pages/my_order_copy.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -89,7 +89,7 @@ class CustomDrawer extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MyOrder(),
+                            builder: (context) => const MyOrderCopy(),
                           ));
                     },
                   ),

@@ -6,6 +6,22 @@ class CartProvider extends ChangeNotifier {
   Map<String, int> cartItemsQuantity = {};
   double totalCartPrice = 0.0;
 
+  List<Map<String, dynamic>> latestOrders = [];
+
+  // Set the latest order
+  void setLatestOrder(List<Map<String, dynamic>> order) {
+    print("Order data in provider: $order");
+    latestOrders = order;
+    notifyListeners();
+
+    print(latestOrders);
+  }
+
+  // void clearLatestOrder() {
+  //   latestOrders = null;
+  //   notifyListeners();
+  // }
+
   void addToCart(Map<String, dynamic> seller, String menuItemID,
       Map<String, dynamic> menuItem, int quantity) {
     cartItems.add({
@@ -52,7 +68,7 @@ class CartProvider extends ChangeNotifier {
   void updateCartItemQuantity(String menuItemID, int quantity) {
     // Find the index of the item in cartItems
     final int index =
-    cartItems.indexWhere((item) => item['menuID'] == menuItemID);
+        cartItems.indexWhere((item) => item['menuID'] == menuItemID);
 
     if (index != -1) {
       // Update the quantity
@@ -67,7 +83,7 @@ class CartProvider extends ChangeNotifier {
   double calculateTotalPrice() {
     return cartItems.fold(
       0.0,
-          (total, item) => total + item['menuPrice'] * item['quantity'],
+      (total, item) => total + item['menuPrice'] * item['quantity'],
     );
   }
 

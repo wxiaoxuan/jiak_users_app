@@ -21,8 +21,8 @@ class _CartCheckoutState extends State<CartCheckout> {
   final customerEmail = sharedPreferences?.get('email');
 
   // =============== Insert User's Current Cart into DB ======================
-  Future<void> insertCartIntoDB(BuildContext context,
-      double totalCartPrice) async {
+  Future<void> insertCartIntoDB(
+      BuildContext context, double totalCartPrice) async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     // Prepare a list of CartItems objects based on the Items in the Cart
@@ -58,7 +58,6 @@ class _CartCheckoutState extends State<CartCheckout> {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    // print(cartProvider.cartItems);
 
     // to calculate the initial total price
     cartProvider.calculateTotalPrice();
@@ -81,23 +80,14 @@ class _CartCheckoutState extends State<CartCheckout> {
         children: [
           // Header - Order Summary
           Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.92,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.05,
+            width: MediaQuery.of(context).size.width * 0.92,
+            height: MediaQuery.of(context).size.height * 0.05,
             // color: Colors.black12,
             alignment: Alignment.centerLeft,
             child: Text(
               'Order Summary:',
               style: TextStyle(
-                fontSize: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.040,
+                fontSize: MediaQuery.of(context).size.width * 0.040,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),
@@ -105,16 +95,14 @@ class _CartCheckoutState extends State<CartCheckout> {
           ),
           // Display Menu Items In Cart
           SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.67,
+            height: MediaQuery.of(context).size.height * 0.67,
             child:
-            Consumer<CartProvider>(builder: (context, cartProvider, child) {
+                Consumer<CartProvider>(builder: (context, cartProvider, child) {
               return ListView.builder(
                   itemCount: cartProvider.cartItems.length,
                   itemBuilder: (context, index) {
                     final menuItem = cartProvider.cartItems[index];
+                    // print(cartProvider.cartItems);
 
                     return GestureDetector(
                       onTap: () {},
@@ -127,7 +115,7 @@ class _CartCheckoutState extends State<CartCheckout> {
                             title: Text(
                               menuItem['menuTitle'],
                               style:
-                              const TextStyle(fontWeight: FontWeight.w500),
+                                  const TextStyle(fontWeight: FontWeight.w500),
                             ),
                             subtitle: Row(
                               children: [
@@ -178,8 +166,7 @@ class _CartCheckoutState extends State<CartCheckout> {
                               child: Row(
                                 children: [
                                   Text(
-                                    '\$${cartProvider.calculateTotalItemPrice(
-                                        menuItem).toStringAsFixed(2)}',
+                                    '\$${cartProvider.calculateTotalItemPrice(menuItem).toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16.0,
@@ -206,14 +193,8 @@ class _CartCheckoutState extends State<CartCheckout> {
           // Check Out Button
           Container(
             color: Colors.black12,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.155,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.155,
             child: Column(children: [
               Padding(
                   padding: const EdgeInsets.only(top: 25.0, bottom: 5.0),
@@ -223,8 +204,24 @@ class _CartCheckoutState extends State<CartCheckout> {
                         fontWeight: FontWeight.bold, fontSize: 18.0),
                   )),
               ElevatedButton(
-                onPressed: () {
-                  insertCartIntoDB(context, totalCartPrice);
+                onPressed: () async {
+                  await insertCartIntoDB(context, totalCartPrice);
+                  // Store the Cart Data in Provider's LatestOrder to display in My Order Page
+                  final cartProvider =
+                      Provider.of<CartProvider>(context, listen: false);
+
+                  // store cartProvider.cartItems's data in a variable
+                  List<Map<String, dynamic>> newOrder = cartProvider.cartItems;
+                  // can insert one menu item.
+                  // how bout multiple menu items?
+
+                  print("newOrder");
+                  print(newOrder);
+
+                  // print(cartProvider.cartItems);
+                  cartProvider.setLatestOrder(newOrder);
+
+                  // // Clear Cart
                   cartProvider.clearCart();
                   totalCartPrice = 0.0;
                   setState(() {});
@@ -241,3 +238,20 @@ class _CartCheckoutState extends State<CartCheckout> {
     );
   }
 }
+// 'cartTotalPrice': totalCartPrice,
+// 'menuID': cartProvider.cartItems[0]['menuID'],
+// 'menuTitle': cartProvider.cartItems[0]['menuTitle'],
+// 'menuInformation': cartProvider.cartItems[0]
+//     ['menuInformation'],
+// 'menuPrice': cartProvider.cartItems[0]['menuPrice'],
+
+// //
+// final orderData = {
+//   'sellerID':
+//       cartProvider.cartItems[0]['sellerID'].toString(),
+//   'sellerName': cartProvider.cartItems[0]['sellerName'],
+//   'customerName': customerName.toString(),
+//   'customerEmail': customerEmail.toString(),
+//   'cartItems': cartProvider.cartItems[0],
+//   'timestamp': DateTime.now(),
+// };

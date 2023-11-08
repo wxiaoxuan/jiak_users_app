@@ -19,7 +19,10 @@ THURSDAY
 
 - Add Timestamp to My Order Page [D]
 - Upon order being delivered, clear / empty the Order Delivery Page.
-- Clear Order Delivery Page after customer received the order in 20mins [Set Timer]
+- Clear Order Delivery Page after customer received the order in 20mins [Set Timer] [Optional]
+
+- [cart page] If cart is empty, user cannot check out [error handling]
+- [cart page] Display screen when there are no items in the cart
 
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item

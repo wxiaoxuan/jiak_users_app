@@ -197,7 +197,7 @@ class _MyOrderState extends State<MyOrder> {
               ],
             ),
 
-            // Order Summary Header
+
             const Divider(),
 
             const SizedBox(height: 10.0),
