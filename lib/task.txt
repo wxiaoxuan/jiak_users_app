@@ -18,8 +18,8 @@ THURSDAY
 - Add Timestamp to History Page [D]
 
 - Add Timestamp to My Order Page [D]
-- Upon order being delivered, clear / empty the Order Delivery Page. [D]
-- Clear Order Delivery Page after customer received the order in 20mins [Set Timer] [Optional]
+- Upon order being delivered, clear / empty the My Order Page. [D]
+- Clear My Order Page after customer received the order in 20mins [Set Timer] [Optional]
 
 - Cart Checkout Page (checkout btn) - separate it into a new function
 
@@ -32,11 +32,10 @@ THURSDAY
 
 - Customer can only checkout items from 1 seller at once. [Optional]
 
-FRIDAYs
+[SELLER]
 - For Sellers Model => breakdown seller's location, add ratings, add category [Delivery / Pickup] [Western / Asian / Beverage] [Optional]
 - Gather Sellers + Users Resources/Images, Clean DB & Re-insert All Users Data
 
-TUES - THURS / FRI
 - In Seller App
   => Update Menu Items,
   => Delete Menu Items
@@ -56,13 +55,13 @@ TUES - THURS / FRI
   => Past Orders
   => Own Outlet's Ratings Page
 
+// ==============================================================================================
+
 FUTURE PLAN
 - Seller to retrieve & accept the User's Order [Delivery]
   => Send Order to Delivery Rider's App
   => Rider Accept Order
   => [Rider makes its trip there] GPS Map to Seller's Destination + Est Time Order Done
   => [Rider reach outlet] Pickup Order + GPS OTW To User's Destination
-
-
 
 // ==============================================================================================

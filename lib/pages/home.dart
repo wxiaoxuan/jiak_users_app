@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/cart_provider.dart';
 import '../resources/mongoDB.dart';
-import '../widgets/customDrawer.dart';
+import '../widgets/components/customDrawer.dart';
 import '../widgets/homeWidgets/headers.dart';
 import '../widgets/homeWidgets/sellerListHorizontal.dart';
 

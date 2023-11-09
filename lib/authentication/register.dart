@@ -2,16 +2,16 @@ import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import '../widgets/custom_textfield.dart';
-import '../widgets/dialogs/loading_dialog.dart';
-import '../widgets/dialogs/successful_dialog.dart';
-import '../widgets/enter_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/user.dart';
 import '../resources/global.dart';
 import '../resources/mongoDB.dart';
-import '../models/user.dart';
+import '../widgets/components/custom_textfield.dart';
+import '../widgets/components/enter_button.dart';
 import '../widgets/dialogs/error_dialog.dart';
+import '../widgets/dialogs/loading_dialog.dart';
+import '../widgets/dialogs/successful_dialog.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});

@@ -3,9 +3,9 @@ import 'package:jiak_users_app/pages/order_history.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../authentication/authentication_screen.dart';
-import '../pages/home.dart';
-import '../pages/my_order_copy.dart';
+import '../../authentication/authentication_screen.dart';
+import '../../pages/home.dart';
+import '../../pages/my_order.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -89,7 +89,7 @@ class CustomDrawer extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MyOrderCopy(),
+                            builder: (context) => const MyOrder(),
                           ));
                     },
                   ),
@@ -105,18 +105,29 @@ class CustomDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.search, color: Colors.black),
-                    title: const Text('Search',
+                    leading: const Icon(Icons.person, color: Colors.black),
+                    title: const Text('Profile',
                         style: TextStyle(color: Colors.black)),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OrderHistory()));
+                    },
                   ),
-                  ListTile(
-                    leading:
-                        const Icon(Icons.add_location, color: Colors.black),
-                    title: const Text('Add New Address',
-                        style: TextStyle(color: Colors.black)),
-                    onTap: () {},
-                  ),
+                  // ListTile(
+                  //   leading: const Icon(Icons.search, color: Colors.black),
+                  //   title: const Text('Search',
+                  //       style: TextStyle(color: Colors.black)),
+                  //   onTap: () {},
+                  // ),
+                  // ListTile(
+                  //   leading:
+                  //       const Icon(Icons.add_location, color: Colors.black),
+                  //   title: const Text('Add New Address',
+                  //       style: TextStyle(color: Colors.black)),
+                  //   onTap: () {},
+                  // ),
                   ListTile(
                     leading: const Icon(Icons.exit_to_app, color: Colors.black),
                     title: const Text('Logout',

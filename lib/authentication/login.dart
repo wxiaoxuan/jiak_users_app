@@ -2,14 +2,13 @@ import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../resources/global.dart';
-import '../resources/mongoDB.dart';
-import '../widgets/custom_textfield.dart';
-import '../widgets/dialogs/error_dialog.dart';
-import '../widgets/enter_button.dart';
-
 import '../models/user.dart';
 import '../pages/home.dart';
+import '../resources/global.dart';
+import '../resources/mongoDB.dart';
+import '../widgets/components/custom_textfield.dart';
+import '../widgets/components/enter_button.dart';
+import '../widgets/dialogs/error_dialog.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});

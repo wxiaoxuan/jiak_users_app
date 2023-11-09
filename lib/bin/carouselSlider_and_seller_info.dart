@@ -1,14 +1,15 @@
-import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
-import 'package:jiak_users_app/widgets/customDrawer.dart';
+
+import '../widgets/components/customDrawer.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
   static const String id = 'homepage';
 
   @override
@@ -81,10 +82,13 @@ class _HomepageState extends State<Homepage> {
                     items: items.map((index) {
                       return Builder(builder: (BuildContext context) {
                         return Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
                           margin: const EdgeInsets.symmetric(horizontal: 25.0),
                           decoration:
-                              const BoxDecoration(color: Colors.black54),
+                          const BoxDecoration(color: Colors.black54),
                           child: Padding(
                             padding: const EdgeInsets.all(2.5),
                             child: Image.asset(index, fit: BoxFit.fill),
@@ -93,7 +97,10 @@ class _HomepageState extends State<Homepage> {
                       });
                     }).toList(),
                     options: CarouselOptions(
-                      height: MediaQuery.of(context).size.height * 0.20,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.20,
                       aspectRatio: 16 / 9,
                       viewportFraction: 0.8,
                       initialPage: 0,
@@ -102,7 +109,7 @@ class _HomepageState extends State<Homepage> {
                       autoPlay: true,
                       autoPlayInterval: const Duration(seconds: 3),
                       autoPlayAnimationDuration:
-                          const Duration(milliseconds: 500),
+                      const Duration(milliseconds: 500),
                       autoPlayCurve: Curves.decelerate,
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
@@ -114,7 +121,7 @@ class _HomepageState extends State<Homepage> {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
+                  (BuildContext context, int index) {
                 final seller = sellerList[index];
                 Uint8List? imageBytes;
                 String? filename;
@@ -141,7 +148,7 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           Material(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(80.0)),
+                            const BorderRadius.all(Radius.circular(80.0)),
                             elevation: 10.0,
                             child: Padding(
                               padding: const EdgeInsets.all(1.0),
@@ -165,7 +172,7 @@ class _HomepageState extends State<Homepage> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -173,8 +180,11 @@ class _HomepageState extends State<Homepage> {
                                     'Seller Name: ${seller['name']}',
                                     style: TextStyle(
                                       fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.035,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -182,8 +192,11 @@ class _HomepageState extends State<Homepage> {
                                     'Contact Us: ${seller['phone']}',
                                     style: TextStyle(
                                       fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.035,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -191,8 +204,11 @@ class _HomepageState extends State<Homepage> {
                                     'Address: ${seller['location']}',
                                     style: TextStyle(
                                       fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.035,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),

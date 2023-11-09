@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../provider/cart_provider.dart';
+
+import '../../provider/cart_provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+
   const CustomAppBar({super.key, required this.title});
 
   @override
