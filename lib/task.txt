@@ -20,10 +20,13 @@ THURSDAY
 - Add Timestamp to My Order Page [D]
 - Upon order being delivered, clear / empty the My Order Page. [D]
 
-- Cart Checkout Page (checkout btn) - separate it into a new function
+- Cart Checkout Page (checkout btn) - separate it into a new function [D]
 
 - [cart page] If cart is empty, user cannot check out [error handling]
-- [cart page] Display screen when there are no items in the cart
+- [cart page] Display screen when there are no items in the cart [D]
+
+- When user delete menu item from cart, the total price shld change
+- When user delete and the cart becomes empty, display the empty UI
 
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item

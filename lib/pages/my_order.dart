@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/cart_provider.dart';
 import '../widgets/components/customDrawer.dart';
+import 'home.dart';
 
 class MyOrder extends StatefulWidget {
   const MyOrder({super.key});
@@ -183,7 +184,13 @@ class _MyOrderState extends State<MyOrder> {
                     const Text('No orders currently.'),
                     const SizedBox(height: 20.0),
                     ElevatedButton(
-                        onPressed: () {}, child: const Text('Start Ordering!'))
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Home()));
+                        },
+                        child: const Text('Start Ordering!'))
                   ],
                 ),
               )

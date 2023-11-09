@@ -19,11 +19,11 @@ class EnterButton extends StatelessWidget {
           // backgroundColor: Colors.amber,
           backgroundColor: Colors.yellow[800],
           padding:
-              const EdgeInsets.symmetric(horizontal: 150.0, vertical: 12.0)),
+              const EdgeInsets.symmetric(horizontal: 100.0, vertical: 12.0)),
       child: Text(
         name,
         style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18.0),
+            color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16.0),
       ),
     );
   }

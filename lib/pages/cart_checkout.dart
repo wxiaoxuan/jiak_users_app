@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiak_users_app/provider/cart_provider.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/widgets/cart_item_list.dart';
+import 'package:jiak_users_app/widgets/components/enter_button.dart';
 import 'package:jiak_users_app/widgets/components/header.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
 import 'package:provider/provider.dart';
@@ -119,7 +120,7 @@ class _CartCheckoutState extends State<CartCheckout> {
 
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.yellow[800],
+        backgroundColor: Colors.yellow[800],
         title: const Text("Cart"),
         titleTextStyle: const TextStyle(
           color: Color(0xff3e3e3c),
@@ -131,48 +132,61 @@ class _CartCheckoutState extends State<CartCheckout> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Display Empty Cart UI
+          if (cartProvider.cartItems.isEmpty)
+            const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Cart is currently empty.'),
+                ],
+              ),
+            ),
+
           // Header - Order Summary
           if (cartProvider.cartItems.isNotEmpty)
-            const HeaderTextStyle(text: 'Order Summary')
-          else
-            // Display Empty Cart UI
-            SizedBox(height: MediaQuery.of(context).size.height * 0.35),
-          const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Cart is currently empty.'),
-              ],
-            ),
-          ),
+            const HeaderTextStyle(text: 'Order Summary'),
 
           // Display Menu Items In Cart
           const CartItemList(),
 
-          // Check Out Button
+          const Divider(),
 
-          Container(
-            color: Colors.black12,
+          // Check Out Button
+          SizedBox(
+            // color: Colors.black12,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.15,
             child: Column(children: [
-              Padding(
-                  padding: const EdgeInsets.only(top: 25.0, bottom: 5.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
                   child: Text(
                     'Total: \$${totalCartPrice.toStringAsFixed(2)}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18.0),
-                  )),
-              ElevatedButton(
+                  ),
+                ),
+              ),
+              EnterButton(
+                name: 'Check Out',
                 onPressed: () async {
                   await insertCartIntoDB(context, totalCartPrice);
                   processCartData(totalCartPrice);
                 },
-                child: const Text(
-                  'Check Out',
-                  style: TextStyle(fontSize: 16.0, color: Colors.black87),
-                ),
               ),
+              // ElevatedButton(
+              //   onPressed: () async {
+              //     await insertCartIntoDB(context, totalCartPrice);
+              //     processCartData(totalCartPrice);
+              //   },
+              //   child: const Text(
+              //     'Check Out',
+              //     style: TextStyle(fontSize: 16.0, color: Colors.black87),
+              //   ),
+              // ),
             ]),
           ),
         ],

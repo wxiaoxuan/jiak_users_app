@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-import 'package:number_inc_dec/number_inc_dec.dart';
 
+import 'package:flutter/material.dart';
 import 'package:jiak_users_app/pages/menu_list.dart';
 import 'package:jiak_users_app/provider/cart_provider.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
+import 'package:provider/provider.dart';
 
 class SelectedMenuItemDetails extends StatefulWidget {
   final Map<String, dynamic> selectedSellerInformation;
@@ -91,7 +91,7 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
             const SizedBox(height: 50.0),
 
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              padding: const EdgeInsets.only(left: 25.0, right: 25.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -150,7 +150,7 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
                     ),
                   ),
 
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                   // Add to cart Button
                   ElevatedButton(
                     onPressed: () {
@@ -180,6 +180,7 @@ class _SelectedMenuItemDetailsState extends State<SelectedMenuItemDetails> {
                                       widget.selectedSellerInformation)));
                     },
                     style: ElevatedButton.styleFrom(
+                        // backgroundColor: Colors.white12,
                         backgroundColor: Colors.yellow[800],
                         padding: const EdgeInsets.symmetric(
                             horizontal: 100.0, vertical: 12.0)),
