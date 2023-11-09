@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:jiak_users_app/widgets/orderHistory_widgets/date_time.dart';
-import 'package:jiak_users_app/widgets/orderHistory_widgets/menuItem_text.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/cart_provider.dart';
@@ -122,18 +120,33 @@ class _MyOrderState extends State<MyOrder> {
                           Row(
                             children: [
                               // Quantity
-                              MenuItemText(
-                                  text:
-                                      '${menuItem.menuItemQuantity.toString()}X'),
+                              Text(
+                                '${menuItem.menuItemQuantity.toString()}X',
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.035,
+                                ),
+                              ),
                               const SizedBox(width: 50.0),
                               // Menu Item Name
                               Expanded(
-                                  child: MenuItemText(
-                                      text: menuItem.menuItemName)),
+                                child: Text(
+                                  menuItem.menuItemName,
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035,
+                                  ),
+                                ),
+                              ),
                               // Menu Item Price
-                              MenuItemText(
-                                  text:
-                                      '\$${(menuItem.menuItemPrice is double) ? menuItem.menuItemPrice.toStringAsFixed(2) : menuItem.menuItemPrice}'),
+                              Text(
+                                '\$${(menuItem.menuItemPrice is double) ? menuItem.menuItemPrice.toStringAsFixed(2) : menuItem.menuItemPrice}',
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.035,
+                                ),
+                              ),
                             ],
                           ),
 
@@ -142,15 +155,33 @@ class _MyOrderState extends State<MyOrder> {
                         // Timestamp
                         Row(
                           children: [
-                            DateTimeTextStyle(
-                                text: 'Date: $date',
-                                fontWeight: FontWeight.w400),
+                            Text(
+                              'Date: $date',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.028,
+                                  fontWeight: FontWeight.w400),
+                            ),
                             const SizedBox(width: 30.0),
-                            DateTimeTextStyle(
-                                text: 'Time: $time',
-                                fontWeight: FontWeight.w400),
+                            Text(
+                              'Time: $time',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.028,
+                                  fontWeight: FontWeight.w400),
+                            ),
                           ],
                         ),
+
+                        // Booking ID Reference
+                        // for (var order in cartProvider.latestOrders)
+                        //   Text(
+                        //     'Booking ID: ${order.cartID.toString()}',
+                        //     style: TextStyle(
+                        //         fontSize:
+                        //             MediaQuery.of(context).size.width * 0.028,
+                        //         fontWeight: FontWeight.w400),
+                        //   ),
                         const SizedBox(height: 10.0),
                         const Divider(),
                       ],
@@ -162,7 +193,7 @@ class _MyOrderState extends State<MyOrder> {
             if (cartProvider.latestOrders.isNotEmpty)
               SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.15,
                   child: Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
