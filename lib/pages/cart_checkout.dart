@@ -116,6 +116,7 @@ class _CartCheckoutState extends State<CartCheckout> {
     final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
         backgroundColor: Colors.yellow[800],
         title: const Text("Cart"),
@@ -126,62 +127,186 @@ class _CartCheckoutState extends State<CartCheckout> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Display Empty Cart UI
-          if (cartProvider.cartItems.isEmpty)
-            const Center(
-              heightFactor: 30,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Cart is currently empty.'),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Display Empty Cart UI
+            if (cartProvider.cartItems.isEmpty)
+              const Center(
+                heightFactor: 30,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Cart is currently empty.'),
+                  ],
+                ),
+              ),
+
+            // Header - Order Summary
+            if (cartProvider.cartItems.isNotEmpty)
+
+              // Delivery Address
+              if (cartProvider.cartItems.isNotEmpty)
+                if (cartProvider.cartItems.isNotEmpty)
+                  Container(
+                      color: Colors.grey.shade200,
+                      width: MediaQuery.of(context).size.width,
+                      child:
+                          const HeaderTextStyle(text: 'Contactless Delivery')),
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10.0),
+                    // Map
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.16,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.asset('assets/images/map.png'),
+                    ),
+                    const SizedBox(height: 10.0),
+                    // Customer Address Details
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: MediaQuery.of(context).size.width,
+                      // color: Colors.grey.shade200,
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.location_on, color: Colors.red),
+                          SizedBox(width: 10.0),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Teddy Wong ',
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    'Neil Road 123 ',
+                                    style: TextStyle(fontSize: 14.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Icon(Icons.arrow_forward_ios_rounded),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
 
-          // Header - Order Summary
-          if (cartProvider.cartItems.isNotEmpty)
-            const HeaderTextStyle(text: 'Order Summary'),
-
-          // Display Menu Items In Cart
-          const CartItemList(),
-
-          const Divider(),
-
-          // Check Out Section
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.15,
-            child: Column(children: [
+            if (cartProvider.cartItems.isNotEmpty)
               Container(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
-                  child: Text(
-                    'Total: \$${cartProvider.totalCartPrice.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18.0),
-                  ),
+                  color: Colors.grey.shade200,
+                  width: MediaQuery.of(context).size.width,
+                  child: const HeaderTextStyle(text: 'Cart Summary')),
+
+            // Display Menu Items In Cart
+            if (cartProvider.cartItems.isNotEmpty) const CartItemList(),
+
+            const Divider(),
+
+            // Payment Method
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+              width: MediaQuery.of(context).size.width,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Payment Method',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    SizedBox(height: 15.0),
+                    Row(
+                      children: [
+                        Icon(Icons.money_rounded, color: Colors.green),
+                        SizedBox(width: 5.0),
+                        Expanded(
+                          child: Text(
+                            'SGD ',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                        Text(
+                          'Promo Code ',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              EnterButton(
-                name: 'Check Out',
-                onPressed: () async {
-                  if (cartProvider.cartItems.isEmpty) {
-                    ErrorDialog.showWithTimer(
-                        context, 'Cart is empty. Add items to check out.');
-                  } else {
-                    // await insertCartIntoDB(context, totalCartPrice);
-                    // processCartData(totalCartPrice);
-                  }
-                },
-              ),
-            ]),
-          ),
-        ],
+            ),
+
+            const Divider(),
+
+            // Check Out Section
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.15,
+              child: Column(children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0, vertical: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Total: ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 16.0),
+                        ),
+                        Text(
+                          '\$${cartProvider.totalCartPrice.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: EnterButton(
+                    name: 'Check Out',
+                    onPressed: () async {
+                      if (cartProvider.cartItems.isEmpty) {
+                        ErrorDialog.showWithTimer(
+                            context, 'Cart is empty. Add items to check out.');
+                      } else {
+                        // await insertCartIntoDB(context, totalCartPrice);
+                        // processCartData(totalCartPrice);
+                      }
+                    },
+                  ),
+                ),
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -12,8 +12,8 @@ class HeaderTextStyle extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: MediaQuery.of(context).size.width * 0.040,
-          fontWeight: FontWeight.w600,
+          fontSize: MediaQuery.of(context).size.width * 0.036,
+          fontWeight: FontWeight.w700,
           color: Colors.black87,
         ),
       ),
