@@ -45,9 +45,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F3F0),
       drawer: const CustomDrawer(),
       appBar: AppBar(
         // backgroundColor: Colors.yellow[800],
+        backgroundColor: const Color(0xFFF5F3F0),
         title: const Text('Home'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
@@ -75,24 +77,24 @@ class _HomeState extends State<Home> {
                 // if (itemCount > 0)
                 Positioned(
                     child: Stack(
-                      children: [
-                        const Icon(
-                          Icons.brightness_1,
-                          size: 20.0,
-                          color: Colors.deepOrangeAccent,
-                        ),
-                        Positioned(
-                            top: 1,
-                            right: 6,
-                            child: Center(
-                              child: Text(
-                                itemCount.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 12),
-                              ),
-                            ))
-                      ],
-                    ))
+                  children: [
+                    const Icon(
+                      Icons.brightness_1,
+                      size: 20.0,
+                      color: Colors.deepOrangeAccent,
+                    ),
+                    Positioned(
+                        top: 1,
+                        right: 6,
+                        child: Center(
+                          child: Text(
+                            itemCount.toString(),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
+                          ),
+                        ))
+                  ],
+                ))
               ],
             );
           }),
@@ -134,19 +136,15 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(
                       left: 15.0, right: 10.0, bottom: 10.0),
                   child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.45,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.28,
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.28,
                     // color: Colors.lightBlueAccent,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.grey,
-                      boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 1)],
+                      color: Color(0xFF626160),
+                      boxShadow: [
+                        BoxShadow(color: Color(0xFF626160), blurRadius: 1)
+                      ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +175,7 @@ class _HomeState extends State<Home> {
                         // Button
                         Padding(
                           padding:
-                          const EdgeInsets.only(left: 45.0, top: 110.0),
+                              const EdgeInsets.only(left: 45.0, top: 110.0),
                           child: ElevatedButton(
                             onPressed: () {},
                             child: const Row(
@@ -207,20 +205,14 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.only(
                           left: 0.0, right: 0.0, bottom: 10.0),
                       child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.45,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.17,
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: MediaQuery.of(context).size.height * 0.17,
                         // color: Colors.lightBlueAccent,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.grey,
+                          color: Color(0xFF626160),
                           boxShadow: [
-                            BoxShadow(color: Colors.grey, blurRadius: 1)
+                            BoxShadow(color: Color(0xFF626160), blurRadius: 1)
                           ],
                         ),
                         child: const Column(
@@ -258,20 +250,14 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.only(
                           left: 0.0, right: 0.0, bottom: 10.0),
                       child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.45,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: MediaQuery.of(context).size.height * 0.1,
                         // color: Colors.lightBlueAccent,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.grey,
+                          color: Color(0xFF626160),
                           boxShadow: [
-                            BoxShadow(color: Colors.grey, blurRadius: 1)
+                            BoxShadow(color: Color(0xFF626160), blurRadius: 1)
                           ],
                         ),
                         child: const Column(

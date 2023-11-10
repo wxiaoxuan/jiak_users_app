@@ -173,20 +173,15 @@ class _CartCheckoutState extends State<CartCheckout> {
               EnterButton(
                 name: 'Check Out',
                 onPressed: () async {
-                  await insertCartIntoDB(context, totalCartPrice);
-                  processCartData(totalCartPrice);
+                  if (cartProvider.cartItems.isEmpty) {
+                    ErrorDialog.showWithTimer(
+                        context, 'Cart is empty. Add items to check out.');
+                  } else {
+                    await insertCartIntoDB(context, totalCartPrice);
+                    processCartData(totalCartPrice);
+                  }
                 },
               ),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     await insertCartIntoDB(context, totalCartPrice);
-              //     processCartData(totalCartPrice);
-              //   },
-              //   child: const Text(
-              //     'Check Out',
-              //     style: TextStyle(fontSize: 16.0, color: Colors.black87),
-              //   ),
-              // ),
             ]),
           ),
         ],

@@ -9,3 +9,11 @@
 //     ),
 //   ),
 // ),
+
+// ==================== SnackBar Version ==========================
+// ScaffoldMessenger.of(context).showSnackBar(
+//   const SnackBar(
+//     content: Text('Cart is empty. Add items to check out.'),
+//     duration: Duration(seconds: 2),
+//   ),
+// );
