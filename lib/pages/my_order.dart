@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jiak_users_app/pages/order_confirmation_screen.dart';
 import 'package:jiak_users_app/widgets/components/enter_button.dart';
 import 'package:jiak_users_app/widgets/orderHistory_widgets/date_time.dart';
 import 'package:jiak_users_app/widgets/orderHistory_widgets/menuItem_text.dart';
@@ -161,10 +162,12 @@ class _MyOrderState extends State<MyOrder> {
                       child: EnterButton(
                           name: 'Received order',
                           onPressed: () {
+                            cartProvider.clearLatestOrder();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()));
+                                    builder: (context) =>
+                                        const OrderConfirmationScreen()));
                           })),
                 ),
               )
