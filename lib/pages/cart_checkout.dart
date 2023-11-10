@@ -113,7 +113,7 @@ class _CartCheckoutState extends State<CartCheckout> {
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -161,7 +161,7 @@ class _CartCheckoutState extends State<CartCheckout> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10.0),
                   child: Text(
-                    'Total: \$${cartProvider.calculateTotalPrice().toStringAsFixed(2)}',
+                    'Total: \$${cartProvider.totalCartPrice.toStringAsFixed(2)}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18.0),
                   ),

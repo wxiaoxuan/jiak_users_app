@@ -25,7 +25,7 @@ THURSDAY
   > Update Email, Name, Picture, Payment, Address
 
 - When user delete menu item from cart, the total price shld change
-- When user delete and the cart becomes empty, display the empty UI
+- When user delete and the cart becomes empty, display the empty UI [D]
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item
 
