@@ -45,11 +45,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F3F0),
+      backgroundColor: const Color(0xFFF7F7F7),
+      // backgroundColor: const Color(0xFFF5F3F0),
       drawer: const CustomDrawer(),
       appBar: AppBar(
-        // backgroundColor: Colors.yellow[800],
-        backgroundColor: const Color(0xFFF5F3F0),
+        backgroundColor: Colors.yellow[800],
+        // backgroundColor: const Color(0xFFF5F3F0),
         title: const Text('Home'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
@@ -81,7 +82,7 @@ class _HomeState extends State<Home> {
                     const Icon(
                       Icons.brightness_1,
                       size: 20.0,
-                      color: Colors.deepOrangeAccent,
+                      color: Colors.green,
                     ),
                     Positioned(
                         top: 1,

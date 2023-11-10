@@ -74,7 +74,7 @@ class _SellerMenuListState extends State<SellerMenuList> {
                       MaterialPageRoute(builder: (context) => const Home()));
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
-        // backgroundColor: Colors.yellow[800],
+        backgroundColor: Colors.yellow[800],
         title: Text('${widget.selectedSellerInformation['name']}\'s Menu'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
@@ -106,7 +106,7 @@ class _SellerMenuListState extends State<SellerMenuList> {
                     const Icon(
                       Icons.brightness_1,
                       size: 20.0,
-                      color: Colors.deepOrangeAccent,
+                      color: Colors.green,
                     ),
                     Positioned(
                         top: 1,

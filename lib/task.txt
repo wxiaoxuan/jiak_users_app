@@ -1,4 +1,4 @@
-THURSDAY
+Tasks to do:
 - update CartProvider to add Menu Item Details + Menu ID, Quantity inside. [D]
 - Display Cart Items in Cart_Checkout Page [D]
 - Checkout cart n add into db [D]
@@ -15,19 +15,24 @@ THURSDAY
 - Upon order being delivered, clear / empty the My Order Page. [D]
 - Cart Checkout Page (checkout btn) - separate it into a new function [D]
 - [cart page] Display screen when there are no items in the cart [D]
-
 - [cart page] If cart is empty, user cannot check out [error handling] [D]
 
+- When user delete menu item from cart, the total price shld change [D]
+- When user delete and the cart becomes empty, display the empty UI [D]
+- Fix Theme Color to Yellow [D]
+- Change the order list to Card Component in My Order Page [D]
+
+ ============================================================================================
 - Orders - History Page List from Latest (top) to Oldest (bottom)
 
 - User Profile Page
-  > Change Password
+  > Add & Get Fields for: Change Password, Email, Name, Picture, Payment, Address
   > Update Email, Name, Picture, Payment, Address
+  > Change Password
 
-- When user delete menu item from cart, the total price shld change
-- When user delete and the cart becomes empty, display the empty UI [D]
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item
+- Fill Icon for User Usability in Homepage
 
 - Can add Bottom Navbar to All Screens [Optional]
 - Customer can only checkout items from 1 seller at once. [Optional]

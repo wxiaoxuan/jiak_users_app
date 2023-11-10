@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/pages/my_order.dart';
 import 'package:jiak_users_app/provider/cart_provider.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:jiak_users_app/widgets/cart_item_list.dart';
@@ -297,8 +298,13 @@ class _CartCheckoutState extends State<CartCheckout> {
                         ErrorDialog.showWithTimer(
                             context, 'Cart is empty. Add items to check out.');
                       } else {
-                        // await insertCartIntoDB(context, totalCartPrice);
-                        // processCartData(totalCartPrice);
+                        await insertCartIntoDB(
+                            context, cartProvider.totalCartPrice);
+                        processCartData(cartProvider.totalCartPrice);
+
+                        // Navigate to My Order Page
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MyOrder()));
                       }
                     },
                   ),

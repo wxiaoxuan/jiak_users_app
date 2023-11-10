@@ -54,11 +54,11 @@ class _OrderHistoryState extends State<OrderHistory> {
   Widget build(BuildContext context) {
     // print(currentOrder);
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F3F0),
+      backgroundColor: const Color(0xFFF7F7F7),
       drawer: const CustomDrawer(),
       appBar: AppBar(
-        // backgroundColor: Colors.yellow[800],
-        backgroundColor: const Color(0xFFF5F3F0),
+        backgroundColor: Colors.yellow[800],
+        // backgroundColor: const Color(0xFFF5F3F0),
         title: const Text('Orders - History'),
         titleTextStyle: const TextStyle(
             color: Color(0xff3e3e3c),
@@ -81,7 +81,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                 final time = DateFormat('HH:mm').format(timestamp);
 
                 return Card(
-                  elevation: 1,
+                  elevation: 3,
                   // color: Colors.yellow[800]!.withOpacity(0.5),
                   color: const Color(0xFFF5F3F0),
                   margin: const EdgeInsets.symmetric(
