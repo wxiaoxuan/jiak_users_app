@@ -146,69 +146,69 @@ class _CartCheckoutState extends State<CartCheckout> {
             // Header - Order Summary
             if (cartProvider.cartItems.isNotEmpty)
 
-              // Delivery Address
+              // Delivery Address Header
               if (cartProvider.cartItems.isNotEmpty)
-                if (cartProvider.cartItems.isNotEmpty)
-                  Container(
-                      color: Colors.grey.shade200,
-                      width: MediaQuery.of(context).size.width,
-                      child:
-                          const HeaderTextStyle(text: 'Contactless Delivery')),
+                Container(
+                    color: Colors.grey.shade200,
+                    width: MediaQuery.of(context).size.width,
+                    child: const HeaderTextStyle(text: 'Contactless Delivery')),
 
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.25,
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10.0),
-                    // Map
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.16,
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.asset('assets/images/map.png'),
-                    ),
-                    const SizedBox(height: 10.0),
-                    // Customer Address Details
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      width: MediaQuery.of(context).size.width,
-                      // color: Colors.grey.shade200,
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.location_on, color: Colors.red),
-                          SizedBox(width: 10.0),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Teddy Wong ',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    'Neil Road 123 ',
-                                    style: TextStyle(fontSize: 14.0),
-                                  ),
-                                ],
+            // Delivery Address
+            if (cartProvider.cartItems.isNotEmpty)
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.25,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 10.0),
+                      // Map
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.16,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.asset('assets/images/map.png'),
+                      ),
+                      const SizedBox(height: 10.0),
+                      // Customer Address Details
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width,
+                        // color: Colors.grey.shade200,
+                        child: const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.location_on, color: Colors.red),
+                            SizedBox(width: 10.0),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Teddy Wong ',
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      'Neil Road 123 ',
+                                      style: TextStyle(fontSize: 14.0),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Icon(Icons.arrow_forward_ios_rounded),
-                        ],
+                            Icon(Icons.arrow_forward_ios_rounded),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
 
             if (cartProvider.cartItems.isNotEmpty)
               Container(

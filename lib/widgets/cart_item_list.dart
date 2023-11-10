@@ -92,7 +92,9 @@ class _CartItemListState extends State<CartItemList> {
                             icon: const Icon(Icons.delete),
                             onPressed: () {
                               cartProvider.removeCartItem(menuItem['menuID']);
-                              setState(() {});
+                              cartProvider.totalCartPrice =
+                                  cartProvider.calculateTotalPrice();
+                              // setState(() {});
                             },
                           ),
                         ],
