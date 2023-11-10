@@ -115,9 +115,6 @@ class _CartCheckoutState extends State<CartCheckout> {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    // Calculate Total Price of Menu Items in the Cart
-    double totalCartPrice = cartProvider.calculateTotalPrice();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[800],
@@ -135,6 +132,7 @@ class _CartCheckoutState extends State<CartCheckout> {
           // Display Empty Cart UI
           if (cartProvider.cartItems.isEmpty)
             const Center(
+              heightFactor: 30,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -152,9 +150,8 @@ class _CartCheckoutState extends State<CartCheckout> {
 
           const Divider(),
 
-          // Check Out Button
+          // Check Out Section
           SizedBox(
-            // color: Colors.black12,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.15,
             child: Column(children: [
@@ -164,7 +161,7 @@ class _CartCheckoutState extends State<CartCheckout> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10.0),
                   child: Text(
-                    'Total: \$${totalCartPrice.toStringAsFixed(2)}',
+                    'Total: \$${cartProvider.calculateTotalPrice().toStringAsFixed(2)}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18.0),
                   ),
@@ -177,8 +174,8 @@ class _CartCheckoutState extends State<CartCheckout> {
                     ErrorDialog.showWithTimer(
                         context, 'Cart is empty. Add items to check out.');
                   } else {
-                    await insertCartIntoDB(context, totalCartPrice);
-                    processCartData(totalCartPrice);
+                    // await insertCartIntoDB(context, totalCartPrice);
+                    // processCartData(totalCartPrice);
                   }
                 },
               ),

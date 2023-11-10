@@ -7,19 +7,12 @@ class CartProvider extends ChangeNotifier {
   List<Map<String, dynamic>> cartItems = [];
   Map<String, int> cartItemsQuantity = {};
   double totalCartPrice = 0.0;
-
-  // List<Map<String, dynamic>> latestOrders = [];
   List<Carts> latestOrders = [];
 
   // Set the latest order
   void setLatestOrder(List<Carts> order) {
-    print("Order data in provider: $order");
     latestOrders = order;
     notifyListeners();
-
-    print(cartItems);
-    print("===========================");
-    print(latestOrders);
   }
 
   void clearLatestOrder() {
@@ -38,6 +31,8 @@ class CartProvider extends ChangeNotifier {
       'menuPrice': menuItem['menuPrice'],
       'quantity': quantity,
     });
+    totalCartPrice = calculateTotalPrice();
+    notifyListeners();
   }
 
   // ================ Count Menu Item Quantity in Cart=========================
@@ -70,30 +65,34 @@ class CartProvider extends ChangeNotifier {
   }
 
   // ================= Update Cart Item's Quantity ============================
-  void updateCartItemQuantity(String menuItemID, int quantity) {
+  void updateCartItemQuantity(String menuItemID, int newQuantity) {
     // Find the index of the item in cartItems
     final int index =
         cartItems.indexWhere((item) => item['menuID'] == menuItemID);
 
     if (index != -1) {
-      // Update the quantity
-      cartItems[index]['quantity'] = quantity;
-
-      calculateTotalPrice();
+      cartItems[index]['quantity'] = newQuantity; // Update the quantity
+      totalCartPrice = calculateTotalPrice();
       notifyListeners();
     }
   }
 
   // ================= Calculate the Total Price of the Cart ==================
   double calculateTotalPrice() {
-    return cartItems.fold(
-      0.0,
-      (total, item) => total + item['menuPrice'] * item['quantity'],
-    );
+    double totalPrice = 0.0;
+    for (var item in cartItems) {
+      totalPrice += item['menuPrice'] * item['quantity'];
+    }
+    return totalPrice;
+    // return cartItems.fold(
+    //   0.0,
+    //   (total, item) => total + item['menuPrice'] * item['quantity'],
+    // );
   }
 
   // ======= Calculate the Menu Item's Total Price [Quantity * Price] =========
   double calculateTotalItemPrice(Map<String, dynamic> menuItem) {
+    // print(menuItem['menuPrice'] * menuItem['quantity']);
     return menuItem['menuPrice'] * menuItem['quantity'];
   }
 

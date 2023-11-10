@@ -14,18 +14,19 @@ class CartItemList extends StatefulWidget {
 class _CartItemListState extends State<CartItemList> {
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-
-    // Calculate Total Price of Menu Items in the Cart
-    double totalCartPrice = cartProvider.calculateTotalPrice();
-
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.67,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height * 0.67,
           child: Consumer<CartProvider>(
             builder: (context, cartProvider, child) {
+              final cartProvider =
+              Provider.of<CartProvider>(context, listen: false);
+
               return ListView.builder(
                 itemCount: cartProvider.cartItems.length,
                 itemBuilder: (context, index) {
@@ -53,9 +54,10 @@ class _CartItemListState extends State<CartItemList> {
                                   menuItem['quantity'] - 1,
                                 );
                                 // Recalculate the total price
-                                totalCartPrice =
+                                cartProvider.totalCartPrice =
                                     cartProvider.calculateTotalPrice();
-                                setState(() {});
+                                // setState(() {});
+                                print(cartProvider.totalCartPrice);
                               }
                             },
                           ),
@@ -78,9 +80,11 @@ class _CartItemListState extends State<CartItemList> {
                                 menuItem['quantity'] + 1,
                               );
                               // Recalculate the total price
-                              totalCartPrice =
+                              cartProvider.totalCartPrice =
                                   cartProvider.calculateTotalPrice();
-                              setState(() {});
+
+                              // setState(() {});
+                              print(cartProvider.totalCartPrice);
                             },
                           ),
                         ],
@@ -92,7 +96,8 @@ class _CartItemListState extends State<CartItemList> {
                           children: [
                             Expanded(
                               child: Text(
-                                '\$${cartProvider.calculateTotalItemPrice(menuItem).toStringAsFixed(2)}',
+                                '\$${cartProvider.calculateTotalItemPrice(
+                                    menuItem).toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16.0,
@@ -103,6 +108,11 @@ class _CartItemListState extends State<CartItemList> {
                               icon: const Icon(Icons.delete),
                               onPressed: () {
                                 cartProvider.removeCartItem(menuItem['menuID']);
+                                // Show the total price here
+                                // =========================================
+                                // =========================================
+                                cartProvider.totalCartPrice;
+
                                 setState(() {});
                               },
                             ),
