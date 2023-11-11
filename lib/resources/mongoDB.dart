@@ -13,7 +13,7 @@ class MongoDB {
 
   // ======================= CONNECT TO DB COLLECTION ========================
   // connect to db - User Collection
-  static connect() async {
+  static connectUser() async {
     db = await Db.create(MONGO_URL);
     await db.open(secure: true);
     userCollection = await db.collection(COLLECTION_NAME_USERS);

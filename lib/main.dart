@@ -8,7 +8,7 @@ import '../authentication/authentication_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDB.connect();
+  await MongoDB.connectUser();
   await MongoDB.connectSeller();
   sharedPreferences = await SharedPreferences.getInstance();
   runApp(MultiProvider(providers: [

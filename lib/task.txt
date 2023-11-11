@@ -26,7 +26,8 @@ Tasks to do:
 - Orders - History Page List from Latest (top) to Oldest (bottom) [D]
 
 - User Profile Page
-  > Add & Get Fields for: Change Password, Email, Name, Picture, Payment, Address
+  > Add & Get Fields for: Email, Name, Picture, Payment, Address [D]
+  > Add Phone & Password Fields
   > Update Email, Name, Picture, Payment, Address
   > Change Password
 
