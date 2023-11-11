@@ -71,6 +71,7 @@ class _OrderHistoryState extends State<OrderHistory> {
           if (currentOrder.isNotEmpty) const SizedBox(height: 10.0),
           Expanded(
             child: ListView.builder(
+              reverse: true,
               itemCount: currentOrder.length,
               itemBuilder: (BuildContext context, int index) {
                 final order = currentOrder[index];
@@ -82,7 +83,6 @@ class _OrderHistoryState extends State<OrderHistory> {
 
                 return Card(
                   elevation: 3,
-                  // color: Colors.yellow[800]!.withOpacity(0.5),
                   color: const Color(0xFFF5F3F0),
                   margin: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 20.0),

@@ -23,7 +23,7 @@ Tasks to do:
 - Change the order list to Card Component in My Order Page [D]
 
  ============================================================================================
-- Orders - History Page List from Latest (top) to Oldest (bottom)
+- Orders - History Page List from Latest (top) to Oldest (bottom) [D]
 
 - User Profile Page
   > Add & Get Fields for: Change Password, Email, Name, Picture, Payment, Address
