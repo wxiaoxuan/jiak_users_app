@@ -4,6 +4,7 @@ import 'package:jiak_users_app/resources/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authentication/authentication_screen.dart';
+import '../../pages/changePassword.dart';
 import '../../pages/home.dart';
 import '../../pages/my_order.dart';
 import '../../pages/profile.dart';
@@ -110,8 +111,21 @@ class CustomDrawer extends StatelessWidget {
                     title: const Text('Profile',
                         style: TextStyle(color: Colors.black)),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Profile()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Profile()));
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.person, color: Colors.black),
+                    title: const Text('Change Password',
+                        style: TextStyle(color: Colors.black)),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ChangePassword()));
                     },
                   ),
                   // ListTile(

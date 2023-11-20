@@ -26,8 +26,8 @@ Tasks to do:
 - Orders - History Page List from Latest (top) to Oldest (bottom) [D]
 
 - User Profile Page
-  > Add & Get Fields for: Email, Name, Picture, Payment, Address [D]
-  > Add Phone & Password Fields
+  > Add & Get Fields for: Email, Name, Picture, Payment [D]
+  > Add & Get Phone & Address Fields [D]
   > Update Email, Name, Picture, Payment, Address
   > Change Password
 
@@ -35,6 +35,7 @@ Tasks to do:
   instead of displaying as a new item
 - Fill Icon for User Usability in Homepage
 
+- Add Payment Field in User Model
 - Can add Bottom Navbar to All Screens [Optional]
 - Customer can only checkout items from 1 seller at once. [Optional]
 - Clear My Order Page after customer received the order in 20mins [Set Timer] [Optional]
@@ -71,4 +72,7 @@ FUTURE PLAN
   => [Rider makes its trip there] GPS Map to Seller's Destination + Est Time Order Done
   => [Rider reach outlet] Pickup Order + GPS OTW To User's Destination
 
+- USER APP
+  => Add Payment Method
+  => Add Delivery Address w Map
 // ==============================================================================================
