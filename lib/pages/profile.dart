@@ -5,6 +5,7 @@ import 'package:jiak_users_app/widgets/components/custom_textfield.dart';
 import 'package:jiak_users_app/widgets/components/enter_button.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
 
+import '../models/user.dart';
 import '../resources/global.dart';
 
 class Profile extends StatefulWidget {
@@ -75,6 +76,29 @@ class _ProfileState extends State<Profile> {
       // Handle errors appropriately
       print('Error retrieving data: $e');
       throw e; // Rethrow the error to be caught by the FutureBuilder
+    }
+  }
+
+  Future<void> updateProfile() async {
+    try {
+      final updatedData = {
+        'name': nameController.text,
+        'phone': int.parse(phoneController.text),
+        'location': addressController.text,
+        'payment': paymentController.text,
+        // Add other fields you want to update
+      };
+
+      final currentUserEmail = sharedPreferences?.get('email');
+      await MongoDB.updateUser(currentUserEmail.toString(), updatedData);
+
+      // Optional: Show a success message or navigate to another screen
+      // ...
+      print('Successful');
+    } catch (e) {
+      // Handle errors appropriately
+      print('Error updating profile: $e');
+      // Show an error message if necessary
     }
   }
 
@@ -157,7 +181,11 @@ class _ProfileState extends State<Profile> {
                         //     isObscure: false,
                         //     enabled: true),
                         const SizedBox(height: 30.0),
-                        EnterButton(name: 'Save Changes', onPressed: () {}),
+                        EnterButton(
+                            name: 'Save Changes',
+                            onPressed: () async {
+                              updateProfile();
+                            }),
                       ],
                     ),
                   ),
