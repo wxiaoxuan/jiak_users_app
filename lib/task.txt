@@ -28,8 +28,11 @@ Tasks to do:
 - User Profile Page
   > Add & Get Fields for: Email, Name, Picture, Payment [D]
   > Add & Get Phone & Address Fields [D]
-  > Update Email, Name, Picture, Payment, Address
-  > Change Password
+  > Update Email, Name, Payment, Address [D]
+  > Change Password [D]
+
+  > Update Picture
+  > Edit Email Address - make sure it is unique
 
 - If user add another item that is alr exists in the cart, update the quantity
   instead of displaying as a new item

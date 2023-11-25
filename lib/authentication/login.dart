@@ -51,6 +51,8 @@ class Login extends StatelessWidget {
             phone: user['phone'],
             location: user['location'],
           );
+        } else {
+          ErrorDialog.show(context, "Invalid Credentials");
         }
       } else {
         ErrorDialog.show(context, "Invalid Credentials");

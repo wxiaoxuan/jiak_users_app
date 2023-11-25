@@ -130,26 +130,23 @@ class MongoDB {
   }
 
   // ========================= UPDATE FUNCTION ================================
-  // static update(User user) async {
-  //   var user1 = await userCollection.findOne({"id": user.id});
-  //   user1['name'] = user.name;
-  //   user1['email'] = user.email;
-  //   user1['password'] = user.password;
-  //   user1['location'] = user.location;
-  //   user1['phone'] = user.phone;
-  //   await userCollection.save(user1);
-  // }
-
   static Future<void> updateUser(
       String userEmail, Map<String, dynamic> updatedData) async {
     try {
       userCollection = db.collection(COLLECTION_NAME_USERS);
+      print("===========================");
+      print(updatedData);
+      print("===========================");
 
       // Find user by email and update the document
       await userCollection.update(
-        where.eq('email', userEmail),
-        modify.set(updatedData.keys.first, updatedData.values.first),
-      );
+          where.eq('email', userEmail),
+          modify
+            ..set('name', updatedData['name'])
+            ..set('phone', updatedData['phone'])
+            ..set('location', updatedData['location'])
+            // ..set('payment', updatedData['payment'])
+            ..set('password', updatedData['password']));
     } catch (e) {
       print('Error updating user data: $e');
       rethrow;

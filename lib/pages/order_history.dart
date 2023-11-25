@@ -15,7 +15,8 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
-  final currentLoginUser = sharedPreferences?.get("name");
+  // final currentLoginUser = sharedPreferences?.get("name");
+  final currentLoginUser = sharedPreferences?.get("email");
   final List<Map<String, dynamic>> currentOrder = [];
 
   @override
@@ -33,7 +34,7 @@ class _OrderHistoryState extends State<OrderHistory> {
 
       // Retrieve Current User's Order
       for (final currentUserOrder in allOrders) {
-        final dbCustomerName = currentUserOrder['customerName'];
+        final dbCustomerName = currentUserOrder['customerEmail'];
 
         if (currentLoginUser == dbCustomerName) {
           currentOrder.add(currentUserOrder);

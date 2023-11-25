@@ -1,9 +1,11 @@
+import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:jiak_users_app/resources/mongoDB.dart';
 import 'package:jiak_users_app/widgets/components/customDrawer.dart';
 import 'package:jiak_users_app/widgets/components/custom_textfield.dart';
 import 'package:jiak_users_app/widgets/components/enter_button.dart';
 import 'package:jiak_users_app/widgets/dialogs/error_dialog.dart';
+import 'package:jiak_users_app/widgets/dialogs/successful_dialog.dart';
 
 import '../models/user.dart';
 import '../resources/global.dart';
@@ -20,6 +22,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     retrieveCurrentUserProfile();
+    // updateProfile();
   }
 
   final GlobalKey<_ProfileState> profileKey = GlobalKey<_ProfileState>();
@@ -29,14 +32,13 @@ class _ProfileState extends State<Profile> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController paymentController = TextEditingController();
-  // final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   // Get Current User Profile
   final List<Map<String, dynamic>> currentUserProfile = [];
 
   Future<void> retrieveCurrentUserProfile() async {
     try {
-      // currentUserProfile.clear();
       // Connect & retrieve all users
       MongoDB.connectUser();
       final allUsers = await MongoDB.getUsersDocument();
@@ -58,7 +60,7 @@ class _ProfileState extends State<Profile> {
         phoneController.text = currentUserProfile[0]['phone']?.toString() ?? '';
         addressController.text = currentUserProfile[0]['location'];
         // paymentController.text = currentUserProfile[0]['payment'];
-        // passwordController.text = '';
+        passwordController.text = '';
       }
 
       // Check if the widget is mounted before calling setState
@@ -81,24 +83,29 @@ class _ProfileState extends State<Profile> {
 
   Future<void> updateProfile() async {
     try {
+      // Hash Password
+      final hashedPassword =
+          BCrypt.hashpw(passwordController.text, BCrypt.gensalt());
+
       final updatedData = {
         'name': nameController.text,
-        'phone': int.parse(phoneController.text),
+        'phone': int.tryParse(phoneController.text) ?? 0,
         'location': addressController.text,
         'payment': paymentController.text,
-        // Add other fields you want to update
+        'password': hashedPassword,
       };
+
+      // print('updated data: $updatedData');
 
       final currentUserEmail = sharedPreferences?.get('email');
       await MongoDB.updateUser(currentUserEmail.toString(), updatedData);
 
-      // Optional: Show a success message or navigate to another screen
-      // ...
       print('Successful');
+      SuccessfulDialog.show(context, 'You have successfully updated profile.');
     } catch (e) {
       // Handle errors appropriately
       print('Error updating profile: $e');
-      // Show an error message if necessary
+      ErrorDialog.show(context, 'Error updating profile: $e');
     }
   }
 
@@ -128,7 +135,7 @@ class _ProfileState extends State<Profile> {
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 30.0, horizontal: 20.0),
+                        vertical: 20.0, horizontal: 20.0),
                     child: Column(
                       children: [
                         InkWell(
@@ -143,7 +150,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 30.0),
+                        const SizedBox(height: 10.0),
                         CustomTextField(
                             controller: nameController,
                             icon: Icons.person,
@@ -174,12 +181,12 @@ class _ProfileState extends State<Profile> {
                             hintText: 'Payment',
                             isObscure: false,
                             enabled: true),
-                        // CustomTextField(
-                        //     controller: passwordController,
-                        //     icon: Icons.email,
-                        //     hintText: 'Password',
-                        //     isObscure: false,
-                        //     enabled: true),
+                        CustomTextField(
+                            controller: passwordController,
+                            icon: Icons.email,
+                            hintText: 'Password',
+                            isObscure: false,
+                            enabled: true),
                         const SizedBox(height: 30.0),
                         EnterButton(
                             name: 'Save Changes',
