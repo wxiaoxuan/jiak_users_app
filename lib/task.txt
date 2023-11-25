@@ -32,6 +32,7 @@ Tasks to do:
   > Change Password [D]
 
   > Update Picture
+  > Display Pic in Drawer
   > Edit Email Address - make sure it is unique
 
 - If user add another item that is alr exists in the cart, update the quantity
@@ -39,6 +40,7 @@ Tasks to do:
 - Fill Icon for User Usability in Homepage
 
 - Add Payment Field in User Model
+
 - Can add Bottom Navbar to All Screens [Optional]
 - Customer can only checkout items from 1 seller at once. [Optional]
 - Clear My Order Page after customer received the order in 20mins [Set Timer] [Optional]

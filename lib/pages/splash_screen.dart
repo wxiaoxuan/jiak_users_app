@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import '../authentication/authentication_screen.dart';
+
 class MySplashScreen extends StatefulWidget {
   const MySplashScreen({super.key});
 
@@ -19,8 +21,8 @@ class _MySplashScreenState extends State<MySplashScreen> {
   // Timer to Navigate from Splash Screen to Authentication Page
   startTimer() {
     Timer(const Duration(seconds: 1), () async {
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (c) => const AuthenticationScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (c) => const AuthenticationScreen()));
     });
   }
 
@@ -34,8 +36,8 @@ class _MySplashScreenState extends State<MySplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/jiak_logo_light.png',
-                scale: 0.4,
+                'assets/images/jiak_logo.png',
+                scale: 0.1,
               ),
               const Padding(
                 padding: EdgeInsets.all(18.0),

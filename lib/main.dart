@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jiak_users_app/pages/home.dart';
+import 'package:jiak_users_app/pages/splash_screen.dart';
 import 'package:jiak_users_app/provider/cart_provider.dart';
 import 'package:jiak_users_app/resources/global.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +32,11 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff3e3e3c)),
         useMaterial3: true,
       ),
-      home: const AuthenticationScreen(),
-      // routes: {
-      //   // AuthenticationScreen.id: (context) => const AuthenticationScreen(),
-      //   // HomePage.id: (context) => const HomePage(),
-      // },
+      home: const MySplashScreen(),
+      routes: {
+        AuthenticationScreen.id: (context) => const AuthenticationScreen(),
+        Home.id: (context) => const Home(),
+      },
     );
   }
 }

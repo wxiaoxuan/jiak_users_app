@@ -5,6 +5,7 @@ import 'login.dart';
 
 class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({super.key});
+  static const String id = 'authenticationScreen';
 
   @override
   Widget build(BuildContext context) {

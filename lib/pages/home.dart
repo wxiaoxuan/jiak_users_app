@@ -12,6 +12,7 @@ import '../widgets/homeWidgets/sellerListHorizontal.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
+  static const String id = 'home';
 
   @override
   State<Home> createState() => _HomeState();
